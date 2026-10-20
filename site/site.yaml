@@ -1,0 +1,8 @@
+# Public settings shown on the site. Edit here, not in the templates.
+schedule: "Daily at 05:20 UTC"
+# Public repository holding the code and the full ledger (update after the first push).
+repo: "https://github.com/ceresio-index/ceresio-index"
+# Contact address for providers (Level 2 / Level 3 data). Leave empty until a real address exists.
+contact: ""
+# Base URL of the published site, used in links and the sitemap.
+base_url: ""

@@ -1,0 +1,83 @@
+# Daily collection: read every provider, append to the ledger, publish fixings,
+# rebuild the site. The ledger commit happens before the site deploy, so the
+# published page always matches a commit in the repository.
+name: Daily collection
+
+on:
+  schedule:
+    - cron: "20 5 * * *"   # 05:20 UTC every day (the site says so: keep both in sync)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ledger            # never two runs writing the ledger at once
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SCW_BUCKET: ${{ secrets.SCW_BUCKET }}   # empty unless the European mirror is configured
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+      - run: uv sync --frozen
+
+      - name: Collect, convert, fix
+        run: uv run ceresio daily
+
+      - name: Check the ledger only grew
+        run: uv run ceresio verify --against HEAD
+
+      - name: Commit the new ledger lines
+        run: |
+          git config user.name "ceresio-bot"
+          git config user.email "ceresio-bot@users.noreply.github.com"
+          git add ledger state
+          git diff --cached --quiet || git commit -m "Collection $(date -u +%Y-%m-%d)"
+          git push
+
+      - name: Open an issue when a source keeps failing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! uv run ceresio alerts --streak 2 > alerts.md; then
+            title="Collection failing: $(date -u +%Y-%m-%d)"
+            gh issue create --title "$title" --body-file alerts.md --label collection || \
+            gh issue create --title "$title" --body-file alerts.md
+          fi
+
+      - name: Build the site
+        run: uv run ceresio build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      # Optional: publish to a European host as well (Scaleway Object Storage, Paris).
+      # Set the repository secrets SCW_ACCESS_KEY, SCW_SECRET_KEY and SCW_BUCKET to enable.
+      - name: Deploy to Scaleway Object Storage
+        if: ${{ env.SCW_BUCKET != '' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.SCW_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SCW_SECRET_KEY }}
+          AWS_DEFAULT_REGION: fr-par
+        run: aws s3 sync dist "s3://$SCW_BUCKET" --endpoint-url https://s3.fr-par.scw.cloud --delete
+
+  deploy:
+    needs: collect
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

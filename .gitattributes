@@ -1,0 +1,6 @@
+* text=auto eol=lf
+# The ledger is hashed byte for byte: never convert line endings.
+ledger/** -text
+state/** -text
+*.woff2 binary
+*.gz binary

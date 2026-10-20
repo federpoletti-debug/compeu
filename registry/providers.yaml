@@ -1,0 +1,389 @@
+# Provider registry: who each provider is and who controls it.
+#
+# The sovereignty status is NOT written here. It is computed by
+# `ceresio.registry.classify` from the facts below and the rule in
+# registry/rules/. To change a status, change a fact (with evidence) or write a
+# new rule version; never type a status by hand.
+#
+# Facts marked `contested: true` make the rule return "under_review".
+# `confidence: provisional` means the fact comes from public information that has
+# not yet been checked against a company register; such providers are shown with
+# a "provisional" badge.
+#
+# Sites are the provider's published regions, placed at city level. They draw
+# the map; they are not used to decide sovereignty.
+
+providers:
+
+  # ---------------------------------------------------------------- sovereign candidates
+  - id: scaleway
+    name: Scaleway
+    website: https://www.scaleway.com
+    legal_entity: { name: Scaleway SAS, country: FR, city: Paris }
+    ultimate_controller:
+      name: Iliad Group (controlled by Xavier Niel)
+      country: FR
+      extraterritorial_law: false
+    hq: { city: Paris, lat: 48.8722, lon: 2.3229 }
+    sites:
+      - { id: fr-par, city: Paris, country: FR, lat: 48.8566, lon: 2.3522 }
+      - { id: nl-ams, city: Amsterdam, country: NL, lat: 52.3676, lon: 4.9041 }
+      - { id: pl-waw, city: Warsaw, country: PL, lat: 52.2297, lon: 21.0122 }
+    collection:
+      method: api
+      collector: scaleway
+      source: https://api.scaleway.com/product-catalog/v2alpha1/public-catalog/products
+      note: Public product catalogue, no authentication. Prices per minute, EUR, excl. VAT.
+    evidence:
+      - { claim: "Scaleway is the cloud subsidiary of the French Iliad group", url: "https://www.iliad.fr/en/" }
+
+  - id: ovhcloud
+    name: OVHcloud
+    website: https://www.ovhcloud.com
+    legal_entity: { name: OVH Groupe SA, country: FR, city: Roubaix }
+    ultimate_controller:
+      name: Klaba family (majority shareholder; listed on Euronext Paris)
+      country: FR
+      extraterritorial_law: false
+    disclosures:
+      - Operates a separate US subsidiary (OVHcloud US) for the US market.
+    hq: { city: Roubaix, lat: 50.6942, lon: 3.1746 }
+    sites:
+      - { id: gra, city: Gravelines, country: FR, lat: 50.9866, lon: 2.1256 }
+      - { id: rbx, city: Roubaix, country: FR, lat: 50.6942, lon: 3.1746 }
+      - { id: sbg, city: Strasbourg, country: FR, lat: 48.5734, lon: 7.7521 }
+      - { id: par, city: Paris, country: FR, lat: 48.8566, lon: 2.3522 }
+      - { id: lim, city: Limburg, country: DE, lat: 50.3836, lon: 8.0503 }
+      - { id: waw, city: Warsaw, country: PL, lat: 52.2297, lon: 21.0122 }
+      - { id: mil, city: Milan, country: IT, lat: 45.4642, lon: 9.1900 }
+    collection:
+      method: api
+      collector: ovhcloud
+      source: https://api.ovh.com/1.0/order/catalog/public/cloud?ovhSubsidiary=FR
+      catalogue_in_scope: true   # the FR-subsidiary EUR price list, GPU regions in France
+      note: >-
+        Public order catalogue, no authentication. Catalogue prices are uniform across
+        regions and the catalogue does not say which regions carry each GPU, so offers are
+        recorded with region "catalogue".
+    evidence:
+      - { claim: "OVH Groupe is headquartered in Roubaix and listed on Euronext Paris", url: "https://corporate.ovhcloud.com/en/investors/" }
+
+  - id: hetzner
+    name: Hetzner
+    website: https://www.hetzner.com
+    legal_entity: { name: Hetzner Online GmbH, country: DE, city: Gunzenhausen }
+    ultimate_controller:
+      name: Privately held (founder-owned)
+      country: DE
+      extraterritorial_law: false
+    hq: { city: Gunzenhausen, lat: 49.1157, lon: 10.7541 }
+    sites:
+      - { id: fsn, city: Falkenstein, country: DE, lat: 50.4779, lon: 12.3713 }
+      - { id: nbg, city: Nuremberg, country: DE, lat: 49.4521, lon: 11.0767 }
+      - { id: hel, city: Helsinki, country: FI, lat: 60.1699, lon: 24.9384 }
+    collection:
+      method: html
+      collector: hetzner
+      source: https://www.hetzner.com/dedicated-rootserver/matrix-gpu/
+      catalogue_in_scope: true   # GEX servers run in Falkenstein and Nuremberg (DE)
+      note: >-
+        GPU servers are dedicated machines (GEX line), not part of the Hetzner Cloud API,
+        so the brief's /v1/pricing endpoint does not cover them. Hourly price with a
+        monthly cap and a one-time setup fee, read from the structured price elements of
+        the public product page.
+    evidence:
+      - { claim: "Hetzner Online GmbH, Gunzenhausen, Germany", url: "https://www.hetzner.com/legal/legal-notice/" }
+
+  - id: verda
+    name: Verda
+    aka: DataCrunch
+    website: https://verda.com
+    legal_entity: { name: Verda Cloud Oy (formerly DataCrunch Oy), country: FI, city: Helsinki }
+    ultimate_controller:
+      name: Founders and European venture investors (privately held)
+      country: FI
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Helsinki, lat: 60.1699, lon: 24.9384 }
+    sites:
+      - { id: fin, city: Helsinki, country: FI, lat: 60.2055, lon: 24.6559 }
+      - { id: ice, city: Keflavík, country: IS, lat: 63.9998, lon: -22.5583 }
+    collection:
+      method: api
+      collector: verda
+      source: https://api.verda.com/v1/instance-types
+      catalogue_in_scope: true   # all published Verda locations are in Finland and Iceland
+      note: >-
+        The brief marked Verda as uncertain; its API publishes on-demand and spot prices
+        without authentication. Prices in USD. Location availability needs a token, so
+        offers are recorded with region "catalogue".
+    evidence:
+      - { claim: "Verda (formerly DataCrunch) is a Finnish GPU cloud", url: "https://verda.com" }
+
+  - id: exoscale
+    name: Exoscale
+    website: https://www.exoscale.com
+    legal_entity: { name: Akenes SA, country: CH, city: Lausanne }
+    ultimate_controller:
+      name: A1 Telekom Austria Group, majority-owned by América Móvil (Mexico) under a syndicate agreement with the Austrian state holding ÖBAG
+      country: MX
+      extraterritorial_law: unknown
+      contested: true
+      note: >-
+        Exoscale belongs to A1 Digital (A1 Group, Vienna). A1's majority shareholder is
+        América Móvil; ÖBAG holds a blocking minority under a shareholder agreement.
+        Whether this counts as European control is the open question, so the rule
+        returns under_review and Exoscale stays out of both baskets until it is settled.
+    hq: { city: Lausanne, lat: 46.5197, lon: 6.6323 }
+    sites:
+      - { id: ch-gva-2, city: Geneva, country: CH, lat: 46.2044, lon: 6.1432 }
+      - { id: ch-dk-2, city: Zurich, country: CH, lat: 47.3769, lon: 8.5417 }
+      - { id: at-vie-1, city: Vienna, country: AT, lat: 48.2082, lon: 16.3738 }
+      - { id: de-fra-1, city: Frankfurt, country: DE, lat: 50.1109, lon: 8.6821 }
+      - { id: de-muc-1, city: Munich, country: DE, lat: 48.1351, lon: 11.5820 }
+      - { id: bg-sof-1, city: Sofia, country: BG, lat: 42.6977, lon: 23.3219 }
+      - { id: hr-zag-1, city: Zagreb, country: HR, lat: 45.8150, lon: 15.9819 }
+    collection:
+      method: api
+      collector: exoscale
+      source: https://portal.exoscale.com/api/pricing/opencompute
+      note: >-
+        Public pricing JSON behind exoscale.com/pricing, joined with the public
+        instance-type API (GPU count and zones). EUR, excl. VAT.
+    evidence:
+      - { claim: "Exoscale is part of A1 Digital, A1 Group", url: "https://www.exoscale.com/company/" }
+      - { claim: "América Móvil is A1 Group's majority shareholder", url: "https://www.a1.group/en/investor-relations/shareholder-structure" }
+
+  - id: ionos
+    name: IONOS
+    website: https://cloud.ionos.com
+    legal_entity: { name: IONOS SE, country: DE, city: Montabaur }
+    ultimate_controller:
+      name: United Internet AG (majority shareholder)
+      country: DE
+      extraterritorial_law: false
+    hq: { city: Montabaur, lat: 50.4375, lon: 7.8256 }
+    sites:
+      - { id: de-fra, city: Frankfurt, country: DE, lat: 50.1109, lon: 8.6821 }
+      - { id: de-txl, city: Berlin, country: DE, lat: 52.5200, lon: 13.4050 }
+      - { id: de-fkb, city: Karlsruhe, country: DE, lat: 49.0069, lon: 8.4037 }
+    collection:
+      method: none
+      status: no_machine_readable_price
+      note: >-
+        GPU prices are not exposed in a machine-readable form on the public price page.
+        Next step: ask IONOS for a price feed or a Level 2 confirmation.
+
+  - id: infomaniak
+    name: Infomaniak
+    website: https://www.infomaniak.com
+    legal_entity: { name: Infomaniak Network SA, country: CH, city: Geneva }
+    ultimate_controller:
+      name: Independent, owned by founders and employees
+      country: CH
+      extraterritorial_law: false
+    hq: { city: Geneva, lat: 46.2044, lon: 6.1432 }
+    sites:
+      - { id: gva, city: Geneva, country: CH, lat: 46.1700, lon: 6.1200 }
+    collection:
+      method: none
+      status: awaiting_agreement
+      note: No public GPU price list. Outreach for a data-sharing agreement in progress.
+
+  - id: safe-swiss-cloud
+    name: Safe Swiss Cloud
+    website: https://www.safeswisscloud.ch
+    legal_entity: { name: Safe Swiss Cloud AG, country: CH, city: Zurich, confidence: provisional }
+    ultimate_controller:
+      name: Privately held, Swiss
+      country: CH
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Zurich, lat: 47.3769, lon: 8.5417 }
+    sites:
+      - { id: zrh, city: Zurich, country: CH, lat: 47.4000, lon: 8.5000 }
+    collection:
+      method: none
+      status: awaiting_agreement
+      note: No public GPU price list found.
+
+  - id: hikube
+    name: Hikube
+    website: https://hikube.cloud
+    legal_entity: { name: Hikube, country: CH, city: Geneva, confidence: provisional }
+    ultimate_controller:
+      name: Privately held, Swiss
+      country: CH
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Geneva, lat: 46.2044, lon: 6.1432 }
+    sites:
+      - { id: gva, city: Geneva, country: CH, lat: 46.2300, lon: 6.1000 }
+    collection:
+      method: none
+      status: awaiting_agreement
+      note: No public GPU price list found.
+
+  - id: polarise
+    name: Polarise
+    website: https://www.polarise.eu
+    legal_entity: { name: Polarise GmbH, country: DE, city: Munich, confidence: provisional }
+    ultimate_controller:
+      name: Privately held, German
+      country: DE
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Munich, lat: 48.1351, lon: 11.5820 }
+    sites:
+      - { id: muc, city: Munich, country: DE, lat: 48.1500, lon: 11.6000 }
+      - { id: fra, city: Frankfurt, country: DE, lat: 50.1000, lon: 8.7000 }
+      - { id: osl, city: Oslo, country: NO, lat: 59.9139, lon: 10.7522 }
+    collection:
+      method: none
+      status: no_public_price
+      note: >-
+        NVIDIA Cloud Partner with high-end GPUs (sovereign and frontier: the combination the
+        index is looking for), but no public price list. Priority contact.
+
+  - id: nebius
+    name: Nebius
+    website: https://nebius.com
+    legal_entity: { name: Nebius Group N.V., country: NL, city: Amsterdam }
+    ultimate_controller:
+      name: Listed on Nasdaq (NBIS); voting control and shareholder base under review
+      country: NL
+      extraterritorial_law: unknown
+      contested: true
+      note: >-
+        Dutch holding company with a US listing and US operating subsidiaries. Whether
+        it is reachable by the CLOUD Act through those subsidiaries is the open question.
+    disclosures:
+      - Listed on a US exchange (Nasdaq).
+      - Operates data centres in the United States.
+    hq: { city: Amsterdam, lat: 52.3676, lon: 4.9041 }
+    sites:
+      - { id: fi-mantsala, city: Mäntsälä, country: FI, lat: 60.6339, lon: 25.3172 }
+      - { id: fr-paris, city: Paris, country: FR, lat: 48.8400, lon: 2.4000 }
+    collection:
+      method: none
+      status: planned
+      note: Public price page exists; parser planned for sprint 2.
+
+  # ---------------------------------------------------------------- non-sovereign benchmarks
+  - id: aws
+    name: AWS
+    website: https://aws.amazon.com
+    legal_entity: { name: Amazon Web Services, Inc., country: US, city: Seattle }
+    ultimate_controller:
+      name: Amazon.com, Inc. (Delaware)
+      country: US
+      extraterritorial_law: true
+    disclosures:
+      - >-
+        AWS European Sovereign Cloud (Brandenburg, GA January 2026) is run by German
+        legal entities with EU staff, but the ultimate parent is Amazon.com, Inc.
+    hq: { city: Seattle, lat: 47.6062, lon: -122.3321 }
+    sites:
+      - { id: eu-central-1, city: Frankfurt, country: DE, lat: 50.1109, lon: 8.6821 }
+      - { id: eu-central-2, city: Zurich, country: CH, lat: 47.3769, lon: 8.5417 }
+      - { id: eu-west-1, city: Dublin, country: IE, lat: 53.3498, lon: -6.2603 }
+      - { id: eu-west-2, city: London, country: GB, lat: 51.5072, lon: -0.1276 }
+      - { id: eu-west-3, city: Paris, country: FR, lat: 48.8566, lon: 2.3522 }
+      - { id: eu-north-1, city: Stockholm, country: SE, lat: 59.3293, lon: 18.0686 }
+      - { id: eu-south-1, city: Milan, country: IT, lat: 45.4642, lon: 9.1900 }
+      - { id: eu-south-2, city: Zaragoza, country: ES, lat: 41.6488, lon: -0.8891 }
+      - { id: eusc-de-east-1, city: Brandenburg, country: DE, lat: 52.4125, lon: 12.5316, label: "European Sovereign Cloud" }
+    collection:
+      method: api
+      collector: aws
+      source: https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/region_index.json
+      note: >-
+        Official AWS Price List bulk API, one offer file per region. The region index is
+        checked on every run; a region file is downloaded only when AWS publishes a new
+        version. European Sovereign Cloud prices are published in a separate partition and
+        are not collected yet.
+
+  - id: azure
+    name: Microsoft Azure
+    website: https://azure.microsoft.com
+    legal_entity: { name: Microsoft Corporation, country: US, city: Redmond }
+    ultimate_controller:
+      name: Microsoft Corporation (Washington)
+      country: US
+      extraterritorial_law: true
+    hq: { city: Redmond, lat: 47.6740, lon: -122.1215 }
+    sites:
+      - { id: westeurope, city: Amsterdam, country: NL, lat: 52.3500, lon: 4.9500 }
+      - { id: northeurope, city: Dublin, country: IE, lat: 53.3300, lon: -6.3000 }
+      - { id: francecentral, city: Paris, country: FR, lat: 48.8700, lon: 2.3000 }
+      - { id: germanywestcentral, city: Frankfurt, country: DE, lat: 50.1200, lon: 8.6500 }
+      - { id: swedencentral, city: Gävle, country: SE, lat: 60.6749, lon: 17.1413 }
+      - { id: switzerlandnorth, city: Zurich, country: CH, lat: 47.4200, lon: 8.5600 }
+      - { id: polandcentral, city: Warsaw, country: PL, lat: 52.2500, lon: 21.0500 }
+      - { id: italynorth, city: Milan, country: IT, lat: 45.4800, lon: 9.2200 }
+      - { id: spaincentral, city: Madrid, country: ES, lat: 40.4168, lon: -3.7038 }
+      - { id: norwayeast, city: Oslo, country: NO, lat: 59.9000, lon: 10.7800 }
+      - { id: uksouth, city: London, country: GB, lat: 51.5200, lon: -0.1000 }
+      - { id: austriaeast, city: Vienna, country: AT, lat: 48.2200, lon: 16.4000 }
+      - { id: denmarkeast, city: Copenhagen, country: DK, lat: 55.6761, lon: 12.5683 }
+      - { id: belgiumcentral, city: Brussels, country: BE, lat: 50.8503, lon: 4.3517 }
+    collection:
+      method: api
+      collector: azure
+      source: https://prices.azure.com/api/retail/prices
+      note: Official Azure Retail Prices API, no authentication. USD, Linux, pay-as-you-go.
+
+  - id: google-cloud
+    name: Google Cloud
+    website: https://cloud.google.com
+    legal_entity: { name: Google LLC, country: US, city: Mountain View }
+    ultimate_controller:
+      name: Alphabet Inc. (Delaware)
+      country: US
+      extraterritorial_law: true
+    hq: { city: Mountain View, lat: 37.3861, lon: -122.0839 }
+    sites:
+      - { id: europe-west1, city: St. Ghislain, country: BE, lat: 50.4710, lon: 3.8170 }
+      - { id: europe-west4, city: Eemshaven, country: NL, lat: 53.4386, lon: 6.8355 }
+    collection:
+      method: none
+      status: planned
+      note: Cloud Billing Catalog API needs a free API key; planned for sprint 2.
+
+  - id: coreweave
+    name: CoreWeave
+    website: https://www.coreweave.com
+    legal_entity: { name: CoreWeave, Inc., country: US, city: Livingston }
+    ultimate_controller:
+      name: CoreWeave, Inc. (listed on Nasdaq)
+      country: US
+      extraterritorial_law: true
+    hq: { city: Livingston, lat: 40.7959, lon: -74.3149 }
+    sites:
+      - { id: no, city: Norway, country: NO, lat: 61.1000, lon: 10.4700 }
+      - { id: se, city: Sweden, country: SE, lat: 62.3900, lon: 17.3000 }
+      - { id: es, city: Barcelona, country: ES, lat: 41.3874, lon: 2.1686 }
+      - { id: gb, city: London, country: GB, lat: 51.4800, lon: -0.0500 }
+    collection:
+      method: none
+      status: no_public_api
+      note: Contract-driven pricing, no public price API. Reference only.
+
+  - id: runpod
+    name: RunPod
+    website: https://www.runpod.io
+    legal_entity: { name: RunPod, Inc., country: US, city: Moorestown }
+    ultimate_controller:
+      name: RunPod, Inc. (venture-backed)
+      country: US
+      extraterritorial_law: true
+    hq: { city: Moorestown, lat: 39.9690, lon: -74.9488 }
+    sites: []
+    scope: global
+    collection:
+      method: api
+      collector: runpod
+      source: https://api.runpod.io/graphql
+      note: >-
+        Global GPU marketplace; the public price is not tied to a European location, so
+        RunPod is shown as a global reference and never enters the European baskets.

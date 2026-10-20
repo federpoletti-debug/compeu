@@ -1,0 +1,86 @@
+import pytest
+
+from ceresio import registry
+
+
+@pytest.mark.parametrize(
+    ("raw", "model", "variant"),
+    [
+        ("H100-SXM", "h100", "sxm"),
+        ("NVIDIA Hopper H100", "h100", None),
+        ("H100 NVL", "h100", "nvl"),
+        ("NVIDIA H100 PCIe", "h100", "pcie"),
+        ("NVIDIA Hopper H200 nvlink", "h200", "sxm"),
+        ("GB300 SXM6 288GB", "gb300", "sxm"),
+        ("1x B300 SXM6 268GB", "b300", "sxm"),
+        ("A100 80GB PCIe", "a100", "pcie"),
+        ("A10G", "a10", None),
+        ("NVIDIA RTX PRO™ 6000 Blackwell Max-Q", "rtx-pro-6000", None),
+        ("NVIDIA RTX PRO™ 4000 Blackwell SFF Edition", "rtx-pro-4000", None),
+        ("NVIDIA RTX 4000 SFF Ada Generation", "rtx-4000-ada", None),
+        ("NVIDIA RTX A4000", "rtx-a4000", None),
+        ("Quadro-RTX5000", "quadro-rtx-5000", None),
+        ("NVIDIA Ada Lovelace L40S", "l40s", None),
+        ("NVIDIA Ada Lovelace L4", "l4", None),
+        ("NVIDIA GeForce RTX 3080 Ti", "rtx-3080ti", None),
+        ("AMD Instinct MI300X OAM", "mi300x", None),
+        ("Some Future Accelerator X1", "unmapped", None),
+    ],
+)
+def test_normalize_gpu(raw, model, variant):
+    m = registry.normalize_gpu(raw)
+    assert (m.model, m.variant) == (model, variant)
+
+
+def _provider(seat="FR", ctrl="FR", extra=False, contested=False):
+    return {
+        "id": "x",
+        "legal_entity": {"name": "X SAS", "country": seat},
+        "ultimate_controller": {
+            "country": ctrl,
+            "extraterritorial_law": extra,
+            "contested": contested,
+        },
+    }
+
+
+def test_sovereign_when_all_criteria_pass():
+    assert registry.classify(_provider()).status == "sovereign"
+
+
+def test_swiss_counts_as_sovereign():
+    assert registry.classify(_provider("CH", "CH")).status == "sovereign"
+
+
+def test_eu_seat_with_us_parent_is_not_sovereign():
+    # The AWS European Sovereign Cloud case: German entity, US parent.
+    c = registry.classify(_provider("DE", "US", True))
+    assert c.status == "non_sovereign"
+    assert {k["id"]: k["result"] for k in c.criteria}["seat"] == "pass"
+
+
+def test_uk_is_outside_the_rule():
+    assert registry.classify(_provider("GB", "GB")).status == "non_sovereign"
+
+
+def test_contested_control_is_under_review():
+    assert registry.classify(_provider(contested=True)).status == "under_review"
+
+
+def test_unknown_fact_is_under_review():
+    assert registry.classify(_provider(extra="unknown")).status == "under_review"
+
+
+def test_registry_statuses_match_expectations():
+    c = registry.classifications()
+    assert c["scaleway"].status == "sovereign"
+    assert c["ovhcloud"].status == "sovereign"
+    assert c["aws"].status == "non_sovereign"
+    assert c["azure"].status == "non_sovereign"
+    assert c["exoscale"].status == "under_review"
+
+
+def test_every_collected_provider_has_sites_or_a_scope():
+    for p in registry.providers().values():
+        if (p.get("collection") or {}).get("method") in ("api", "html"):
+            assert p.get("sites") or p.get("scope") == "global", p["id"]

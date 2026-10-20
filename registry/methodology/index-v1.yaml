@@ -1,0 +1,113 @@
+# Ceresio Index methodology, version 1.
+#
+# Written to follow the structure of the IOSCO Principles for Financial
+# Benchmarks (2013): a published, versioned methodology; data sufficiency rules;
+# no expert judgement in the daily calculation; an audit trail; and a policy for
+# what happens when inputs are missing. Phase 1 publishes an informational index,
+# not a regulated benchmark. If financial contracts ever reference it (phase 3),
+# the administrator will need authorisation under the applicable benchmark rules
+# (EU Benchmarks Regulation 2016/1011 or the Swiss framework); this file is built
+# so that the move does not require changing past data.
+#
+# Changing anything below means writing index-v2.yaml. Published fixings keep the
+# methodology id they were calculated with and are never recalculated.
+
+id: index/1
+effective_from: "2026-10-20"
+calculation_currency: EUR
+fx_source: ECB euro foreign exchange reference rates (daily, around 16:00 CET)
+fx_rule: >-
+  A price in another currency is converted with the ECB reference rate of the latest
+  TARGET business day on or before the observation date.
+
+# Where an offer must be located to count as "European" compute.
+location_scope:
+  label: EU27 + EEA + Switzerland
+  countries: [AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU,
+              MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO, CH]
+  catalogue_prices: >-
+    An offer published as a single catalogue price (no region) counts only when the
+    registry marks that catalogue as the provider's European price list
+    (collection.catalogue_in_scope), with the reason written next to it.
+
+# Which offers are eligible.
+eligibility:
+  pricing_model: on_demand
+  min_tier: 1
+  unit: EUR per GPU-hour, excluding VAT
+
+# How one provider becomes one number. Each provider has one vote, however many
+# SKUs or regions it lists, so a provider with forty SKUs cannot dominate.
+provider_quote: minimum per-GPU-hour price among the provider's eligible offers
+
+# How quotes become the index.
+aggregation: median
+staleness_days: 3          # a quote older than this is excluded and flagged as stale
+
+baskets:
+  sovereign:
+    label: Sovereign
+    rule: sovereignty/1
+    status: sovereign
+  hyperscaler:
+    label: US hyperscalers in Europe
+    rule: sovereignty/1
+    status: non_sovereign
+    providers: [aws, azure, google-cloud]
+
+indices:
+  - id: CSX-H100
+    name: Ceresio Sovereign H100
+    basket: sovereign
+    gpu: h100
+    min_constituents: 3
+    headline: true
+  - id: CHX-H100
+    name: Hyperscaler H100 in Europe
+    basket: hyperscaler
+    gpu: h100
+    min_constituents: 2
+  - id: CSX-H200
+    name: Ceresio Sovereign H200
+    basket: sovereign
+    gpu: h200
+    min_constituents: 3
+  - id: CHX-H200
+    name: Hyperscaler H200 in Europe
+    basket: hyperscaler
+    gpu: h200
+    min_constituents: 2
+  - id: CSX-B200
+    name: Ceresio Sovereign B200
+    basket: sovereign
+    gpu: b200
+    min_constituents: 3
+  - id: CHX-B200
+    name: Hyperscaler B200 in Europe
+    basket: hyperscaler
+    gpu: b200
+    min_constituents: 2
+  - id: CSX-A100
+    name: Ceresio Sovereign A100
+    basket: sovereign
+    gpu: a100
+    min_constituents: 3
+  - id: CSX-L40S
+    name: Ceresio Sovereign L40S
+    basket: sovereign
+    gpu: l40s
+    min_constituents: 3
+
+# Coverage: how much frontier capacity sovereign providers list publicly. Counts
+# every sovereign provider in the registry, including those with no public price,
+# so the denominator does not shrink when data is missing.
+coverage:
+  id: CSC-FRONTIER
+  name: Sovereign frontier coverage
+  basket: sovereign
+  tier: frontier
+
+# When an index cannot be calculated (too few fresh constituents) the fixing is
+# published as "not published: insufficient data" with the reason. No value is
+# carried forward, interpolated or estimated.
+insufficient_data: publish_gap

@@ -1,0 +1,47 @@
+# Sovereignty rule, version 1.
+#
+# A provider is SOVEREIGN when all three criteria hold. The rule looks at who
+# controls the company, never at where the servers are: a data centre in the EU
+# owned by a US group is not sovereign under this rule.
+#
+# Basis (see registry/sources.yaml for full references):
+# - US CLOUD Act (18 U.S.C. 2713): US authorities can compel any provider under
+#   US jurisdiction to disclose data "regardless of whether such communication,
+#   record, or other information is located within or outside of the United States".
+# - EUCS (draft EU Cloud Certification Scheme), high-assurance level: immunity
+#   from non-EU law requirements, discussed as EU seat and control.
+# - SecNumCloud 3.2 (ANSSI, France), section 19.6: registered office in the EU,
+#   and capital/voting rights not held, individually or jointly, above 24% /
+#   39% by entities outside the EU.
+# - Cloud and AI Development Act (EU Commission proposal, 2026): sovereignty
+#   criteria for public procurement built on control, not data location.
+#
+# Changing this rule means writing sovereignty-v2.yaml, never editing this file.
+# Every classification records the rule id it was computed with.
+
+id: sovereignty/1
+effective_from: "2026-09-23"
+region: "EU27 + CH"
+countries: [AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU,
+            MT, NL, PL, PT, RO, SK, SI, ES, SE, CH]
+
+criteria:
+  - id: seat
+    question: "Is the provider's legal seat (registered office) in the EU or Switzerland?"
+    fact: legal_entity.country
+  - id: control
+    question: "Is the ultimate controlling owner based in the EU or Switzerland?"
+    fact: ultimate_controller.country
+  - id: no_extraterritorial
+    question: >-
+      Is the provider free from control by a company subject to the US CLOUD Act or an
+      equivalent extraterritorial access law?
+    fact: ultimate_controller.extraterritorial_law
+
+outcomes:
+  sovereign: "All three criteria pass."
+  non_sovereign: "At least one criterion fails on an uncontested fact."
+  under_review: >-
+    A fact needed by the rule is unknown or contested (for example joint control between a
+    European and a non-European shareholder). Under-review providers are shown on the site
+    but excluded from both index baskets until the fact is settled.

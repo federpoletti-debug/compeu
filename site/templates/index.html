@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+{% set csx = data.boards | selectattr("id", "equalto", "CSX-H100") | first %}
+{% set chx = data.boards | selectattr("id", "equalto", "CHX-H100") | first %}
+{% set cov = data.coverage %}
+{% block content %}
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <div class="kicker"><span class="tag">CSX-H100</span><span>Daily fixing</span><span>{{ csx.date or "—" }}</span></div>
+      <h1 id="hero-title">What Europe pays for compute it <em>controls</em>.</h1>
+      <div class="fix">
+        {% if csx.status == "published" %}
+        <div class="fix-value" aria-label="{{ csx.value | eur }} per GPU-hour"><span class="cur">€</span>{{ "%.2f" | format(csx.value | float) }}<span class="unit">/ GPU-hour</span></div>
+        {% else %}
+        <div class="fix-value" style="font-size:2.4rem">Not published today</div>
+        {% endif %}
+        <div class="fix-meta">
+          <span>Ceresio Sovereign H100</span>
+          <span>median of {{ csx.constituents | length }} sovereign providers</span>
+          <span>on-demand list prices · EUR excl. VAT</span>
+          {% if csx.previous %}<span>previous {{ csx.previous | eur }}</span>{% else %}<span>first fixing</span>{% endif %}
+        </div>
+      </div>
+      <dl class="compare">
+        <div>
+          <dt>US hyperscalers in Europe<br><span class="mono">CHX-H100</span></dt>
+          <dd>{{ chx.value | eur if chx.status == "published" else "—" }}<small>median, AWS · Azure</small></dd>
+        </div>
+        <div>
+          <dt>Sovereign price<br>vs hyperscalers</dt>
+          {% if csx.status == "published" and chx.status == "published" %}
+          {% set ratio = (csx.value | float) / (chx.value | float) %}
+          <dd>−{{ "%.0f" | format((1 - ratio) * 100) }}%<small>{{ "%.1f" | format(1 / ratio) }}× cheaper per GPU-hour</small></dd>
+          {% else %}<dd>—</dd>{% endif %}
+        </div>
+        <div>
+          <dt>Sovereign providers<br>listing frontier GPUs</dt>
+          <dd>{{ cov.value.split("/")[0] if cov else "—" }} of {{ cov.value.split("/")[1] if cov else "—" }}<small>H100 class or newer</small></dd>
+        </div>
+      </dl>
+      <p class="thesis"><strong>Sovereign means who controls the company, not where the server sits.</strong> A data centre in Frankfurt owned by a US group answers to US law. This index tracks the price of compute that does not, every day, from the providers' own public price lists.</p>
+    </div>
+  </div>
+  <div class="map-stage">
+    <div id="map" data-geo="{{ prefix }}static/geo/europe-dots.json" role="img" aria-label="3D map of European GPU cloud sites. Column height shows the cheapest on-demand price per GPU-hour at each site; colour shows whether the provider is sovereign."></div>
+    <div class="map-labels" id="map-labels" aria-hidden="true"></div>
+    <div class="map-ui">
+      <div class="seg" id="map-mode" role="group" aria-label="Map view">
+        <button type="button" data-v="price" aria-pressed="true">Price</button>
+        <button type="button" data-v="control" aria-pressed="false">Who controls it</button>
+      </div>
+      <div class="seg" id="map-gpu" role="group" aria-label="GPU">
+        <button type="button" data-v="h100" aria-pressed="true">H100</button>
+        <button type="button" data-v="h200" aria-pressed="false">H200</button>
+        <button type="button" data-v="b200" aria-pressed="false">B200</button>
+        <button type="button" data-v="frontier" aria-pressed="false">Any frontier</button>
+      </div>
+    </div>
+    <p class="map-caption" id="map-caption"></p>
+    <div class="map-legend" aria-hidden="true">
+      <span class="key"><i class="sov"></i>Sovereign</span>
+      <span class="key"><i class="for"></i>Not sovereign</span>
+      <span class="key"><i class="rev"></i>Under review</span>
+      <span class="key"><i class="gap"></i>No public listing</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="index" aria-labelledby="index-title">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Fixings · {{ data.methodology.id }}</div>
+      <h2 id="index-title">Today's fixings</h2>
+      <p class="lede">Each index is the median of one price per provider: its cheapest on-demand GPU-hour in Europe. An index publishes only when enough providers have fresh prices. Otherwise it shows a gap, never an estimate.</p>
+    </div>
+    <div class="board" id="board"></div>
+    <div class="grid-12" style="margin-top:20px">
+      <div class="panel span-12">
+        <div class="panel-head">
+          <h3>Sovereign vs hyperscaler, per GPU-hour</h3>
+          <div class="seg" id="hist-gpu" role="group" aria-label="GPU for the history chart">
+            <button type="button" data-v="h100" aria-pressed="true">H100</button>
+            <button type="button" data-v="h200" aria-pressed="false">H200</button>
+            <button type="button" data-v="b200" aria-pressed="false">B200</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="legend"><span class="key"><i class="sov"></i>Ceresio Sovereign (CSX)</span><span class="key"><i class="for"></i>US hyperscalers in Europe (CHX)</span></div>
+          <div class="chart" id="history" style="margin-top:12px"></div>
+          <p class="note" id="history-note"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="prices" aria-labelledby="prices-title">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Prices</div>
+      <h2 id="prices-title">Who charges what</h2>
+      <p class="lede">The cheapest on-demand price each provider lists for one GPU-hour in Europe, from the latest collection. Vertical lines mark today's fixings. RunPod is a global marketplace, shown for reference only.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filters for prices">
+      <label class="visually-hidden" for="f-gpu">GPU</label>
+      <select class="chip" id="f-gpu"></select>
+      <label class="visually-hidden" for="f-provider">Provider</label>
+      <select class="chip" id="f-provider"></select>
+      <label class="visually-hidden" for="f-model">Pricing model</label>
+      <select class="chip" id="f-model">
+        <option value="on_demand">On-demand</option>
+        <option value="spot">Spot</option>
+        <option value="all">All pricing</option>
+      </select>
+      <button class="chip" id="f-scope" type="button" aria-pressed="true">Europe only</button>
+    </div>
+    <div class="grid-12">
+      <div class="panel span-12">
+        <div class="panel-head"><h3>Cheapest on-demand price per provider</h3><span class="muted mono" style="font-size:12px">€ / GPU-hour</span></div>
+        <div class="panel-body"><div class="chart" id="ladder"></div></div>
+      </div>
+      <div class="span-12">
+        <div id="offers"></div>
+        <p class="note" id="offers-more" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="coverage" aria-labelledby="coverage-title">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Coverage · {{ cov.index if cov else "" }}</div>
+      <h2 id="coverage-title">Where the capacity gap is</h2>
+      <p class="lede">Being European is not enough: a sovereign buyer also needs frontier GPUs at a public price. Each cell is the cheapest on-demand price per GPU-hour in Europe. A dot means the provider lists no such GPU. A hatched cell means it publishes no prices at all, so we cannot know.</p>
+    </div>
+    <div id="matrix"></div>
+  </div>
+</section>
+
+<section class="section" id="sovereignty" aria-labelledby="sov-title">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Rule {{ data.rule.id }} · in force since {{ data.rule.effective_from }}</div>
+      <h2 id="sov-title">Control, not location</h2>
+      <p class="lede">The US CLOUD Act lets US authorities require a US-controlled provider to hand over data wherever it is stored. So the test looks at the company, the same way France's SecNumCloud and the EU's draft cloud certification do. A provider is sovereign only if all three answers are yes.</p>
+    </div>
+    <div class="criteria">
+      <div><span class="k">1 · Seat</span><h3>Registered in the EU or Switzerland</h3><p>The contracting company's legal seat is in one of the EU's 27 member states or in Switzerland.</p></div>
+      <div><span class="k">2 · Control</span><h3>Owned and controlled there too</h3><p>The ultimate controlling owner is also European. A German subsidiary of a US group fails here.</p></div>
+      <div><span class="k">3 · Reach</span><h3>Out of reach of the CLOUD Act</h3><p>No parent subject to the US CLOUD Act or an equivalent law with extraterritorial access to data.</p></div>
+    </div>
+    <p class="note">A provider whose control is contested, such as a joint European and non-European shareholding, is marked <b>under review</b> and left out of both baskets until the facts are settled. Every status is computed from the registry; none is typed by hand. The UK is outside the rule, as is any provider whose ultimate owner is outside the EU and Switzerland.</p>
+    <div class="chains" id="chains"></div>
+  </div>
+</section>
+
+<section class="section" id="health" aria-labelledby="health-title">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Data health</div>
+      <h2 id="health-title">What we read, and what we can't</h2>
+      <p class="lede">{{ data.schedule }}. Each provider is read from its own public source. If a source fails, its last good prices keep their old date and leave the index after {{ data.methodology.staleness_days }} days. Providers with no public price list stay on this list until they share data.</p>
+    </div>
+    <div id="health-list"></div>
+  </div>
+</section>
+
+<section class="section" id="method" aria-labelledby="method-title">
+  <div class="wrap grid-12">
+    <div class="span-7" style="display:grid;gap:20px;align-content:start">
+      <div class="section-head" style="margin:0">
+        <div class="eyebrow">Methodology {{ data.methodology.id }}</div>
+        <h2 id="method-title">How a fixing is made</h2>
+      </div>
+      <ol class="steps">
+        <li><b>Collect.</b> Every day, read each provider's public price list: its API where one exists, its product page otherwise. Every price is stored with its source, time and a hash of the verbatim response.</li>
+        <li><b>Classify.</b> Apply rule {{ data.rule.id }} to each provider's legal facts. The rule version is stored on every price.</li>
+        <li><b>Select.</b> Keep on-demand offers located in {{ data.methodology.scope }}. Spot, reserved and global marketplace prices are shown but never counted.</li>
+        <li><b>Quote.</b> Each provider gets one vote: its cheapest price per GPU-hour, in euro at the ECB reference rate of the observation day.</li>
+        <li><b>Fix.</b> The index is the median of the quotes. Below the minimum number of fresh providers it is not published. A fixing, once written, is never revised.</li>
+      </ol>
+    </div>
+    <div class="span-5" style="display:grid;gap:14px;align-content:start">
+      <div class="panel"><div class="panel-body" style="display:grid;gap:12px">
+        <h3 style="font-size:var(--t-lg)">Check it yourself</h3>
+        <p class="soft" style="font-size:var(--t-sm)">The ledger only grows. Each run is chained to the previous one by its SHA-256 hash, so changing any past price breaks the chain. Current heads:</p>
+        <dl class="kv">
+          <dt>Runs</dt><dd><span class="hash">{{ (data.ledger.runs_head or "")[7:23] }}</span></dd>
+          <dt>Fixings</dt><dd><span class="hash">{{ (data.ledger.fixings_head or "")[7:23] }}</span></dd>
+          <dt>Prices</dt><dd class="mono" style="font-size:12px">{{ data.ledger.observations }} observations, {{ data.ledger.runs }} runs</dd>
+        </dl>
+        <pre class="cmd">git clone {{ data.repo }}
+uv run ceresio verify</pre>
+      </div></div>
+      <div class="panel"><div class="panel-body" style="display:grid;gap:8px">
+        <h3 style="font-size:var(--t-lg)">Three levels of evidence</h3>
+        <p class="soft" style="font-size:var(--t-sm)"><b>Level 1</b> public list price, read from the provider's own source. <b>Level 2</b> price confirmed by the provider. <b>Level 3</b> real transaction data. Every price carries its level; levels are never mixed into one number. All prices today are Level 1.</p>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="roadmap" aria-labelledby="road-title">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Roadmap</div>
+      <h2 id="road-title">From a price index to a market</h2>
+    </div>
+    <div class="phases">
+      <article class="phase now"><span class="when">Phase 1 · live</span><h3>The index</h3><p>Daily public prices, a sovereignty test, an append-only ledger. Free to read and to cite.</p></article>
+      <article class="phase"><span class="when">Phase 2 · planned</span><h3>Capacity desk</h3><p>Pool demand from European buyers who need sovereign GPUs and negotiate capacity with neoclouds. Transaction data from the desk becomes Level 3 input.</p></article>
+      <article class="phase"><span class="when">Phase 3 · subject to licensing</span><h3>A reference price</h3><p>Cash-settled contracts on compute prices need a licensed venue and an authorised benchmark administrator. The methodology already follows the IOSCO benchmark principles so that history built today stays usable.</p></article>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+{% if single %}
+<script type="module">{{ inline_js | safe }}</script>
+{% else %}
+<script type="module" src="{{ prefix }}static/js/main.js"></script>
+{% endif %}
+{% endblock %}

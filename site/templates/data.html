@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Ceresio Index data{% endblock %}
+{% block description %}Download the Ceresio Index fixings and prices, or read them as static JSON. CC BY 4.0.{% endblock %}
+{% block content %}
+<div class="wrap">
+  <header class="page-head">
+    <div class="eyebrow">Open data · CC BY 4.0</div>
+    <h1>Use the data</h1>
+    <p class="lede">Everything on the site is published as files. They are rebuilt after every collection; there is no API key and no rate limit.</p>
+  </header>
+  <div class="grid-12" style="padding-block:40px 72px">
+    <div class="span-7" style="display:grid;gap:14px;align-content:start">
+      <div class="table-wrap" style="max-height:none"><table>
+        <thead><tr><th>File</th><th>Contents</th></tr></thead>
+        <tbody>
+          <tr><td><a class="mono" href="latest.json">data/latest.json</a></td><td>Everything the site shows: fixings, latest offers in EUR, providers and their classification, collection health.</td></tr>
+          <tr><td><a class="mono" href="fixings.csv">data/fixings.csv</a></td><td>Every fixing ever published, one row per index per day.</td></tr>
+          <tr><td><a class="mono" href="fixings.jsonl">data/fixings.jsonl</a></td><td>The hash-chained fixings ledger, as stored.</td></tr>
+          <tr><td><a class="mono" href="offers-latest.csv">data/offers-latest.csv</a></td><td>Latest price of every offer, native currency and EUR per GPU-hour.</td></tr>
+          <tr><td><a class="mono" href="{{ data.repo }}/tree/main/ledger">ledger/ (repository)</a></td><td>Full history: every price ever observed, every run, verbatim source snapshots.</td></tr>
+        </tbody>
+      </table></div>
+      <p class="note">Prices are list prices excluding VAT. EUR values use the ECB reference rate of the observation day.</p>
+    </div>
+    <div class="span-5 prose" style="align-content:start">
+      <h2 style="margin-top:0">Cite</h2>
+      <p>Ceresio Index, methodology {{ data.methodology.id }}, fixing of &lt;date&gt;. Lugano, Switzerland. Licensed under CC BY 4.0.</p>
+      <h2>Verify</h2>
+      <pre class="cmd">git clone {{ data.repo }}
+cd ceresio-index
+uv run ceresio verify</pre>
+      <p>The check recomputes every hash in the ledger and fails if any past price, run or fixing was changed.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script type="module" src="{{ prefix }}static/js/theme.js"></script>{% endblock %}

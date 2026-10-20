@@ -1,0 +1,66 @@
+# Canonical GPU models. Raw names from providers are matched against `match`
+# (regular expressions, case-insensitive, tried in order from top to bottom), so
+# put the most specific model first (GB300 before B300, H100 NVL before H100...).
+#
+# `tier`:
+#   frontier   - current training-class accelerators (Hopper and newer, AMD MI300 and newer)
+#   datacenter - previous-generation training / large inference (A100, L40S, RTX PRO 6000...)
+#   inference  - small inference and workstation cards
+#   consumer   - GeForce gaming cards
+# A raw name that matches nothing is recorded as model "unmapped" and reported in
+# the run log; it is never guessed.
+
+models:
+  - { id: gb300, label: GB300, vendor: NVIDIA, arch: Blackwell Ultra, memory_gb: 288, tier: frontier, match: ['gb300'] }
+  - { id: b300, label: B300, vendor: NVIDIA, arch: Blackwell Ultra, memory_gb: 288, tier: frontier, match: ['\bb300\b', 'b300[- ]sxm'] }
+  - { id: gb200, label: GB200, vendor: NVIDIA, arch: Blackwell, memory_gb: 186, tier: frontier, match: ['gb200'] }
+  - { id: b200, label: B200, vendor: NVIDIA, arch: Blackwell, memory_gb: 180, tier: frontier, match: ['\bb200\b', 'b200[- ]sxm'] }
+  - { id: h200, label: H200, vendor: NVIDIA, arch: Hopper, memory_gb: 141, tier: frontier, match: ['h200'] }
+  - { id: h100, label: H100, vendor: NVIDIA, arch: Hopper, memory_gb: 80, tier: frontier, match: ['h100'] }
+  - { id: mi355x, label: MI355X, vendor: AMD, arch: CDNA 4, memory_gb: 288, tier: frontier, match: ['mi355'] }
+  - { id: mi350x, label: MI350X, vendor: AMD, arch: CDNA 4, memory_gb: 288, tier: frontier, match: ['mi350'] }
+  - { id: mi325x, label: MI325X, vendor: AMD, arch: CDNA 3, memory_gb: 256, tier: frontier, match: ['mi325'] }
+  - { id: mi300x, label: MI300X, vendor: AMD, arch: CDNA 3, memory_gb: 192, tier: frontier, match: ['mi300'] }
+  - { id: a100, label: A100, vendor: NVIDIA, arch: Ampere, memory_gb: 80, tier: datacenter, match: ['a100'] }
+  - { id: rtx-pro-6000, label: RTX PRO 6000, vendor: NVIDIA, arch: Blackwell, memory_gb: 96, tier: datacenter, match: ['rtx ?pro.?6000', 'rtx6000pro', 'rtxpro6000'] }
+  - { id: l40s, label: L40S, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 48, tier: datacenter, match: ['l40s'] }
+  - { id: l40, label: L40, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 48, tier: datacenter, match: ['\bl40\b'] }
+  - { id: rtx-6000-ada, label: RTX 6000 Ada, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 48, tier: datacenter, match: ['rtx ?6000 ?ada'] }
+  - { id: rtx-pro-4500, label: RTX PRO 4500, vendor: NVIDIA, arch: Blackwell, memory_gb: 32, tier: inference, match: ['rtx ?pro.?4500'] }
+  - { id: rtx-pro-4000, label: RTX PRO 4000, vendor: NVIDIA, arch: Blackwell, memory_gb: 24, tier: inference, match: ['rtx ?pro.?4000'] }
+  - { id: rtx-pro-5000, label: RTX PRO 5000, vendor: NVIDIA, arch: Blackwell, memory_gb: 48, tier: inference, match: ['rtx ?pro.?5000'] }
+  - { id: rtx-5000-ada, label: RTX 5000 Ada, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 32, tier: inference, match: ['rtx ?5000 ?ada'] }
+  - { id: rtx-4000-ada, label: RTX 4000 Ada, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 20, tier: inference, match: ['rtx ?4000 (sff )?ada'] }
+  - { id: rtx-2000-ada, label: RTX 2000 Ada, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 16, tier: inference, match: ['rtx ?2000 ?ada'] }
+  - { id: quadro-rtx-5000, label: Quadro RTX 5000, vendor: NVIDIA, arch: Turing, memory_gb: 16, tier: inference, match: ['quadro.?rtx.?5000'] }
+  - { id: rtx-a6000, label: RTX A6000, vendor: NVIDIA, arch: Ampere, memory_gb: 48, tier: inference, match: ['a6000'] }
+  - { id: a40, label: A40, vendor: NVIDIA, arch: Ampere, memory_gb: 48, tier: inference, match: ['\ba40\b'] }
+  - { id: a30, label: A30, vendor: NVIDIA, arch: Ampere, memory_gb: 24, tier: inference, match: ['\ba30\b'] }
+  - { id: rtx-a5000, label: RTX A5000, vendor: NVIDIA, arch: Ampere, memory_gb: 24, tier: inference, match: ['a5000'] }
+  - { id: a10, label: A10, vendor: NVIDIA, arch: Ampere, memory_gb: 24, tier: inference, match: ['\ba10g?\b'] }
+  - { id: l4, label: L4, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 24, tier: inference, match: ['\bl4\b'] }
+  - { id: rtx-a4500, label: RTX A4500, vendor: NVIDIA, arch: Ampere, memory_gb: 20, tier: inference, match: ['a4500'] }
+  - { id: rtx-a4000, label: RTX A4000, vendor: NVIDIA, arch: Ampere, memory_gb: 16, tier: inference, match: ['a4000'] }
+  - { id: rtx-a2000, label: RTX A2000, vendor: NVIDIA, arch: Ampere, memory_gb: 12, tier: inference, match: ['a2000'] }
+  - { id: v100, label: V100, vendor: NVIDIA, arch: Volta, memory_gb: 32, tier: inference, match: ['v100'] }
+  - { id: p100, label: P100, vendor: NVIDIA, arch: Pascal, memory_gb: 16, tier: inference, match: ['p100'] }
+  - { id: t4, label: T4, vendor: NVIDIA, arch: Turing, memory_gb: 16, tier: inference, match: ['\bt4\b'] }
+  # Consumer cards (GeForce): listed by marketplaces and older cloud ranges.
+  - { id: rtx-5090, label: RTX 5090, vendor: NVIDIA, arch: Blackwell, memory_gb: 32, tier: consumer, match: ['rtx ?5090'] }
+  - { id: rtx-5080, label: RTX 5080, vendor: NVIDIA, arch: Blackwell, memory_gb: 16, tier: consumer, match: ['rtx ?5080'] }
+  - { id: rtx-4090, label: RTX 4090, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 24, tier: consumer, match: ['rtx ?4090'] }
+  - { id: rtx-4080, label: RTX 4080, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 16, tier: consumer, match: ['rtx ?4080'] }
+  - { id: rtx-4070ti, label: RTX 4070 Ti, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 12, tier: consumer, match: ['rtx ?4070 ?ti'] }
+  - { id: rtx-3090, label: RTX 3090, vendor: NVIDIA, arch: Ampere, memory_gb: 24, tier: consumer, match: ['rtx ?3090'] }
+  - { id: rtx-3080ti, label: RTX 3080 Ti, vendor: NVIDIA, arch: Ampere, memory_gb: 12, tier: consumer, match: ['3080 ?ti'] }
+  - { id: rtx-3080, label: RTX 3080, vendor: NVIDIA, arch: Ampere, memory_gb: 10, tier: consumer, match: ['rtx ?3080'] }
+  - { id: rtx-3070, label: RTX 3070, vendor: NVIDIA, arch: Ampere, memory_gb: 8, tier: consumer, match: ['rtx ?3070'] }
+  - { id: gtx-1080ti, label: GTX 1080 Ti, vendor: NVIDIA, arch: Pascal, memory_gb: 11, tier: consumer, match: ['gtx ?1080 ?ti'] }
+  - { id: gtx-1070, label: GTX 1070, vendor: NVIDIA, arch: Pascal, memory_gb: 8, tier: consumer, match: ['gtx ?1070'] }
+  - { id: gtx-1060, label: GTX 1060, vendor: NVIDIA, arch: Pascal, memory_gb: 6, tier: consumer, match: ['gtx ?1060'] }
+
+# Form factor / interconnect variant, detected separately from the model.
+variants:
+  - { id: sxm, match: ['sxm', 'hgx', 'nvlink'] }
+  - { id: nvl, match: ['\bnvl\b'] }
+  - { id: pcie, match: ['pcie'] }
