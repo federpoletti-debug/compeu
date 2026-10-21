@@ -82,15 +82,14 @@ providers:
       - { id: nbg, city: Nuremberg, country: DE, lat: 49.4521, lon: 11.0767 }
       - { id: hel, city: Helsinki, country: FI, lat: 60.1699, lon: 24.9384 }
     collection:
-      method: html
+      method: api
       collector: hetzner
-      source: https://www.hetzner.com/dedicated-rootserver/matrix-gpu/
-      catalogue_in_scope: true   # GEX servers run in Falkenstein and Nuremberg (DE)
+      source: https://www.hetzner.com/_resources/app/data/app/live_data_prices.json
       note: >-
-        GPU servers are dedicated machines (GEX line), not part of the Hetzner Cloud API,
-        so the brief's /v1/pricing endpoint does not cover them. Hourly price with a
-        monthly cap and a one-time setup fee, read from the structured price elements of
-        the public product page.
+        GPU servers are dedicated machines (GEX line), not part of the Hetzner Cloud API.
+        Prices come from the public price file the GPU product page loads (EUR column, per
+        data centre), joined with the page for server names, GPUs and product ids. Hourly
+        price with a monthly cap and a one-time setup fee.
     evidence:
       - { claim: "Hetzner Online GmbH, Gunzenhausen, Germany", url: "https://www.hetzner.com/legal/legal-notice/" }
 

@@ -90,6 +90,7 @@ def run(http: requests.Session, only: list[str] | None = None, now: datetime | N
         collector = cls()
         at = now or utc_now()
         entry: dict = {"provider": name, "method": collector.method}
+        fetched = None
         try:
             fetched = collector.fetch(http)
             entry["source"] = fetched.source_url
@@ -121,6 +122,10 @@ def run(http: requests.Session, only: list[str] | None = None, now: datetime | N
                 entry["problems_total"] = len(problems)
         except Exception as e:  # noqa: BLE001 - every failure is recorded, none is fatal
             entry.update(status="failed", offers=0, error=f"{type(e).__name__}: {e}"[:600])
+            if fetched is not None and fetched.problems:
+                # Keep the parser's notes: they say what changed at the source.
+                entry["problems"] = fetched.problems[:MAX_PROBLEMS]
+                entry["problems_total"] = len(fetched.problems)
         results.append(entry)
 
     month = started.strftime("%Y-%m")

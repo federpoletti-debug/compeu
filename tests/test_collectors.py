@@ -77,44 +77,95 @@ def test_exoscale_joins_price_and_type_per_zone():
 
 
 HETZNER_PAGE = """
-<div class="overflow-hidden product-wrapper gpu-wrapper swiper-slide product-1 ">
-  <div class="d-flex flex-column product-text-name">
-            GEX131
-        </div>
-  <span class="visually-hidden">€ 1,499.00 per month, excl. VAT</span>
-  <ho-price-container class="product-pph-price" product-key="ROBOT_1" price-type="hourly"
-     decimals="4"><span class="visually-hidden">€ 2.4022 per hour, excl. VAT</span>
+<p class="hero">Get your server with GPU from Hetzner: NVIDIA RTX GPUs hosted in the EU</p>
+<div class="baremetal-product">
+  <span class="text-display-8">GEX131</span>
+  <ho-price-container class="text-price-4" product-key="ROBOT_1747+ROBOT_1266" price-type="hourly">
+    <span class="visually-hidden">$ 2.7224 per hour, excl. VAT</span>
   </ho-price-container>
-  <div>+ € 1,499.00 one-time setup fee, excl. VAT</div>
+  <p class="text-copy-3"><strong>24</strong> Cores ▪ Intel® Xeon® Gold 5412U</p>
+  <p class="text-copy-3">NVIDIA RTX PRO™ 6000 Blackwell Max-Q </p>
+  <a id="order-button" data-event-category="CTA" data-event-action="Order GEX131">Configure</a>
 </div>
-<div class="gpu-information-grid">
-  <div class="item-header-a grid-header-text"><div class="grid-header-name">
-            GEX131
-        </div> CPU</div>
-  <div class="item-d grid-data-text">
-        NVIDIA RTX PRO™ 6000 Blackwell Max-Q
-    </div>
+<div class="baremetal-product">
+  <span class="text-display-8"><span class="baremetal-label-new">New</span> GEX430</span>
+  <ho-price-container product-key="ROBOT_1769+ROBOT_1266" price-type="hourly"></ho-price-container>
+  <p class="text-copy-3"><strong>4x</strong> NVIDIA RTX PRO™ 6000 Blackwell Max-Q </p>
+  <a id="order-button" data-event-category="CTA" data-event-action="Order GEX430">Configure</a>
 </div>
 """
 
+HETZNER_PRICES = {
+    "ROBOT_1747": {
+        "locations": [
+            {"datacenter": "FSN1", "active": True, "prices": {
+                "hourly": {"EUR": "2.399500", "USD": "2.719700"},
+                "monthly": {"EUR": "1497.30", "USD": "1697.10"},
+                "setup": {"EUR": "1499.00", "USD": "1699.00"}}},
+            {"datacenter": "NBG1", "active": False, "prices": {
+                "hourly": {"EUR": "2.399500", "USD": "2.719700"}}},
+        ]
+    },
+    "ROBOT_1266": {
+        "locations": [
+            {"datacenter": "ALL", "active": True, "prices": {
+                "hourly": {"EUR": "0.002700", "USD": "0.003000"},
+                "monthly": {"EUR": "1.70", "USD": "1.90"}}},
+        ]
+    },
+}  # fmt: skip
 
-def test_hetzner_reads_structured_prices():
-    recs = hetzner.extract(HETZNER_PAGE)
-    assert recs == [
+
+def test_hetzner_cards_name_gpu_count_and_products():
+    # The hero text above the cards also says NVIDIA: it must not be taken as a spec.
+    assert hetzner.extract_cards(HETZNER_PAGE) == [
         {
             "name": "GEX131",
             "gpu": "NVIDIA RTX PRO™ 6000 Blackwell Max-Q",
-            "hourly_eur": "2.4022",
-            "monthly_eur": "1499.00",
-            "setup_fee_eur": "1499.00",
-        }
+            "gpu_count": 1,
+            "components": ["ROBOT_1747", "ROBOT_1266"],
+        },
+        {
+            "name": "GEX430",
+            "gpu": "NVIDIA RTX PRO™ 6000 Blackwell Max-Q",
+            "gpu_count": 4,
+            "components": ["ROBOT_1769", "ROBOT_1266"],
+        },
     ]
-    [o] = hetzner.Hetzner().parse(Fetched("u", recs))
-    assert o.price == Decimal("2.4022") and o.extra["setup_fee_eur"] == "1499.00"
+
+
+def test_hetzner_joins_page_and_price_file_in_euro():
+    # The page here prints dollars, as it does for US visitors; the euro price
+    # comes from the price file, so the result does not depend on the visitor.
+    cards = hetzner.extract_cards(HETZNER_PAGE)[:1]
+    f = Fetched("u", [{"cards": cards, "products": HETZNER_PRICES}])
+    [o] = hetzner.Hetzner().parse(f)  # NBG1 is inactive, HEL1 absent: only Falkenstein
+    assert (o.region, o.currency, o.price) == ("fsn", "EUR", Decimal("2.4022"))
+    assert o.extra["setup_fee_eur"] == Decimal("1499.00")
+    assert o.extra["monthly_cap_eur"] == Decimal("1499.00")
+
+
+def test_hetzner_four_gpu_server_is_priced_per_gpu():
+    cards = hetzner.extract_cards(HETZNER_PAGE)[1:]
+    products = {
+        "ROBOT_1769": {"locations": [{"datacenter": "HEL1", "active": True,
+                                      "prices": {"hourly": {"EUR": "5.764900"}}}]},
+        "ROBOT_1266": HETZNER_PRICES["ROBOT_1266"],
+    }  # fmt: skip
+    [o] = hetzner.Hetzner().parse(Fetched("u", [{"cards": cards, "products": products}]))
+    assert (o.region, o.gpu_count, o.price) == ("hel", 4, Decimal("5.7676"))
+    assert o.per_gpu_hour() == Decimal("1.4419")
+
+
+def test_hetzner_missing_product_is_reported_not_priced():
+    cards = hetzner.extract_cards(HETZNER_PAGE)[:1]
+    f = Fetched("u", [{"cards": cards, "products": {"ROBOT_1266": HETZNER_PRICES["ROBOT_1266"]}}])
+    assert hetzner.Hetzner().parse(f) == []
+    assert any("ROBOT_1747" in p for p in f.problems)
 
 
 def test_hetzner_changed_markup_records_nothing():
-    f = Fetched("u", hetzner.extract("<html>redesigned page</html>"))
+    f = Fetched("u", [{"cards": hetzner.extract_cards("<html>redesigned</html>"), "products": {}}])
     assert hetzner.Hetzner().parse(f) == []
 
 
