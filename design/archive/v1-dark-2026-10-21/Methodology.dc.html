@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CompEU methodology</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=JetBrains+Mono:wght@400..600&amp;family=Schibsted+Grotesk:wght@400..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#8fbcf3}a:hover{color:#edf1f6}
+</style>
+</helmet>
+<div id="top" style="font-family: 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif; color: #edf1f6; background: #070b12; min-height: 100vh; font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased">
+
+<header style="position: sticky; top: 0; z-index: 30; background: rgba(7,11,18,0.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid #1a2433">
+<div style="max-width: 1280px; margin: 0 auto; box-sizing: border-box; padding-left: 32px; padding-right: 32px; height: 62px; display: flex; align-items: center; gap: 18px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #edf1f6">
+<svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true" style="flex: none; display: block">
+<path d="M11 1.6v3M16 1.6v3M21 1.6v3M11 27.4v3M16 27.4v3M21 27.4v3M1.6 11h3M1.6 16h3M1.6 21h3M27.4 11h3M27.4 16h3M27.4 21h3" style="fill: none; stroke: #7d8899; stroke-width: 1.4; stroke-linecap: round"></path>
+<rect x="5" y="5" width="22" height="22" rx="5" style="fill: #0c121c; stroke: #edf1f6; stroke-width: 1.6"></rect>
+<circle cx="16" cy="10.2" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="18.9" cy="10.98" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="21.02" cy="13.1" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="21.8" cy="16" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="21.02" cy="18.9" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="18.9" cy="21.02" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="16" cy="21.8" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="13.1" cy="21.02" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="10.98" cy="18.9" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="10.2" cy="16" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="10.98" cy="13.1" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="13.1" cy="10.98" r="1.05" style="fill: #3987e5"></circle>
+</svg>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.03em; line-height: 1">Comp<span style="color: #3987e5">EU</span></span>
+</a>
+<a href="Main.dc.html" style="margin-left: auto; color: #a9b4c2; text-decoration: none; font-size: 13.5px; padding: 8px 12px; border: 1px solid #273447; border-radius: 8px" style-hover="color: #edf1f6; border-color: #7d8899">Back to the index</a>
+</div>
+</header>
+
+<div style="max-width: 1280px; margin: 0 auto; box-sizing: border-box; padding-left: 32px; padding-right: 32px">
+<div style="padding-top: 72px; padding-bottom: 40px; border-bottom: 1px solid #1a2433; display: flex; flex-direction: column; gap: 14px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #7d8899">Methodology index/1 · effective 20 Oct 2026 · rule sovereignty/1</span>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 56px; line-height: 1.02; letter-spacing: -0.035em; max-width: 16ch">How the CompEU index is calculated</h1>
+<p style="margin: 0; color: #a9b4c2; font-size: 18px; max-width: 62ch">The whole method, versioned. A change produces a new version; past fixings keep the version they were calculated with and are never recalculated.</p>
+<nav aria-label="On this page" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px">
+<sc-for list="{{toc}}" as="t" hint-placeholder-count="8">
+<a href="{{t.href}}" style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #a9b4c2; text-decoration: none; border: 1px solid #273447; border-radius: 999px; padding: 7px 12px" style-hover="color: #edf1f6; border-color: #7d8899">{{t.label}}</a>
+</sc-for>
+</nav>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 48px; padding-top: 48px; padding-bottom: 96px">
+<article style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 56px; max-width: 760px">
+
+<section id="measure" style="display: flex; flex-direction: column; gap: 14px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899">1</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.025em; line-height: 1.1">What the index measures</h2>
+<p style="margin: 0; color: #a9b4c2">The on-demand list price of one GPU-hour, in euro excluding VAT, offered in the EU, the EEA or Switzerland by cloud providers that are sovereign under rule sovereignty/1. A second family of indices measures the same thing for US hyperscalers operating in Europe, so the two can be read on one scale.</p>
+</section>
+
+<section id="sources" style="display: flex; flex-direction: column; gap: 14px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899">2</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.025em; line-height: 1.1">Sources</h2>
+<p style="margin: 0; color: #a9b4c2">Each provider is read from its own public source, never from a comparison website: its API where one exists, its product page otherwise. Collection runs every day at 05:20 UTC. Every price is stored with the time it was read, the exact source and the fingerprint of the verbatim records it came from.</p>
+</section>
+
+<section id="rule" style="display: flex; flex-direction: column; gap: 14px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899">3</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.025em; line-height: 1.1">The sovereignty rule</h2>
+<p style="margin: 0; color: #a9b4c2">A provider is sovereign when all three answers are yes: its legal seat is in the EU or Switzerland; its ultimate owner is there too; and no parent is subject to the US CLOUD Act or a similar law with access to data stored abroad. The rule looks at control, not at where the servers are, in line with France's SecNumCloud and the direction of the EU's cloud certification scheme and its Cloud and AI Development Act proposal.</p>
+<p style="margin: 0; color: #a9b4c2">When a fact the rule needs is contested or unknown, the provider is marked under review and kept out of both baskets. Statuses are computed by code from the provider registry. Nobody types a status by hand.</p>
+<a href="Main.dc.html" style="align-self: flex-start; font-size: 14px">Try the rule on a provider, or on your own cloud</a>
+</section>
+
+<section id="quote" style="display: flex; flex-direction: column; gap: 14px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899">4</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.025em; line-height: 1.1">One provider, one price</h2>
+<p style="margin: 0; color: #a9b4c2">A provider can list the same GPU in many sizes. CompEU divides each offer by its number of GPUs and keeps the cheapest, so a provider with forty sizes still gets one vote. Here are Verda's H100 offers from the run of 20 October. Pick one to see the arithmetic.</p>
+<div style="background: #0c121c; border: 1px solid #1a2433; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 14px">
+<div role="group" aria-label="Verda H100 offers" style="display: flex; flex-direction: column; gap: 6px">
+<sc-for list="{{verda.rows}}" as="r" hint-placeholder-count="4">
+<button type="button" aria-pressed="{{r.pressed}}" onClick="{{r.pick}}" style="appearance: none; cursor: pointer; font: inherit; color: #edf1f6; text-align: left; background: {{r.bg}}; border: 1px solid {{r.border}}; border-radius: 8px; padding: 11px 14px; display: grid; grid-template-columns: minmax(0, 1.4fr) 64px minmax(0, 1fr) minmax(0, 1fr); gap: 12px; align-items: center" style-hover="border-color: #3a4a61">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12.5px">{{r.sku}}</span>
+<span style="font-size: 13px; color: #a9b4c2">{{r.gpus}}</span>
+<span style="font-variant-numeric: tabular-nums; color: #a9b4c2">{{r.price}}</span>
+<span style="font-variant-numeric: tabular-nums; font-weight: 600; color: {{r.perColor}}">{{r.per}}</span>
+</button>
+</sc-for>
+</div>
+<p aria-live="polite" style="margin: 0; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 13px; color: #a9b4c2; line-height: 1.7">{{verda.math}}</p>
+</div>
+</section>
+
+<section id="fx" style="display: flex; flex-direction: column; gap: 14px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899">5</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.025em; line-height: 1.1">From dollars to euro</h2>
+<p style="margin: 0; color: #a9b4c2">Prices in another currency are converted with the European Central Bank's euro reference rate of the latest business day on or before the day the price was read. A rate older than six days is refused, and the price waits rather than being converted with a stale rate.</p>
+<div style="background: #0c121c; border: 1px solid #1a2433; border-radius: 10px; padding: 22px; display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end">
+<label for="fx-usd" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #a9b4c2; flex: 1 1 200px">Price in USD per GPU-hour
+<input id="fx-usd" type="number" min="0" step="0.01" value="{{fx.usd}}" onChange="{{fx.onUsd}}" style="font: inherit; font-size: 18px; font-variant-numeric: tabular-nums; color: #edf1f6; background: #0a0f18; border: 1px solid #273447; border-radius: 8px; padding: 10px 12px; width: 100%; box-sizing: border-box">
+</label>
+<div style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 13px; color: #a9b4c2">ECB rate, {{fx.date}}</span>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 18px; padding: 10px 0">{{fx.rate}} USD per euro</span>
+</div>
+<div style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 13px; color: #a9b4c2">In euro</span>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 34px; letter-spacing: -0.03em; color: #8fbcf3">{{fx.eur}}</span>
+</div>
+<p style="margin: 0; flex: 1 1 100%; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12.5px; color: #7d8899">{{fx.math}}</p>
+</div>
+</section>
+
+<section id="fixing" style="display: flex; flex-direction: column; gap: 14px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899">6</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.025em; line-height: 1.1">From quotes to a fixing</h2>
+<p style="margin: 0; color: #a9b4c2">For each provider CompEU uses the prices of its latest successful collection on or before the fixing day. Offers the provider no longer lists are gone; old prices are never carried forward. The index is the median of the quotes, rounded to four decimals. Below the minimum number of providers (three sovereign, two hyperscalers) the fixing says not published and has no value.</p>
+<p style="margin: 0; color: #a9b4c2">A provider whose last successful read is more than three days old drops out until it answers again. Move the slider to see when.</p>
+<div style="background: #0c121c; border: 1px solid #1a2433; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 14px">
+<label for="stale" style="font-size: 13px; color: #a9b4c2">Days since the provider's last successful read: <strong style="color: #edf1f6">{{stale.days}}</strong></label>
+<input id="stale" type="range" min="0" max="7" step="1" value="{{stale.days}}" onChange="{{stale.onDays}}" style="width: 100%; accent-color: #3987e5; cursor: pointer">
+<div style="display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px">
+<sc-for list="{{stale.cells}}" as="c" hint-placeholder-count="8">
+<span style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 0; border-radius: 6px; background: {{c.bg}}; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; color: {{c.fg}}">{{c.label}}</span>
+</sc-for>
+</div>
+<span style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: {{stale.color}}"><span style="width: 9px; height: 9px; border-radius: 50%; background: {{stale.color}}"></span>{{stale.verdict}}</span>
+<p style="margin: 0; font-size: 14px; color: #a9b4c2">{{stale.text}}</p>
+</div>
+</section>
+
+<section id="coverage" style="display: flex; flex-direction: column; gap: 14px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899">7</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.025em; line-height: 1.1">Coverage</h2>
+<p style="margin: 0; color: #a9b4c2">The coverage measure counts the sovereign providers that publicly list at least one frontier GPU (Hopper generation or newer, or AMD MI300 or newer) on demand in Europe, over all sovereign providers in the registry, including those that publish no prices. Missing data counts as not listing, so it never makes coverage look better. On 20 October 2026: 3 of 9.</p>
+</section>
+
+<section id="ledger" style="display: flex; flex-direction: column; gap: 14px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899">8</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.025em; line-height: 1.1">The ledger</h2>
+<p style="margin: 0; color: #a9b4c2">Prices, runs and fixings are append-only text files in the public repository. Each run stores the fingerprint (SHA-256) of the price lines it added and of the run before it; fixings are chained the same way. An automated check rejects any change that edits or deletes an existing line, and anyone can re-run the whole check.</p>
+<div style="background: #05080e; border: 1px solid #1a2433; border-radius: 10px; padding: 16px 18px; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 13px; line-height: 1.8; color: #a9b4c2; overflow-x: auto">
+<div style="white-space: pre; color: #7d8899">$ git clone https://github.com/federpoletti-debug/ceresio-index</div>
+<div style="white-space: pre; color: #7d8899">$ uv run compeu verify</div>
+<div style="white-space: pre; color: #22b14c">ledger OK</div>
+</div>
+</section>
+
+<section id="governance" style="display: flex; flex-direction: column; gap: 14px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899">9</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.025em; line-height: 1.1">Governance and limits</h2>
+<p style="margin: 0; color: #a9b4c2">Phase 1 publishes an informational index, not a regulated benchmark. The method follows the IOSCO Principles for Financial Benchmarks so it can be submitted for authorisation later without rewriting its history. List prices are not transaction prices: discounts, commitments and availability are not captured until Level 2 (confirmed by the provider) and Level 3 (real transactions) data arrive. Every price carries its level, and levels are never merged into one number.</p>
+</section>
+</article>
+
+<aside style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="background: #0c121c; border: 1px solid #1a2433; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -0.02em">Indices in index/1</span>
+<sc-for list="{{indices}}" as="i" hint-placeholder-count="8">
+<div style="display: grid; grid-template-columns: 92px minmax(0, 1fr) 34px; gap: 10px; align-items: baseline; padding-top: 8px; border-top: 1px solid #1a2433">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: {{i.color}}">{{i.id}}</span>
+<span style="font-size: 13.5px; color: #a9b4c2">{{i.name}}</span>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899; text-align: right">≥{{i.min}}</span>
+</div>
+</sc-for>
+</div>
+<div style="background: #0c121c; border: 1px solid #1a2433; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -0.02em">Changelog</span>
+<p style="margin: 0; font-size: 13.5px; color: #a9b4c2"><strong style="color: #edf1f6">index/1</strong>, 20 Oct 2026. First automated fixing.</p>
+<p style="margin: 0; font-size: 13.5px; color: #a9b4c2"><strong style="color: #edf1f6">Survey 0</strong>, 23 Sep 2026. A manual first reading from secondary sources with a fixed exchange rate. Not part of the series.</p>
+</div>
+</aside>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3600}}'>
+const VERDA = [['1H100.80S.30V', 1, 4.382], ['2H100.80S.80V', 2, 8.764], ['4H100.80S.176V', 4, 17.53], ['8H100.80S.176V', 8, 35.06]];
+const RATE = 1.1215;
+const RATE_DATE = '20 Oct 2026';
+const INDICES = [['CSX-H100', 'CompEU Sovereign H100', 3, 's'], ['CHX-H100', 'CompEU Hyperscaler H100', 2, 'h'], ['CSX-H200', 'CompEU Sovereign H200', 3, 's'], ['CHX-H200', 'CompEU Hyperscaler H200', 2, 'h'], ['CSX-B200', 'CompEU Sovereign B200', 3, 's'], ['CHX-B200', 'CompEU Hyperscaler B200', 2, 'h'], ['CSX-A100', 'CompEU Sovereign A100', 3, 's'], ['CSX-L40S', 'CompEU Sovereign L40S', 3, 's']];
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { pick: 0, usd: 4.382, days: 1 };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const per = VERDA.map(([, n, p]) => p / n);
+    const min = Math.min(...per);
+    const rows = VERDA.map(([sku, n, p], i) => ({
+      sku, gpus: n + (n === 1 ? ' GPU' : ' GPUs'), price: '$' + p.toFixed(3) + ' /h',
+      per: '$' + per[i].toFixed(4) + ' per GPU', perColor: per[i] === min ? '#8fbcf3' : '#a9b4c2',
+      pressed: s.pick === i, pick: () => this.setState({ pick: i }),
+      bg: s.pick === i ? '#111a27' : '#0a0f18', border: s.pick === i ? '#3987e5' : '#1a2433',
+    }));
+    const [sku, n, p] = VERDA[s.pick];
+    const each = p / n;
+    const math = sku + ': $' + p.toFixed(3) + ' / ' + n + ' = $' + each.toFixed(4) + ' per GPU-hour. ' +
+      (each === min ? 'This is Verda\'s cheapest H100 price, so it becomes Verda\'s quote: $' + min.toFixed(3) + ' / ' + RATE + ' = €' + (min / RATE).toFixed(4) + '.'
+        : 'Higher than the cheapest ($' + min.toFixed(4) + '), so it does not set Verda\'s quote.');
+    const usd = Number(s.usd);
+    const ok = Number.isFinite(usd) && usd >= 0;
+    const fx = {
+      usd: s.usd, rate: RATE.toFixed(4), date: RATE_DATE,
+      eur: ok ? '€' + (usd / RATE).toFixed(4) : '—',
+      math: ok ? '$' + usd.toFixed(4) + ' / ' + RATE.toFixed(4) + ' = €' + (usd / RATE).toFixed(4) + ' per GPU-hour' : 'Type a price in dollars.',
+      onUsd: (e) => this.setState({ usd: e.target.value }),
+    };
+    const d = s.days, fresh = d <= 3;
+    const stale = {
+      days: d, onDays: (e) => this.setState({ days: Number(e.target.value) }),
+      cells: Array.from({ length: 8 }, (_, i) => ({
+        label: i === 0 ? 'today' : i + 'd',
+        bg: i === d ? (i <= 3 ? 'rgba(57,135,229,0.3)' : 'rgba(217,89,38,0.3)') : i <= 3 ? 'rgba(57,135,229,0.1)' : 'rgba(217,89,38,0.1)',
+        fg: i === d ? '#edf1f6' : '#7d8899',
+      })),
+      verdict: fresh ? 'In the index' : 'Stale: left out of today\'s fixing',
+      color: fresh ? '#22b14c' : '#fab219',
+      text: fresh
+        ? (d === 0 ? 'Read today: its prices count.' : 'Its last good prices, read ' + d + (d === 1 ? ' day' : ' days') + ' ago, still count. They keep their original date in the ledger.')
+        : 'More than three days without a successful read. Its prices stay in the ledger with their old date, but they no longer count. If too few providers remain, the fixing is not published.',
+    };
+    return {
+      toc: [['What it measures', '#measure'], ['Sources', '#sources'], ['The rule', '#rule'], ['One price each', '#quote'], ['Currency', '#fx'], ['The fixing', '#fixing'], ['Coverage', '#coverage'], ['Ledger', '#ledger'], ['Governance', '#governance']].map(([label, href]) => ({ label, href })),
+      verda: { rows, math }, fx, stale,
+      indices: INDICES.map(([id, name, minN, b]) => ({ id, name, min: minN, color: b === 's' ? '#8fbcf3' : '#f2a37f' })),
+    };
+  }
+}
+</script>
+</body>
+</html>

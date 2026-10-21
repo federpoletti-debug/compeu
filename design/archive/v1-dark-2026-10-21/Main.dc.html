@@ -1,0 +1,1531 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CompEU · the price of compute Europe controls</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=JetBrains+Mono:wght@400..600&amp;family=Schibsted+Grotesk:wght@400..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div ref="{{setRoot}}" id="top" style="font-family: 'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif; color: #edf1f6; background: #070b12; min-height: 100vh; font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased">
+
+<header style="position: sticky; top: 0; z-index: 30; background: rgba(7,11,18,0.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid #1a2433">
+<div style="max-width: 1440px; margin: 0 auto; box-sizing: border-box; padding-left: {{L.gutter}}; padding-right: {{L.gutter}}; height: 62px; display: flex; align-items: center; gap: 22px">
+<a href="#top" aria-label="CompEU, back to the top" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #edf1f6; flex: none">
+<svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true" style="flex: none; display: block">
+<path d="M11 1.6v3M16 1.6v3M21 1.6v3M11 27.4v3M16 27.4v3M21 27.4v3M1.6 11h3M1.6 16h3M1.6 21h3M27.4 11h3M27.4 16h3M27.4 21h3" style="fill: none; stroke: #7d8899; stroke-width: 1.4; stroke-linecap: round"></path>
+<rect x="5" y="5" width="22" height="22" rx="5" style="fill: #0c121c; stroke: #edf1f6; stroke-width: 1.6"></rect>
+<circle cx="16" cy="10.2" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="18.9" cy="10.98" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="21.02" cy="13.1" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="21.8" cy="16" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="21.02" cy="18.9" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="18.9" cy="21.02" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="16" cy="21.8" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="13.1" cy="21.02" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="10.98" cy="18.9" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="10.2" cy="16" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="10.98" cy="13.1" r="1.05" style="fill: #3987e5"></circle>
+<circle cx="13.1" cy="10.98" r="1.05" style="fill: #3987e5"></circle>
+</svg>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.03em; line-height: 1">Comp<span style="color: #3987e5">EU</span></span>
+</a>
+<nav aria-label="Sections" style="display: {{L.navDisplay}}; align-items: center; gap: 2px">
+<sc-for list="{{nav}}" as="n" hint-placeholder-count="7">
+<a href="{{n.href}}" style="color: #a9b4c2; text-decoration: none; font-size: 13.5px; padding: 8px 11px; border-radius: 6px" style-hover="color: #edf1f6; background: #111a27">{{n.label}}</a>
+</sc-for>
+</nav>
+<div style="margin-left: auto; display: flex; align-items: center; gap: 9px; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #a9b4c2; white-space: nowrap">
+<span style="width: 7px; height: 7px; border-radius: 50%; background: #0ca30c; box-shadow: 0 0 0 3px rgba(12,163,12,0.22); flex: none"></span>
+<span>{{status}}</span>
+</div>
+</div>
+</header>
+
+<section aria-labelledby="hero-title" style="background: #070b12; border-bottom: 1px solid #1a2433">
+<div style="max-width: 1440px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: stretch">
+<div style="flex: 1 1 440px; min-width: 0; box-sizing: border-box; padding: {{L.heroPad}}; display: flex; flex-direction: column; justify-content: center; gap: 22px">
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #7d8899">
+<span style="color: #8fbcf3; border: 1px solid rgba(57,135,229,0.5); border-radius: 4px; padding: 3px 7px">CSX-H100</span>
+<span>Daily fixing</span>
+<span>{{hero.date}}</span>
+</div>
+<h1 id="hero-title" style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: {{L.h1}}; line-height: 1.02; letter-spacing: -0.035em; max-width: 13ch; text-wrap: balance">The price of compute Europe <span style="color: #8fbcf3">controls</span>.</h1>
+<div style="display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap">
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: {{L.heroNum}}; line-height: 0.9; letter-spacing: -0.05em"><span style="font-size: 0.5em; color: #a9b4c2; font-weight: 600; letter-spacing: -0.02em; margin-right: 0.04em">€</span>{{hero.value}}</span>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 13px; color: #7d8899">per GPU-hour</span>
+</div>
+<p style="margin: 0; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899; line-height: 1.75; max-width: 60ch">CompEU Sovereign H100 · median of {{hero.n}} sovereign providers · on-demand list prices, EUR excl. VAT · first fixing</p>
+<div style="display: grid; gap: 10px; max-width: 520px">
+<div style="display: grid; grid-template-columns: 112px minmax(0, 1fr) 64px; gap: 12px; align-items: center">
+<span style="font-size: 13px; color: #a9b4c2">Sovereign</span>
+<span style="display: block; height: 10px; border-radius: 3px; background: #111a27; position: relative; overflow: hidden"><span style="position: absolute; left: 0; top: 0; bottom: 0; width: {{hero.sovW}}; background: #3987e5; border-radius: 3px"></span></span>
+<span style="font-weight: 600; text-align: right; font-variant-numeric: tabular-nums">{{hero.csx}}</span>
+</div>
+<div style="display: grid; grid-template-columns: 112px minmax(0, 1fr) 64px; gap: 12px; align-items: center">
+<span style="font-size: 13px; color: #a9b4c2">US hyperscalers</span>
+<span style="display: block; height: 10px; border-radius: 3px; background: #111a27; position: relative; overflow: hidden"><span style="position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: #d95926; border-radius: 3px"></span></span>
+<span style="font-weight: 600; text-align: right; font-variant-numeric: tabular-nums">{{hero.chx}}</span>
+</div>
+<p style="margin: 0; font-size: 14px; color: #a9b4c2"><strong style="color: #edf1f6; font-weight: 600">{{hero.discount}} less</strong> than AWS and Azure charge in Europe for the same GPU-hour.</p>
+</div>
+<div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap">
+<span style="display: flex; gap: 5px">
+<sc-for list="{{covDots}}" as="d" hint-placeholder-count="9">
+<span title="{{d.name}}" style="display: block; width: 14px; height: 14px; border-radius: 3px; background: {{d.bg}}; box-shadow: {{d.ring}}"></span>
+</sc-for>
+</span>
+<span style="font-size: 14px; color: #a9b4c2"><strong style="color: #edf1f6; font-weight: 600">{{hero.covText}}</strong> sovereign providers list frontier GPUs publicly. <a href="#coverage" style="color: #8fbcf3; text-underline-offset: 3px">See the gap</a></span>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap">
+<button type="button" onClick="{{showControl}}" style="appearance: none; cursor: pointer; font: inherit; font-weight: 600; font-size: 14px; color: #070b12; background: #edf1f6; border: 1px solid #edf1f6; border-radius: 8px; padding: 12px 16px" style-hover="background: #ffffff">Show who controls the data centres</button>
+<a href="#lab" style="font-weight: 600; font-size: 14px; color: #edf1f6; text-decoration: none; border: 1px solid #273447; border-radius: 8px; padding: 12px 16px" style-hover="border-color: #7d8899">How the index works</a>
+</div>
+</div>
+<div id="map" style="position: relative; flex: 999 1 560px; min-width: 0; height: {{L.mapH}}; background: #05080e; overflow: hidden">
+<canvas ref="{{setCanvas}}" role="img" aria-label="Interactive 3D map of European GPU cloud sites. Column height is the cheapest on-demand price per GPU-hour at that site; blue is sovereign, orange is not. Drag to turn the map, click a column to open the provider." style="display: block; width: 100%; height: 100%; cursor: grab; touch-action: pan-y"></canvas>
+<p style="position: absolute; left: 18px; top: 16px; margin: 0; max-width: 30ch; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; line-height: 1.55; color: #7d8899; pointer-events: none; display: {{L.captionDisplay}}">{{mapCaption}}</p>
+<div style="position: absolute; top: 16px; right: 16px; display: flex; flex-direction: column; gap: 8px; align-items: flex-end">
+<div role="group" aria-label="Map view" style="display: inline-flex; padding: 3px; gap: 2px; background: rgba(12,18,28,0.85); border: 1px solid #273447; border-radius: 8px">
+<sc-for list="{{modeBtns}}" as="b" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}" style="appearance: none; border: 0; cursor: pointer; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; padding: 9px 11px; border-radius: 6px; background: {{b.bg}}; color: {{b.fg}}" style-hover="color: #edf1f6">{{b.label}}</button>
+</sc-for>
+</div>
+<div role="group" aria-label="GPU shown on the map" style="display: inline-flex; padding: 3px; gap: 2px; background: rgba(12,18,28,0.85); border: 1px solid #273447; border-radius: 8px">
+<sc-for list="{{gpuBtns}}" as="b" hint-placeholder-count="4">
+<button type="button" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}" style="appearance: none; border: 0; cursor: pointer; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; padding: 9px 11px; border-radius: 6px; background: {{b.bg}}; color: {{b.fg}}" style-hover="color: #edf1f6">{{b.label}}</button>
+</sc-for>
+</div>
+</div>
+<div style="position: absolute; left: 18px; bottom: 14px; right: 18px; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: #a9b4c2; pointer-events: none">
+<span style="display: inline-flex; align-items: center; gap: 7px"><span style="width: 9px; height: 9px; border-radius: 50%; background: #3987e5"></span>Sovereign</span>
+<span style="display: inline-flex; align-items: center; gap: 7px"><span style="width: 9px; height: 9px; border-radius: 50%; background: #d95926"></span>Not sovereign</span>
+<span style="display: inline-flex; align-items: center; gap: 7px"><span style="width: 9px; height: 9px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px #8b96a3"></span>Under review</span>
+<span style="display: inline-flex; align-items: center; gap: 7px"><span style="width: 9px; height: 9px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px #3987e5"></span>No public listing</span>
+<span style="display: inline-flex; align-items: center; gap: 7px"><span style="width: 9px; height: 9px; border-radius: 2px; background: #e9eef2"></span>Lugano, CompEU</span>
+</div>
+</div>
+</div>
+</section>
+
+<div aria-label="Latest quotes, scrolling" onMouseEnter="{{pauseTicker}}" onMouseLeave="{{resumeTicker}}" style="background: #0a0f18; border-bottom: 1px solid #1a2433; overflow: hidden; height: 46px; position: relative">
+<div ref="{{setTicker}}" style="display: flex; white-space: nowrap; height: 46px; align-items: center; will-change: transform">
+<sc-for list="{{ticker}}" as="q" hint-placeholder-count="12">
+<span style="display: inline-flex; align-items: center; gap: 10px; padding: 0 22px; height: 46px; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12.5px; color: #7d8899; border-right: 1px solid #1a2433; flex: none">
+<span style="width: 7px; height: 7px; border-radius: 50%; background: {{q.color}}"></span>
+<span style="color: #edf1f6">{{q.name}}</span>
+<span>{{q.gpu}}</span>
+<span style="color: #edf1f6; font-weight: 600">{{q.price}}</span>
+</span>
+</sc-for>
+</div>
+</div>
+
+<section id="index" aria-labelledby="index-title" style="padding-top: {{L.sec}}; padding-bottom: {{L.sec}}">
+<div style="max-width: 1280px; margin: 0 auto; box-sizing: border-box; padding-left: {{L.gutter}}; padding-right: {{L.gutter}}">
+<div style="display: grid; gap: 12px; max-width: 760px; margin-bottom: 32px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #7d8899">Fixings · methodology index/1 · {{hero.date}}</span>
+<h2 id="index-title" style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: {{L.h2}}; line-height: 1.05; letter-spacing: -0.03em">Today's fixings</h2>
+<p style="margin: 0; color: #a9b4c2; font-size: 17px; line-height: 1.6; max-width: 64ch">Each index is the median of one price per provider: its cheapest on-demand GPU-hour in Europe. When too few providers have fresh prices, the index shows a gap, never an estimate. Pick a fixing to see who is in it.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); gap: 12px">
+<sc-for list="{{boards}}" as="b" hint-placeholder-count="8">
+<button type="button" aria-pressed="{{b.pressed}}" onClick="{{b.pick}}" style="appearance: none; text-align: left; cursor: pointer; font: inherit; color: #edf1f6; background: {{b.bg}}; border: 1px solid {{b.border}}; border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 10px; min-height: 172px" style-hover="border-color: #3a4a61">
+<span style="display: flex; justify-content: space-between; align-items: center; gap: 8px; width: 100%">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; letter-spacing: 0.04em; color: #a9b4c2">{{b.id}}</span>
+<span style="display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11px; color: #a9b4c2; border: 1px solid #273447; border-radius: 999px; padding: 3px 8px"><span style="width: 6px; height: 6px; border-radius: 50%; background: {{b.pillDot}}"></span>{{b.pill}}</span>
+</span>
+<span style="font-size: 13px; color: #7d8899">{{b.name}}</span>
+<sc-if value="{{b.pub}}" hint-placeholder-val="{{true}}">
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 34px; letter-spacing: -0.03em; line-height: 1">{{b.value}}<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; font-weight: 400; color: #7d8899; letter-spacing: 0; margin-left: 6px">/GPU-h</span></span>
+</sc-if>
+<sc-if value="{{b.gap}}" hint-placeholder-val="{{false}}">
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 600; font-size: 22px; color: #a9b4c2; line-height: 1.15">Not published</span><span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; color: #7d8899">{{b.gapWhy}}</span></span>
+</sc-if>
+<span style="display: flex; gap: 4px; margin-top: auto">
+<sc-for list="{{b.squares}}" as="q" hint-placeholder-count="3">
+<span style="display: block; width: 10px; height: 10px; border-radius: 2px; background: {{q.bg}}"></span>
+</sc-for>
+</span>
+</button>
+</sc-for>
+</div>
+<div style="margin-top: 16px; background: #0c121c; border: 1px solid #1a2433; border-radius: 10px; padding: {{L.panelPad}}; display: flex; flex-wrap: wrap; gap: 28px">
+<div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: #7d8899">{{det.id}} · {{det.basket}}</span>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.02em; line-height: 1.15">{{det.name}}</span>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 46px; letter-spacing: -0.04em; line-height: 1; color: {{det.valueColor}}">{{det.valueText}}</span>
+<p style="margin: 0; color: #a9b4c2; font-size: 14px; max-width: 46ch">{{det.sub}}</p>
+</div>
+<div style="flex: 2 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<span style="font-size: 13px; color: #7d8899">One quote per provider: its cheapest eligible offer, converted to euro</span>
+<sc-for list="{{det.rows}}" as="r" hint-placeholder-count="3">
+<div style="display: grid; grid-template-columns: 124px minmax(0, 1fr) 112px; gap: 12px; align-items: center">
+<button type="button" onClick="{{r.open}}" style="appearance: none; border: 0; background: none; padding: 0; text-align: left; cursor: pointer; color: #edf1f6; font: inherit; font-size: 14px; text-decoration: underline; text-decoration-color: #273447; text-underline-offset: 3px" style-hover="text-decoration-color: #edf1f6">{{r.name}}</button>
+<span style="display: block; height: 12px; background: #111a27; border-radius: 3px; position: relative; overflow: hidden"><span style="position: absolute; left: 0; top: 0; bottom: 0; width: {{r.w}}; background: {{r.color}}; border-radius: 3px; transition: width 0.5s ease"></span></span>
+<span style="text-align: right; font-weight: 600; font-variant-numeric: tabular-nums">{{r.val}}<span style="display: block; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11px; font-weight: 400; color: #7d8899">{{r.native}}</span></span>
+</div>
+</sc-for>
+<p style="margin: 0; font-size: 13px; color: #7d8899; max-width: 70ch">{{det.note}}</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="lab" aria-labelledby="lab-title" style="padding-top: {{L.sec}}; padding-bottom: {{L.sec}}; border-top: 1px solid #1a2433; background: #080d15">
+<div style="max-width: 1280px; margin: 0 auto; box-sizing: border-box; padding-left: {{L.gutter}}; padding-right: {{L.gutter}}">
+<div style="display: grid; gap: 12px; max-width: 760px; margin-bottom: 32px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #7d8899">Lab · how a fixing is made</span>
+<h2 id="lab-title" style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: {{L.h2}}; line-height: 1.05; letter-spacing: -0.03em">Build the index yourself</h2>
+<p style="margin: 0; color: #a9b4c2; font-size: 17px; line-height: 1.6; max-width: 64ch">These are today's three sovereign H100 quotes. Switch a provider off, as if its price list stopped answering, or add a hypothetical provider and drag its price. Watch what moves: the median barely does. That is why CompEU uses it.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px">
+<div style="flex: 1 1 340px; min-width: 0; background: #0c121c; border: 1px solid #1a2433; border-radius: 10px; padding: {{L.panelPad}}; display: flex; flex-direction: column; gap: 10px">
+<span style="font-size: 13px; color: #7d8899">Today's sovereign H100 quotes, {{hero.date}}</span>
+<sc-for list="{{lab.rows}}" as="r" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{r.on}}" onClick="{{r.toggle}}" style="appearance: none; cursor: pointer; font: inherit; color: #edf1f6; text-align: left; background: #0a0f18; border: 1px solid #1a2433; border-radius: 8px; padding: 12px 14px; display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 12px; align-items: center" style-hover="border-color: #3a4a61">
+<span style="width: 18px; height: 18px; box-sizing: border-box; border-radius: 5px; border: 1.5px solid {{r.ring}}; background: {{r.box}}; display: flex; align-items: center; justify-content: center; color: #070b12; font-size: 12px; font-weight: 700; line-height: 1">{{r.tick}}</span>
+<span style="min-width: 0"><span style="display: block; font-weight: 600">{{r.name}}</span><span style="display: block; font-size: 12px; color: #7d8899">{{r.state}}</span></span>
+<span style="font-weight: 600; font-variant-numeric: tabular-nums">{{r.price}}</span>
+</button>
+</sc-for>
+<div style="background: #0a0f18; border: 1px dashed #3a4a61; border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px">
+<button type="button" aria-pressed="{{lab.hypoOn}}" onClick="{{lab.toggleHypo}}" style="appearance: none; cursor: pointer; font: inherit; color: #edf1f6; text-align: left; background: none; border: 0; padding: 0; display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 12px; align-items: center">
+<span style="width: 18px; height: 18px; box-sizing: border-box; border-radius: 5px; border: 1.5px solid {{lab.hypoRing}}; background: {{lab.hypoBox}}; display: flex; align-items: center; justify-content: center; color: #070b12; font-size: 12px; font-weight: 700; line-height: 1">{{lab.hypoTick}}</span>
+<span style="min-width: 0"><span style="display: block; font-weight: 600">Add a hypothetical provider</span><span style="display: block; font-size: 12px; color: #7d8899">A test value, not real data</span></span>
+<span style="font-weight: 600; font-variant-numeric: tabular-nums; color: #f2a37f">{{lab.hypoText}}</span>
+</button>
+<label for="lab-hypo" style="font-size: 12px; color: #7d8899">Its price per GPU-hour, from €0.50 to €15</label>
+<input id="lab-hypo" type="range" min="0.5" max="15" step="0.05" value="{{lab.hypo}}" onChange="{{lab.onSlide}}" style="width: 100%; accent-color: #f2a37f; cursor: pointer">
+</div>
+<button type="button" onClick="{{lab.reset}}" style="appearance: none; cursor: pointer; font: inherit; font-size: 13px; color: #a9b4c2; background: none; border: 1px solid #273447; border-radius: 8px; padding: 9px 12px; align-self: flex-start" style-hover="color: #edf1f6; border-color: #7d8899">Reset to today</button>
+</div>
+<div style="flex: 2 1 460px; min-width: 0; background: #0c121c; border: 1px solid #1a2433; border-radius: 10px; padding: {{L.panelPad}}; display: flex; flex-direction: column; gap: 18px">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px">
+<div style="background: #0a0f18; border: 1px solid #1a2433; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; color: #7d8899">Median (the index)</span>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.03em; color: #8fbcf3">{{lab.median}}</span>
+</div>
+<div style="background: #0a0f18; border: 1px solid #1a2433; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; color: #7d8899">Mean, for comparison</span>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.03em; color: #a9b4c2">{{lab.mean}}</span>
+</div>
+<div style="background: #0a0f18; border: 1px solid #1a2433; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; color: #7d8899">Providers counted</span>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.03em">{{lab.n}}<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; font-weight: 400; color: #7d8899; letter-spacing: 0; margin-left: 6px">3 needed</span></span>
+</div>
+<div style="background: #0a0f18; border: 1px solid #1a2433; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 12px; color: #7d8899">Today's fixing would be</span>
+<span style="display: inline-flex; align-items: center; gap: 8px; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.02em; line-height: 1.35"><span style="width: 9px; height: 9px; border-radius: 50%; background: {{lab.statusColor}}"></span>{{lab.status}}</span>
+</div>
+</div>
+<div role="img" aria-label="{{lab.aria}}" style="position: relative; height: 128px">
+<div style="position: absolute; left: 0; right: 0; top: 66px; height: 1px; background: #273447"></div>
+<sc-for list="{{lab.ticks}}" as="t" hint-placeholder-count="7">
+<span style="position: absolute; top: 60px; left: {{t.left}}; width: 1px; height: 12px; background: #273447"></span>
+<span style="position: absolute; top: 80px; left: {{t.left}}; transform: translateX(-50%); font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11px; color: #7d8899">{{t.label}}</span>
+</sc-for>
+<span style="position: absolute; top: 20px; height: 54px; width: 2px; margin-left: -1px; left: {{lab.medLeft}}; background: #3987e5; display: {{lab.markDisplay}}; transition: left 0.45s ease"></span>
+<span style="position: absolute; top: 0; left: {{lab.medLeft}}; transform: translateX(-50%); font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11px; color: #8fbcf3; white-space: nowrap; display: {{lab.markDisplay}}; transition: left 0.45s ease">median</span>
+<span style="position: absolute; top: 46px; height: 32px; width: 0; margin-left: -1px; left: {{lab.meanLeft}}; border-left: 2px dotted #a9b4c2; display: {{lab.markDisplay}}; transition: left 0.45s ease"></span>
+<span style="position: absolute; top: 104px; left: {{lab.meanLeft}}; transform: translateX(-50%); font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11px; color: #a9b4c2; white-space: nowrap; display: {{lab.markDisplay}}; transition: left 0.45s ease">mean</span>
+<sc-for list="{{lab.dots}}" as="d" hint-placeholder-count="3">
+<span title="{{d.label}}" style="position: absolute; top: 59px; left: {{d.left}}; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: {{d.color}}; box-shadow: 0 0 0 3px #0c121c; transition: left 0.45s ease"></span>
+</sc-for>
+</div>
+<p aria-live="polite" style="margin: 0; font-size: 15px; color: #a9b4c2; line-height: 1.6; max-width: 66ch">{{lab.note}}</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="prices" aria-labelledby="prices-title" style="padding-top: {{L.sec}}; padding-bottom: {{L.sec}}; border-top: 1px solid #1a2433">
+<div style="max-width: 1280px; margin: 0 auto; box-sizing: border-box; padding-left: {{L.gutter}}; padding-right: {{L.gutter}}">
+<div style="display: grid; gap: 12px; max-width: 760px; margin-bottom: 28px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #7d8899">Prices · latest collection</span>
+<h2 id="prices-title" style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: {{L.h2}}; line-height: 1.05; letter-spacing: -0.03em">Who charges what</h2>
+<p style="margin: 0; color: #a9b4c2; font-size: 17px; line-height: 1.6; max-width: 64ch">The cheapest on-demand price each provider lists for one GPU-hour in Europe. Vertical lines mark today's fixings. RunPod is a global marketplace, shown for reference and never counted.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; margin-bottom: 16px">
+<div role="group" aria-label="GPU" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{ex.gpuTabs}}" as="c" hint-placeholder-count="7">
+<button type="button" aria-pressed="{{c.pressed}}" onClick="{{c.pick}}" style="appearance: none; cursor: pointer; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; padding: 8px 12px; border-radius: 999px; border: 1px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}" style-hover="border-color: #7d8899">{{c.label}}</button>
+</sc-for>
+</div>
+<div role="group" aria-label="Providers shown" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{ex.baskets}}" as="c" hint-placeholder-count="3">
+<button type="button" aria-pressed="{{c.pressed}}" onClick="{{c.pick}}" style="appearance: none; cursor: pointer; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; padding: 8px 12px; border-radius: 999px; border: 1px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}" style-hover="border-color: #7d8899">{{c.label}}</button>
+</sc-for>
+</div>
+<div role="group" aria-label="Order" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{ex.sorts}}" as="c" hint-placeholder-count="2">
+<button type="button" aria-pressed="{{c.pressed}}" onClick="{{c.pick}}" style="appearance: none; cursor: pointer; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; padding: 8px 12px; border-radius: 999px; border: 1px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}" style-hover="border-color: #7d8899">{{c.label}}</button>
+</sc-for>
+</div>
+</div>
+<div style="background: #0c121c; border: 1px solid #1a2433; border-radius: 10px; padding: {{L.panelPad}}; display: flex; flex-direction: column; gap: 22px">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px">
+<div style="display: flex; flex-direction: column; gap: 3px; padding-left: 12px; border-left: 2px solid #3987e5">
+<span style="font-size: 12px; color: #7d8899">Cheapest sovereign, {{ex.gpuLabel}}</span>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.02em">{{ex.bestSov}}</span>
+<span style="font-size: 12px; color: #a9b4c2">{{ex.bestSovName}}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 3px; padding-left: 12px; border-left: 2px solid #d95926">
+<span style="font-size: 12px; color: #7d8899">Cheapest US hyperscaler, {{ex.gpuLabel}}</span>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.02em">{{ex.bestNon}}</span>
+<span style="font-size: 12px; color: #a9b4c2">{{ex.bestNonName}}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 3px; padding-left: 12px; border-left: 2px solid #273447">
+<span style="font-size: 12px; color: #7d8899">Hyperscaler price as a multiple</span>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.02em">{{ex.ratio}}</span>
+<span style="font-size: 12px; color: #a9b4c2">{{ex.ratioNote}}</span>
+</div>
+</div>
+<sc-if value="{{ex.empty}}" hint-placeholder-val="{{false}}">
+<p style="margin: 0; color: #a9b4c2">No provider in this selection lists this GPU on demand in Europe today.</p>
+</sc-if>
+<div style="position: relative; padding-top: 28px">
+<div style="position: absolute; top: 0; bottom: 0; left: calc({{L.nameCol}} + 12px); right: calc({{L.valCol}} + 12px); pointer-events: none">
+<sc-for list="{{ex.refs}}" as="r" hint-placeholder-count="2">
+<span style="position: absolute; top: 18px; bottom: 0; left: {{r.left}}; width: 0; border-left: 1.5px solid {{r.color}}"></span>
+<span style="position: absolute; top: 0; left: {{r.left}}; transform: translateX(-50%); font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11px; color: #a9b4c2; white-space: nowrap; background: #0c121c; padding: 0 5px">{{r.label}}</span>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<sc-for list="{{ex.rows}}" as="r" hint-placeholder-count="6">
+<div style="display: grid; grid-template-columns: {{L.nameCol}} minmax(0, 1fr) {{L.valCol}}; align-items: center; min-height: 40px">
+<button type="button" onClick="{{r.open}}" style="appearance: none; border: 0; background: none; padding: 0 12px 0 0; text-align: right; cursor: pointer; color: #edf1f6; font: inherit; min-width: 0" style-hover="color: #8fbcf3">
+<span style="display: block; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.name}}</span>
+<span style="display: block; font-size: 11.5px; color: #7d8899">{{r.tag}}</span>
+</button>
+<span style="display: block; height: 16px; margin: 0 12px; position: relative; background: #0a0f18; border-radius: 4px"><span style="position: absolute; left: 0; top: 0; bottom: 0; width: {{r.w}}; background: {{r.color}}; border-radius: 4px; transition: width 0.55s cubic-bezier(.2,.7,.2,1)"></span></span>
+<span style="display: flex; flex-direction: column; padding-left: 12px">
+<span style="font-weight: 600; font-variant-numeric: tabular-nums">{{r.val}}</span>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11px; color: #7d8899; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.sub}}</span>
+</span>
+</div>
+</sc-for>
+</div>
+</div>
+<p style="margin: 0; font-size: 12.5px; color: #7d8899">Prices excl. VAT. USD prices converted at the ECB reference rate of {{ex.fxDate}} ({{ex.fxRate}} USD per euro). Click a provider for its full profile.</p>
+</div>
+</div>
+</section>
+
+<section id="coverage" aria-labelledby="coverage-title" style="padding-top: {{L.sec}}; padding-bottom: {{L.sec}}; border-top: 1px solid #1a2433; background: #080d15">
+<div style="max-width: 1280px; margin: 0 auto; box-sizing: border-box; padding-left: {{L.gutter}}; padding-right: {{L.gutter}}">
+<div style="display: grid; gap: 12px; max-width: 760px; margin-bottom: 26px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #7d8899">Coverage · CSC-FRONTIER {{hero.covText}}</span>
+<h2 id="coverage-title" style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: {{L.h2}}; line-height: 1.05; letter-spacing: -0.03em">Where the capacity gap is</h2>
+<p style="margin: 0; color: #a9b4c2; font-size: 17px; line-height: 1.6; max-width: 64ch">Being European is not enough: a sovereign buyer also needs frontier GPUs at a public price. Each cell is the cheapest on-demand euro price per GPU-hour. A dot means the provider lists no such GPU. A hatched cell means it publishes no prices at all.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin-bottom: 14px">
+<button type="button" aria-pressed="{{mx.fOnly}}" onClick="{{mx.toggle}}" style="appearance: none; cursor: pointer; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; padding: 8px 12px; border-radius: 999px; border: 1px solid {{mx.btnBorder}}; background: {{mx.btnBg}}; color: {{mx.btnFg}}" style-hover="border-color: #7d8899">Frontier GPUs only</button>
+<p aria-live="polite" style="margin: 0; font-size: 13.5px; color: #a9b4c2; min-height: 21px">{{mx.caption}}</p>
+</div>
+<div role="table" aria-label="Cheapest on-demand price per GPU-hour, by provider and GPU" style="overflow-x: auto; border: 1px solid #1a2433; border-radius: 10px; background: #0c121c">
+<div style="min-width: {{mx.minW}}">
+<div role="row" style="display: grid; grid-template-columns: {{mx.cols}}; align-items: end; border-bottom: 1px solid #1a2433">
+<span role="columnheader" style="padding: 12px 14px; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; color: #7d8899">Provider · € per GPU-hour</span>
+<sc-for list="{{mx.head}}" as="h" hint-placeholder-count="10">
+<span role="columnheader" style="padding: 12px 4px; text-align: center; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; color: {{h.color}}; background: {{h.bg}}; border-radius: 6px 6px 0 0">{{h.label}}</span>
+</sc-for>
+</div>
+<sc-for list="{{mx.groups}}" as="g" hint-placeholder-count="3">
+<div style="padding: 14px 14px 6px; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #7d8899; background: #0a0f18; border-top: 1px solid #1a2433">{{g.label}}</div>
+<sc-for list="{{g.rows}}" as="r" hint-placeholder-count="5">
+<div role="row" style="display: grid; grid-template-columns: {{mx.cols}}; align-items: center; border-top: 1px solid #1a2433; background: {{r.bg}}">
+<span role="rowheader" style="padding: 7px 14px; display: flex; align-items: center; gap: 9px; min-width: 0">
+<span style="width: 9px; height: 9px; border-radius: 50%; flex: none; background: {{r.sw}}; box-shadow: {{r.swRing}}"></span>
+<span style="display: flex; flex-direction: column; min-width: 0">
+<button type="button" onClick="{{r.open}}" style="appearance: none; border: 0; background: none; padding: 0; cursor: pointer; text-align: left; color: #edf1f6; font: inherit; font-size: 14px; font-weight: 500; text-decoration: underline; text-decoration-color: #273447; text-underline-offset: 3px" style-hover="text-decoration-color: #edf1f6">{{r.name}}</button>
+<span style="font-size: 11px; color: #7d8899; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.sub}}</span>
+</span>
+</span>
+<sc-for list="{{r.cells}}" as="c" hint-placeholder-count="10">
+<span role="cell" style="padding: 3px">
+<button type="button" aria-label="{{c.aria}}" onClick="{{c.click}}" onMouseEnter="{{c.enter}}" onMouseLeave="{{c.leave}}" onFocus="{{c.enter}}" onBlur="{{c.leave}}" style="appearance: none; display: block; width: 100%; border: 0; border-radius: 5px; padding: 9px 2px; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; font-variant-numeric: tabular-nums; cursor: pointer; background: {{c.bg}}; color: {{c.fg}}; box-shadow: {{c.ring}}">{{c.text}}</button>
+</span>
+</sc-for>
+</div>
+</sc-for>
+</sc-for>
+</div>
+</div>
+</div>
+</section>
+
+<section id="sovereignty" aria-labelledby="sov-title" style="padding-top: {{L.sec}}; padding-bottom: {{L.sec}}; border-top: 1px solid #1a2433">
+<div style="max-width: 1280px; margin: 0 auto; box-sizing: border-box; padding-left: {{L.gutter}}; padding-right: {{L.gutter}}">
+<div style="display: grid; gap: 12px; max-width: 760px; margin-bottom: 28px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #7d8899">Rule sovereignty/1 · in force since 23 Sep 2026</span>
+<h2 id="sov-title" style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: {{L.h2}}; line-height: 1.05; letter-spacing: -0.03em">Control, not location</h2>
+<p style="margin: 0; color: #a9b4c2; font-size: 17px; line-height: 1.6; max-width: 64ch">The US CLOUD Act lets US authorities require a US-controlled provider to hand over data wherever it is stored. So the test looks at the company, the way France's SecNumCloud and the EU's draft cloud certification do. A provider is sovereign only if all three answers are yes.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; margin-bottom: 18px">
+<div style="background: #0c121c; border: 1px solid #1a2433; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899">1 · Seat</span>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; line-height: 1.2">Registered in the EU or Switzerland</span>
+<p style="margin: 0; color: #a9b4c2; font-size: 14px">The contracting company's legal seat is in one of the EU's 27 member states or in Switzerland.</p>
+</div>
+<div style="background: #0c121c; border: 1px solid #1a2433; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899">2 · Control</span>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; line-height: 1.2">Owned and controlled there too</span>
+<p style="margin: 0; color: #a9b4c2; font-size: 14px">The ultimate owner is also European. A German subsidiary of a US group fails here.</p>
+</div>
+<div style="background: #0c121c; border: 1px solid #1a2433; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899">3 · Reach</span>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.02em; line-height: 1.2">Out of reach of the CLOUD Act</span>
+<p style="margin: 0; color: #a9b4c2; font-size: 14px">No parent subject to the US CLOUD Act, or to a similar law with access to data abroad.</p>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px">
+<div style="flex: 1 1 460px; min-width: 0; background: #0c121c; border: 1px solid #1a2433; border-radius: 10px; padding: {{L.panelPad}}; display: flex; flex-direction: column; gap: 16px">
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.02em">Check a provider</span>
+<div role="group" aria-label="Provider" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{chk.chips}}" as="c" hint-placeholder-count="16">
+<button type="button" aria-pressed="{{c.pressed}}" onClick="{{c.pick}}" style="appearance: none; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; font: inherit; font-size: 13px; padding: 7px 11px; border-radius: 999px; border: 1px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}" style-hover="border-color: #7d8899"><span style="width: 7px; height: 7px; border-radius: 50%; background: {{c.dot}}"></span>{{c.label}}</button>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; border: 1px solid #1a2433; border-radius: 8px; overflow: hidden">
+<div style="display: grid; grid-template-columns: 120px minmax(0, 1fr) auto; gap: 12px; padding: 12px 14px; align-items: baseline; background: #0a0f18">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #7d8899">Company</span>
+<span style="font-size: 14px">{{chk.entity}}</span>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #a9b4c2">{{chk.entityCC}}</span>
+</div>
+<div style="display: grid; grid-template-columns: 120px minmax(0, 1fr) auto; gap: 12px; padding: 12px 14px; align-items: baseline; border-top: 1px solid #1a2433; background: #0a0f18">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #7d8899">Controlled by</span>
+<span style="font-size: 14px">{{chk.ctl}}</span>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #a9b4c2">{{chk.ctlCC}}</span>
+</div>
+<sc-for list="{{chk.checks}}" as="c" hint-placeholder-count="3">
+<div style="display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 12px; padding: 11px 14px; align-items: center; border-top: 1px solid #1a2433">
+<span style="width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: {{c.color}}; box-shadow: inset 0 0 0 1.5px {{c.color}}">{{c.icon}}</span>
+<span style="font-size: 14px">{{c.label}}</span>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: {{c.color}}">{{c.word}}</span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; padding: 6px 10px; border-radius: 6px; background: {{chk.vBg}}; color: {{chk.vInk}}">{{chk.verdict}}</span>
+<button type="button" onClick="{{chk.open}}" style="appearance: none; cursor: pointer; font: inherit; font-size: 13px; color: #8fbcf3; background: none; border: 0; padding: 0; text-decoration: underline; text-underline-offset: 3px">Open the full profile</button>
+</div>
+<p style="margin: 0; font-size: 14px; color: #a9b4c2; line-height: 1.6">{{chk.why}}</p>
+</div>
+<div style="flex: 1 1 400px; min-width: 0; background: #0c121c; border: 1px solid #1a2433; border-radius: 10px; padding: {{L.panelPad}}; display: flex; flex-direction: column; gap: 16px">
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.02em">Is my cloud sovereign?</span>
+<div role="group" aria-label="Examples" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{tst.presets}}" as="c" hint-placeholder-count="4">
+<button type="button" aria-pressed="{{c.pressed}}" onClick="{{c.pick}}" style="appearance: none; cursor: pointer; font: inherit; font-size: 12.5px; padding: 7px 11px; border-radius: 999px; border: 1px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}" style-hover="border-color: #7d8899">{{c.label}}</button>
+</sc-for>
+</div>
+<div style="display: grid; gap: 12px">
+<label for="t-seat" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #a9b4c2">Where is the company registered?
+<select id="t-seat" value="{{tst.seat}}" onChange="{{tst.onSeat}}" style="font: inherit; font-size: 14px; color: #edf1f6; background: #0a0f18; border: 1px solid #273447; border-radius: 8px; padding: 10px 12px">
+<option value="EU">In an EU member state</option>
+<option value="CH">In Switzerland</option>
+<option value="GB">In the United Kingdom</option>
+<option value="US">In the United States</option>
+<option value="XX">Somewhere else</option>
+</select>
+</label>
+<label for="t-owner" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #a9b4c2">Who ultimately owns and controls it?
+<select id="t-owner" value="{{tst.owner}}" onChange="{{tst.onOwner}}" style="font: inherit; font-size: 14px; color: #edf1f6; background: #0a0f18; border: 1px solid #273447; border-radius: 8px; padding: 10px 12px">
+<option value="EU">A company or people in the EU</option>
+<option value="CH">A company or people in Switzerland</option>
+<option value="GB">A company in the United Kingdom</option>
+<option value="US">A company in the United States</option>
+<option value="XX">A company somewhere else</option>
+<option value="JOINT">Shared or contested control</option>
+</select>
+</label>
+<label for="t-reach" style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: #a9b4c2">Is any parent subject to the US CLOUD Act or a similar law?
+<select id="t-reach" value="{{tst.reach}}" onChange="{{tst.onReach}}" style="font: inherit; font-size: 14px; color: #edf1f6; background: #0a0f18; border: 1px solid #273447; border-radius: 8px; padding: 10px 12px">
+<option value="no">No</option>
+<option value="yes">Yes</option>
+<option value="unsure">Not sure</option>
+</select>
+</label>
+</div>
+<div style="display: flex; flex-direction: column; border: 1px solid #1a2433; border-radius: 8px; overflow: hidden">
+<sc-for list="{{tst.checks}}" as="c" hint-placeholder-count="3">
+<div style="display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 12px; padding: 10px 14px; align-items: center; border-top: 1px solid #1a2433; background: #0a0f18">
+<span style="width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: {{c.color}}; box-shadow: inset 0 0 0 1.5px {{c.color}}">{{c.icon}}</span>
+<span style="font-size: 14px">{{c.label}}</span>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: {{c.color}}">{{c.word}}</span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="align-self: flex-start; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; padding: 6px 10px; border-radius: 6px; background: {{tst.vBg}}; color: {{tst.vInk}}">{{tst.verdict}}</span>
+<p aria-live="polite" style="margin: 0; font-size: 14px; color: #a9b4c2; line-height: 1.6">{{tst.reason}}</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="ledger" aria-labelledby="ledger-title" style="padding-top: {{L.sec}}; padding-bottom: {{L.sec}}; border-top: 1px solid #1a2433; background: #080d15">
+<div style="max-width: 1280px; margin: 0 auto; box-sizing: border-box; padding-left: {{L.gutter}}; padding-right: {{L.gutter}}">
+<div style="display: grid; gap: 12px; max-width: 760px; margin-bottom: 28px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #7d8899">Ledger · append-only · {{led.obs}} prices so far</span>
+<h2 id="ledger-title" style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: {{L.h2}}; line-height: 1.05; letter-spacing: -0.03em">A history nobody can quietly rewrite</h2>
+<p style="margin: 0; color: #a9b4c2; font-size: 17px; line-height: 1.6; max-width: 64ch">Every price CompEU reads becomes a new line in a public file. Each collection run stores the fingerprint of the prices it added and the fingerprint of the run before it, so the runs form a chain. Change one old price and the chain breaks where everyone can see it. Try it: this is a simulation on today's real fingerprints.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch">
+<sc-for list="{{led.blocks}}" as="b" hint-placeholder-count="3">
+<div style="flex: 1 1 260px; min-width: 0; background: {{b.bg}}; border: 1px solid {{b.border}}; border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 10px; transition: border-color 0.3s ease">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #7d8899">{{b.kind}}</span>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -0.02em">{{b.title}}</span>
+<span style="font-size: 13px; color: #a9b4c2">{{b.meta}}</span>
+<div style="display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 6px 10px; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px">
+<span style="color: #7d8899">prices</span><span style="color: {{b.obsColor}}">{{b.obs}}</span>
+<span style="color: #7d8899">this run</span><span style="color: {{b.hashColor}}">{{b.hash}}</span>
+<span style="color: #7d8899">run before</span><span style="color: {{b.prevColor}}">{{b.prev}}</span>
+</div>
+<span style="display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: {{b.stateColor}}; margin-top: auto"><span style="width: 7px; height: 7px; border-radius: 50%; background: {{b.stateColor}}; flex: none"></span>{{b.stateText}}</span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; align-items: stretch">
+<div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 10px; justify-content: center">
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{led.actions}}" as="a" hint-placeholder-count="3">
+<button type="button" onClick="{{a.run}}" style="appearance: none; cursor: pointer; font: inherit; font-weight: 600; font-size: 14px; padding: 11px 15px; border-radius: 8px; border: 1px solid {{a.border}}; background: {{a.bg}}; color: {{a.fg}}" style-hover="border-color: #7d8899">{{a.label}}</button>
+</sc-for>
+</div>
+<p style="margin: 0; font-size: 13.5px; color: #a9b4c2; max-width: 52ch">{{led.explain}}</p>
+</div>
+<div aria-live="polite" style="flex: 1 1 420px; min-width: 0; background: #05080e; border: 1px solid #1a2433; border-radius: 10px; padding: 16px 18px; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12.5px; line-height: 1.8; overflow-x: auto">
+<sc-for list="{{led.out}}" as="o" hint-placeholder-count="2">
+<div style="color: {{o.color}}; white-space: pre">{{o.line}}</div>
+</sc-for>
+</div>
+</div>
+<p style="margin: 16px 0 0; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899">Fixings are chained the same way · {{led.nFix}} fixings · head {{led.fixHead}} · anyone can check with <span style="color: #a9b4c2">git clone</span> and <span style="color: #a9b4c2">compeu verify</span></p>
+</div>
+</section>
+
+<section id="health" aria-labelledby="health-title" style="padding-top: {{L.sec}}; padding-bottom: {{L.sec}}; border-top: 1px solid #1a2433">
+<div style="max-width: 1280px; margin: 0 auto; box-sizing: border-box; padding-left: {{L.gutter}}; padding-right: {{L.gutter}}">
+<div style="display: grid; gap: 12px; max-width: 760px; margin-bottom: 26px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #7d8899">Data health · daily at 05:20 UTC</span>
+<h2 id="health-title" style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: {{L.h2}}; line-height: 1.05; letter-spacing: -0.03em">What we read, and what we can't</h2>
+<p style="margin: 0; color: #a9b4c2; font-size: 17px; line-height: 1.6; max-width: 64ch">Each provider is read from its own public source. If a source fails, its last good prices keep their old date and leave the index after three days. Providers with no public price list stay here until they share data. Open a row for the details.</p>
+</div>
+<div role="table" aria-label="Collection status per provider" style="border: 1px solid #1a2433; border-radius: 10px; overflow: hidden; background: #0c121c">
+<div role="row" style="display: grid; grid-template-columns: {{L.healthCols}}; gap: 12px; padding: 11px 16px; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; color: #7d8899; background: #0a0f18">
+<span role="columnheader">Provider</span>
+<span role="columnheader" style="display: {{L.hideNarrow}}">Source</span>
+<span role="columnheader">Status</span>
+<span role="columnheader" style="display: {{L.hideNarrow}}">Last success</span>
+<span role="columnheader" style="text-align: right">Offers</span>
+</div>
+<sc-for list="{{health}}" as="h" hint-placeholder-count="16">
+<div role="row" style="border-top: 1px solid #1a2433">
+<button type="button" aria-expanded="{{h.open}}" onClick="{{h.toggle}}" style="appearance: none; width: 100%; box-sizing: border-box; text-align: left; background: {{h.bg}}; border: 0; color: #edf1f6; font: inherit; font-size: 14px; cursor: pointer; display: grid; grid-template-columns: {{L.healthCols}}; gap: 12px; padding: 12px 16px; align-items: center" style-hover="background: #111a27">
+<span style="display: flex; align-items: center; gap: 9px; min-width: 0"><span style="width: 9px; height: 9px; border-radius: 50%; flex: none; background: {{h.sw}}; box-shadow: {{h.swRing}}"></span><span style="font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{h.name}}</span><span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #7d8899">{{h.chev}}</span></span>
+<span style="display: {{L.hideNarrow}}; color: #a9b4c2; font-size: 13px">{{h.method}}</span>
+<span style="display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: #a9b4c2; min-width: 0"><span style="width: 7px; height: 7px; border-radius: 50%; flex: none; background: {{h.dot}}"></span><span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{h.status}}</span></span>
+<span style="display: {{L.hideNarrow}}; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #a9b4c2">{{h.last}}</span>
+<span style="text-align: right; font-variant-numeric: tabular-nums">{{h.offers}}</span>
+</button>
+<sc-if value="{{h.open}}" hint-placeholder-val="{{false}}">
+<div style="padding: 0 16px 16px 34px; display: flex; flex-direction: column; gap: 6px; background: #0a0f18">
+<p style="margin: 0; padding-top: 12px; font-size: 13.5px; color: #a9b4c2; max-width: 90ch; line-height: 1.6">{{h.note}}</p>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; color: #7d8899; word-break: break-all">{{h.src}}</span>
+</div>
+</sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="roadmap" aria-labelledby="road-title" style="padding-top: {{L.sec}}; padding-bottom: {{L.sec}}; border-top: 1px solid #1a2433; background: #080d15">
+<div style="max-width: 1280px; margin: 0 auto; box-sizing: border-box; padding-left: {{L.gutter}}; padding-right: {{L.gutter}}">
+<div style="display: grid; gap: 12px; max-width: 760px; margin-bottom: 28px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #7d8899">Roadmap</span>
+<h2 id="road-title" style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: {{L.h2}}; line-height: 1.05; letter-spacing: -0.03em">From a price index to a market</h2>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px">
+<sc-for list="{{phases}}" as="p" hint-placeholder-count="3">
+<button type="button" aria-expanded="{{p.open}}" onClick="{{p.toggle}}" style="appearance: none; cursor: pointer; font: inherit; color: #edf1f6; text-align: left; background: #0c121c; border: 1px solid {{p.border}}; border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start" style-hover="border-color: #3a4a61">
+<span style="display: flex; justify-content: space-between; width: 100%; gap: 10px; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: #7d8899"><span>{{p.when}}</span><span style="color: {{p.stateColor}}">{{p.state}}</span></span>
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.02em; line-height: 1.2">{{p.title}}</span>
+<span style="font-size: 14px; color: #a9b4c2; line-height: 1.6">{{p.text}}</span>
+<sc-if value="{{p.open}}" hint-placeholder-val="{{false}}">
+<span style="font-size: 13.5px; color: #edf1f6; line-height: 1.6; border-top: 1px solid #1a2433; padding-top: 10px">{{p.more}}</span>
+</sc-if>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: #8fbcf3">{{p.cta}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</section>
+
+<footer style="border-top: 1px solid #1a2433; padding-top: 52px; padding-bottom: 64px">
+<div style="max-width: 1280px; margin: 0 auto; box-sizing: border-box; padding-left: {{L.gutter}}; padding-right: {{L.gutter}}; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px; font-size: 14px; color: #a9b4c2">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 22px; letter-spacing: -0.03em; color: #edf1f6">Comp<span style="color: #3987e5">EU</span></span>
+<p style="margin: 0">The daily price index of European sovereign GPU compute. Based in Lugano, Switzerland.</p>
+<p style="margin: 0; font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; color: #7d8899">Phase 1 · informational index · not investment advice · not a regulated benchmark</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #edf1f6">Data</span>
+<p style="margin: 0">Collected daily at 05:20 UTC from the providers' own public sources. {{led.obs}} prices since 20 Oct 2026.</p>
+<p style="margin: 0">Data licence CC BY 4.0. Exchange rates: European Central Bank reference rates.</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #edf1f6">Providers</span>
+<p style="margin: 0">Run a European GPU cloud? Confirm your prices (Level 2) or share transaction data (Level 3) under a data agreement: [CONTACT EMAIL].</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #edf1f6">More</span>
+<a href="Methodology.dc.html" style="color: #a9b4c2" style-hover="color: #edf1f6">Methodology</a>
+<a href="https://github.com/federpoletti-debug/ceresio-index" style="color: #a9b4c2" style-hover="color: #edf1f6">Source code and full ledger</a>
+<a href="#top" style="color: #a9b4c2" style-hover="color: #edf1f6">Back to the top</a>
+</div>
+</div>
+</footer>
+
+<sc-if value="{{dr.open}}" hint-placeholder-val="{{false}}">
+<div style="position: fixed; inset: 0; z-index: 50; display: flex; justify-content: flex-end">
+<button type="button" aria-label="Close the provider profile" onClick="{{dr.close}}" style="position: absolute; inset: 0; border: 0; padding: 0; margin: 0; background: rgba(3,6,10,0.62); cursor: pointer"></button>
+<aside role="dialog" aria-modal="true" aria-labelledby="dr-title" onKeyDown="{{dr.onKey}}" style="position: relative; width: 100%; max-width: 520px; height: 100%; overflow-y: auto; box-sizing: border-box; background: #0c121c; border-left: 1px solid #273447; padding: 26px 24px 40px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #7d8899">Provider profile</span>
+<button type="button" aria-label="Close" onClick="{{dr.close}}" style="appearance: none; cursor: pointer; width: 36px; height: 36px; border-radius: 8px; border: 1px solid #273447; background: none; color: #a9b4c2; display: flex; align-items: center; justify-content: center" style-hover="color: #edf1f6; border-color: #7d8899"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" style="fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round"></path></svg></button>
+</div>
+<h2 id="dr-title" style="margin: 0; font-family: 'Bricolage Grotesque', 'Schibsted Grotesk', Arial, sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -0.03em; line-height: 1.1">{{dr.name}}<span style="font-family: 'Schibsted Grotesk', Arial, sans-serif; font-weight: 400; font-size: 15px; color: #7d8899; letter-spacing: 0">{{dr.aka}}</span></h2>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; padding: 6px 10px; border-radius: 6px; background: {{dr.vBg}}; color: {{dr.vInk}}">{{dr.verdict}}</span>
+<span style="font-size: 12.5px; color: #7d8899">{{dr.provisional}}</span>
+</div>
+<div style="display: flex; flex-direction: column; border: 1px solid #1a2433; border-radius: 8px; overflow: hidden">
+<sc-for list="{{dr.checks}}" as="c" hint-placeholder-count="3">
+<div style="display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 12px; padding: 10px 14px; align-items: center; border-top: 1px solid #1a2433; background: #0a0f18">
+<span style="width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: {{c.color}}; box-shadow: inset 0 0 0 1.5px {{c.color}}">{{c.icon}}</span>
+<span style="font-size: 14px">{{c.label}}</span>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 12px; color: {{c.color}}">{{c.word}}</span>
+</div>
+</sc-for>
+</div>
+<div style="display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 10px 16px; font-size: 14px">
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; color: #7d8899; padding-top: 2px">Company</span><span>{{dr.entity}}</span>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; color: #7d8899; padding-top: 2px">Controlled by</span><span>{{dr.ctl}}</span>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; color: #7d8899; padding-top: 2px">Collection</span><span style="color: #a9b4c2">{{dr.method}}</span>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; color: #7d8899; padding-top: 2px">Last success</span><span style="color: #a9b4c2">{{dr.last}}</span>
+</div>
+<sc-if value="{{dr.hasWhy}}" hint-placeholder-val="{{false}}">
+<p style="margin: 0; font-size: 14px; color: #edf1f6; line-height: 1.6; background: #0a0f18; border: 1px solid #1a2433; border-radius: 8px; padding: 12px 14px">{{dr.why}}</p>
+</sc-if>
+<sc-for list="{{dr.disc}}" as="d" hint-placeholder-count="1">
+<p style="margin: 0; font-size: 13.5px; color: #a9b4c2; line-height: 1.6; padding-left: 12px; border-left: 2px solid #273447">{{d.text}}</p>
+</sc-for>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #7d8899">Cheapest on-demand price per GPU</span>
+<sc-if value="{{dr.hasPrices}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; border: 1px solid #1a2433; border-radius: 8px; overflow: hidden">
+<sc-for list="{{dr.prices}}" as="r" hint-placeholder-count="4">
+<div style="display: grid; grid-template-columns: 110px minmax(0, 1fr) auto; gap: 12px; padding: 10px 14px; align-items: center; border-top: 1px solid #1a2433">
+<span style="font-weight: 600">{{r.gpu}}</span>
+<span style="font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace; font-size: 11.5px; color: #7d8899; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{r.sku}}</span>
+<span style="font-weight: 600; font-variant-numeric: tabular-nums">{{r.val}}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{dr.noPrices}}" hint-placeholder-val="{{false}}">
+<p style="margin: 0; font-size: 14px; color: #a9b4c2">No public prices collected. {{dr.cnote}}</p>
+</sc-if>
+<p style="margin: 0; font-size: 13.5px; color: #a9b4c2; line-height: 1.6">{{dr.note}}</p>
+<sc-for list="{{dr.links}}" as="l" hint-placeholder-count="1">
+<a href="{{l.href}}" style="font-size: 13px; color: #8fbcf3; word-break: break-all" style-hover="color: #edf1f6">{{l.label}}</a>
+</sc-for>
+</aside>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"ambient":{"editor":"boolean","default":true,"section":"Map"},"startMode":{"editor":"enum","options":["price","control"],"default":"price","section":"Map"},"$preview":{"width":1440,"height":8800}}'>
+const DOTS = '/_blob/062d75ea86a55d625e48e76e255d0526';
+
+// Real data: CompEU ledger, collection runs of 20 October 2026. Rebuilt from the
+// repository by the site build; edit the numbers there, not here.
+const D = {"asOf":"2026-10-20","lastRun":"2026-10-20T22:25:30Z","obs":1740,"nFix":9,"fixHead":"bb04a1dc1bd4","usd":["1.1215","2026-10-20"],
+"runs":[{"id":"20261020T220514Z","t":"2026-10-20T22:05:14Z","n":873,"os":"0c7f3c236c23","h":"00a81a1a774e","prev":"000000000000","ok":8,"tot":8},{"id":"20261020T222530Z","t":"2026-10-20T22:25:30Z","n":867,"os":"f31ef9e634e6","h":"3ad627f4ed87","prev":"00a81a1a774e","ok":8,"tot":8}],
+"covList":{"scaleway":["b300","h100"],"ovhcloud":["h100","h200"],"verda":["b200","b300","gb300","h100","h200"],"hetzner":[],"ionos":null,"infomaniak":null,"safe-swiss-cloud":null,"hikube":null,"polarise":null},
+"boards":[
+{"id":"CSX-H100","n":"CompEU Sovereign H100","g":"h100","b":"sovereign","min":3,"st":"published","v":2.8665,"c":[["ovhcloud",2.8,"2.80 EUR"],["scaleway",2.8665,"2.8665 EUR"],["verda",3.9073,"4.382 USD"]]},
+{"id":"CHX-H100","n":"CompEU Hyperscaler H100","g":"h100","b":"hyperscaler","min":2,"st":"published","v":7.0164,"c":[["aws",6.5641,"7.3616 USD"],["azure",7.4686,"8.376 USD"]]},
+{"id":"CSX-H200","n":"CompEU Sovereign H200","g":"h200","b":"sovereign","min":3,"st":"insufficient_data","v":null,"c":[["ovhcloud",5.25,"5.25 EUR"],["verda",5.0959,"5.715 USD"]]},
+{"id":"CHX-H200","n":"CompEU Hyperscaler H200","g":"h200","b":"hyperscaler","min":2,"st":"published","v":9.4454,"c":[["aws",7.5487,"8.4658 USD"],["azure",11.342,"12.72 USD"]]},
+{"id":"CSX-B200","n":"CompEU Sovereign B200","g":"b200","b":"sovereign","min":3,"st":"insufficient_data","v":null,"c":[["verda",7.2303,"8.1088 USD"]]},
+{"id":"CHX-B200","n":"CompEU Hyperscaler B200","g":"b200","b":"hyperscaler","min":2,"st":"insufficient_data","v":null,"c":[["aws",15.9654,"17.9053 USD"]]},
+{"id":"CSX-A100","n":"CompEU Sovereign A100","g":"a100","b":"sovereign","min":3,"st":"insufficient_data","v":null,"c":[["ovhcloud",2.75,"2.75 EUR"],["verda",1.3651,"1.531 USD"]]},
+{"id":"CSX-L40S","n":"CompEU Sovereign L40S","g":"l40s","b":"sovereign","min":3,"st":"published","v":1.4699,"c":[["ovhcloud",1.4,"1.40 EUR"],["scaleway",1.4699,"1.4699 EUR"],["verda",1.597,"1.791 USD"]]}],
+"providers":[
+{"id":"scaleway","n":"Scaleway","st":"sovereign","prov":false,"ent":["Scaleway SAS","FR","Paris"],"ctl":["Iliad Group (controlled by Xavier Niel)","FR"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"api","cs":null,"cn":"Public product catalogue, no authentication. Prices per minute, in euro, excl. VAT.","src":"https://api.scaleway.com/product-catalog/v2alpha1/public-catalog/products","hq":[-561,-318],"us":false,"ok":"2026-10-20T22:25","offers":30,"notes":0,"global":false},
+{"id":"ovhcloud","n":"OVHcloud","st":"sovereign","prov":false,"ent":["OVH Groupe SA","FR","Roubaix"],"ctl":["Klaba family (majority shareholder; listed on Euronext Paris)","FR"],"contested":false,"why":null,"disc":["Operates a separate US subsidiary (OVHcloud US) for the US market."],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"api","cs":null,"cn":"Public order catalogue, no authentication. Catalogue prices are the same in every region and the catalogue does not say which regions carry each GPU, so offers count as one catalogue price.","src":"https://api.ovh.com/1.0/order/catalog/public/cloud?ovhSubsidiary=FR","hq":[-480,-123],"us":false,"ok":"2026-10-20T22:25","offers":52,"notes":0,"global":false},
+{"id":"hetzner","n":"Hetzner","st":"sovereign","prov":false,"ent":["Hetzner Online GmbH","DE","Gunzenhausen"],"ctl":["Privately held (founder-owned)","DE"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"html","cs":null,"cn":"GPU servers are dedicated machines (GEX line), sold outside the Hetzner Cloud API. Hourly price with a monthly cap and a one-time setup fee, read from the structured price elements of the public product page.","src":"https://www.hetzner.com/dedicated-rootserver/matrix-gpu/","hq":[55,-320],"us":false,"ok":"2026-10-20T22:25","offers":3,"notes":0,"global":false},
+{"id":"verda","n":"Verda","aka":"DataCrunch","st":"sovereign","prov":true,"ent":["Verda Cloud Oy","FI","Helsinki"],"ctl":["Founders and European venture investors (privately held)","FI"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"api","cs":null,"cn":"Public API with on-demand and spot prices, no authentication. Prices in USD. Locations need a token, so offers count as one catalogue price.","src":"https://api.verda.com/v1/instance-types","hq":[821,995],"us":false,"ok":"2026-10-20T22:25","offers":104,"notes":0,"global":false},
+{"id":"ionos","n":"IONOS","st":"sovereign","prov":false,"ent":["IONOS SE","DE","Montabaur"],"ctl":["United Internet AG (majority shareholder)","DE"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"none","cs":"no_machine_readable_price","cn":"GPU prices are not published in a machine-readable form. Next step: ask IONOS for a price feed or a Level 2 confirmation.","src":null,"hq":[-154,-171],"us":false,"ok":null,"offers":null,"notes":0,"global":false},
+{"id":"infomaniak","n":"Infomaniak","st":"sovereign","prov":false,"ent":["Infomaniak Network SA","CH","Geneva"],"ctl":["Independent, owned by founders and employees","CH"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"none","cs":"awaiting_agreement","cn":"No public GPU price list. Outreach for a data-sharing agreement is in progress.","src":null,"hq":[-297,-636],"us":false,"ok":null,"offers":null,"notes":0,"global":false},
+{"id":"safe-swiss-cloud","n":"Safe Swiss Cloud","st":"sovereign","prov":true,"ent":["Safe Swiss Cloud AG","CH","Zurich"],"ctl":["Privately held, Swiss","CH"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"none","cs":"awaiting_agreement","cn":"No public GPU price list found.","src":null,"hq":[-110,-513],"us":false,"ok":null,"offers":null,"notes":0,"global":false},
+{"id":"hikube","n":"Hikube","st":"sovereign","prov":true,"ent":["Hikube","CH","Geneva"],"ctl":["Privately held, Swiss","CH"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"none","cs":"awaiting_agreement","cn":"No public GPU price list found.","src":null,"hq":[-297,-636],"us":false,"ok":null,"offers":null,"notes":0,"global":false},
+{"id":"polarise","n":"Polarise","st":"sovereign","prov":true,"ent":["Polarise GmbH","DE","Munich"],"ctl":["Privately held, German","DE"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"none","cs":"no_public_price","cn":"NVIDIA Cloud Partner with high-end GPUs, sovereign and frontier: the combination the index is looking for. No public price list yet. Priority contact.","src":null,"hq":[117,-428],"us":false,"ok":null,"offers":null,"notes":0,"global":false},
+{"id":"exoscale","n":"Exoscale","st":"under_review","prov":false,"ent":["Akenes SA","CH","Lausanne"],"ctl":["A1 Telekom Austria Group, majority-owned by América Movil (Mexico) under a shareholder agreement with the Austrian state holding ÖBAG","MX"],"contested":true,"why":"Exoscale belongs to A1 Digital (A1 Group, Vienna). A1's majority shareholder is América Movil; ÖBAG holds a blocking minority under a shareholder agreement. Whether this counts as European control is the open question, so Exoscale stays out of both baskets until it is settled.","disc":[],"crit":{"seat":"pass","control":"unknown","no_extraterritorial":"unknown"},"m":"api","cs":null,"cn":"Public pricing JSON behind exoscale.com/pricing, joined with the public instance-type API for GPU count and zones. Euro, excl. VAT.","src":"https://portal.exoscale.com/api/pricing/opencompute","hq":[-258,-603],"us":false,"ok":"2026-10-20T22:25","offers":34,"notes":1,"global":false},
+{"id":"nebius","n":"Nebius","st":"under_review","prov":false,"ent":["Nebius Group N.V.","NL","Amsterdam"],"ctl":["Listed on Nasdaq (NBIS); voting control and shareholder base under review","NL"],"contested":true,"why":"Dutch holding company with a US listing and US operating subsidiaries. Whether the CLOUD Act reaches it through those subsidiaries is the open question.","disc":["Listed on a US exchange (Nasdaq).","Operates data centres in the United States."],"crit":{"seat":"pass","control":"unknown","no_extraterritorial":"unknown"},"m":"none","cs":"planned","cn":"A public price page exists; a parser is planned for the next sprint.","src":null,"hq":[-346,53],"us":false,"ok":null,"offers":null,"notes":0,"global":false},
+{"id":"aws","n":"AWS","st":"non_sovereign","prov":false,"ent":["Amazon Web Services, Inc.","US","Seattle"],"ctl":["Amazon.com, Inc. (Delaware)","US"],"contested":false,"why":null,"disc":["AWS European Sovereign Cloud (Brandenburg, open since January 2026) is run by German companies with EU staff, but the ultimate parent is still Amazon.com, Inc."],"crit":{"seat":"fail","control":"fail","no_extraterritorial":"fail"},"m":"api","cs":null,"cn":"Official AWS Price List bulk API, one file per region. A region file is downloaded again only when AWS publishes a new version. European Sovereign Cloud prices sit in a separate partition and are not collected yet.","src":"https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/region_index.json","hq":[-3935,6414],"us":true,"ok":"2026-10-20T22:25","offers":186,"notes":10,"global":false},
+{"id":"azure","n":"Microsoft Azure","st":"non_sovereign","prov":false,"ent":["Microsoft Corporation","US","Redmond"],"ctl":["Microsoft Corporation (Washington)","US"],"contested":false,"why":null,"disc":[],"crit":{"seat":"fail","control":"fail","no_extraterritorial":"fail"},"m":"api","cs":null,"cn":"Official Azure Retail Prices API, no authentication. USD, Linux, pay-as-you-go.","src":"https://prices.azure.com/api/retail/prices","hq":[-3940,6398],"us":true,"ok":"2026-10-20T22:25","offers":372,"notes":36,"global":false},
+{"id":"google-cloud","n":"Google Cloud","st":"non_sovereign","prov":false,"ent":["Google LLC","US","Mountain View"],"ctl":["Alphabet Inc. (Delaware)","US"],"contested":false,"why":null,"disc":[],"crit":{"seat":"fail","control":"fail","no_extraterritorial":"fail"},"m":"none","cs":"planned","cn":"The Cloud Billing Catalog API needs a free API key; planned for the next sprint.","src":null,"hq":[-4953,6665],"us":true,"ok":null,"offers":null,"notes":0,"global":false},
+{"id":"coreweave","n":"CoreWeave","st":"non_sovereign","prov":false,"ent":["CoreWeave, Inc.","US","Livingston"],"ctl":["CoreWeave, Inc. (listed on Nasdaq)","US"],"contested":false,"why":null,"disc":[],"crit":{"seat":"fail","control":"fail","no_extraterritorial":"fail"},"m":"none","cs":"no_public_api","cn":"Contract-driven pricing, no public price API. Reference only.","src":null,"hq":[-5432,2475],"us":true,"ok":null,"offers":null,"notes":0,"global":false},
+{"id":"runpod","n":"RunPod","st":"non_sovereign","prov":false,"ent":["RunPod, Inc.","US","Moorestown"],"ctl":["RunPod, Inc. (venture-backed)","US"],"contested":false,"why":null,"disc":[],"crit":{"seat":"fail","control":"fail","no_extraterritorial":"fail"},"m":"api","cs":null,"cn":"Global GPU marketplace. Its public price is not tied to a European location, so RunPod is shown as a reference and never enters the European baskets.","src":"https://api.runpod.io/graphql","hq":[-5529,2479],"us":true,"ok":"2026-10-20T22:25","offers":86,"notes":3,"global":true}],
+"cells":{"aws":{"l40s":[1.75,"g6e.xlarge","eu-south-2",1],"a100":[2.64,"p4d.24xlarge","eu-west-1",8],"l4":[0.76,"g6.xlarge","eu-south-2",1],"b200":[15.97,"p6-b200.48xlarge","eu-north-1",8],"h100":[6.56,"p5.48xlarge","eu-north-1",8],"h200":[7.55,"p5en.48xlarge","eu-north-1",8]},
+"azure":{"a100":[3.93,"Standard_NC24ads_A100_v4","northeurope",1],"h100":[7.47,"Standard_NC40ads_H100_v5","northeurope",1],"mi300x":[6.42,"Standard_ND96isr_MI300X_v5","northeurope",8],"h200":[11.34,"Standard_ND96isr_H200_v5","northeurope",8]},
+"exoscale":{"rtx-pro-6000":[2.0,"gpurtx6000pro.huge","at-vie-2",8]},
+"hetzner":{"rtx-pro-6000":[1.6,"GEX63","catalogue",1]},
+"ovhcloud":{"h100":[2.8,"h100-760","catalogue",2],"l40s":[1.4,"l40s-360","catalogue",4],"l4":[0.75,"l4-90","catalogue",1],"a100":[2.75,"a100-720","catalogue",4],"h200":[5.25,"h200-1920","catalogue",8]},
+"runpod":{"mi300x":[2.13,"AMD Instinct MI300X OAM (secure)","global",1],"a100":[0.89,"NVIDIA A100-SXM4-40GB (community)","global",1],"b200":[5.33,"NVIDIA B200 (community)","global",1],"b300":[6.19,"NVIDIA B300 SXM6 AC (community)","global",1],"h100":[1.77,"NVIDIA H100 PCIe (community)","global",1],"h200":[3.2,"NVIDIA H200 (community)","global",1],"l4":[0.39,"NVIDIA L4 (community)","global",1],"l40s":[0.7,"NVIDIA L40S (community)","global",1],"rtx-pro-6000":[1.46,"NVIDIA RTX PRO 6000 Blackwell Max-Q (community)","global",1]},
+"scaleway":{"b300":[7.5,"B300-SXM-8-288G","fr-par-2",8],"h100":[2.87,"H100-1-80G","pl-waw-2",1],"l40s":[1.47,"L40S-1-48G","pl-waw-2",1],"l4":[0.79,"L4-1-24G","pl-waw-2",1]},
+"verda":{"gb300":[10.64,"2GB300.64V","catalogue",2],"b300":[9.26,"8B300.240V","catalogue",8],"b200":[7.23,"1B200.30V","catalogue",1],"h200":[5.1,"8H200.141S.176V","catalogue",8],"h100":[3.91,"8H100.80S.176V","catalogue",8],"a100":[1.37,"8A100.40S.176V","catalogue",8],"rtx-pro-6000":[2.16,"8RTXPRO6000.240V","catalogue",8],"l40s":[1.6,"8L40S.160V","catalogue",8]}},
+"sites":[
+{"p":"scaleway","c":"Paris","cc":"FR","x":-559,"y":-320,"h100":2.87,"h200":null,"b200":null,"fr":2.87},{"p":"scaleway","c":"Amsterdam","cc":"NL","x":-346,"y":53,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"scaleway","c":"Warsaw","cc":"PL","x":747,"y":82,"h100":2.87,"h200":null,"b200":null,"fr":2.87},
+{"p":"ovhcloud","c":"Gravelines","cc":"FR","x":-550,"y":-83,"h100":2.8,"h200":5.25,"b200":null,"fr":2.8},{"p":"ovhcloud","c":"Roubaix","cc":"FR","x":-480,"y":-123,"h100":2.8,"h200":5.25,"b200":null,"fr":2.8},{"p":"ovhcloud","c":"Strasbourg","cc":"FR","x":-165,"y":-378,"h100":2.8,"h200":5.25,"b200":null,"fr":2.8},{"p":"ovhcloud","c":"Paris","cc":"FR","x":-559,"y":-320,"h100":2.8,"h200":5.25,"b200":null,"fr":2.8},{"p":"ovhcloud","c":"Limburg","cc":"DE","x":-138,"y":-178,"h100":2.8,"h200":5.25,"b200":null,"fr":2.8},{"p":"ovhcloud","c":"Warsaw","cc":"PL","x":747,"y":82,"h100":2.8,"h200":5.25,"b200":null,"fr":2.8},{"p":"ovhcloud","c":"Milan","cc":"IT","x":-63,"y":-726,"h100":2.8,"h200":5.25,"b200":null,"fr":2.8},
+{"p":"hetzner","c":"Falkenstein","cc":"DE","x":168,"y":-167,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"hetzner","c":"Nuremberg","cc":"DE","x":78,"y":-283,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"hetzner","c":"Helsinki","cc":"FI","x":821,"y":995,"h100":null,"h200":null,"b200":null,"fr":null},
+{"p":"verda","c":"Helsinki","cc":"FI","x":805,"y":996,"h100":3.91,"h200":5.1,"b200":7.23,"fr":3.91},{"p":"verda","c":"Keflavik","cc":"IS","x":-1528,"y":1698,"h100":3.91,"h200":5.1,"b200":7.23,"fr":3.91},
+{"p":"exoscale","c":"Geneva","cc":"CH","x":-297,"y":-636,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"exoscale","c":"Zurich","cc":"CH","x":-110,"y":-513,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"exoscale","c":"Vienna","cc":"AT","x":472,"y":-401,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"exoscale","c":"Frankfurt","cc":"DE","x":-94,"y":-209,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"exoscale","c":"Munich","cc":"DE","x":117,"y":-428,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"exoscale","c":"Sofia","cc":"BG","x":1086,"y":-936,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"exoscale","c":"Zagreb","cc":"HR","x":464,"y":-669,"h100":null,"h200":null,"b200":null,"fr":null},
+{"p":"ionos","c":"Frankfurt","cc":"DE","x":-94,"y":-209,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"ionos","c":"Berlin","cc":"DE","x":230,"y":63,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"ionos","c":"Karlsruhe","cc":"DE","x":-116,"y":-332,"h100":null,"h200":null,"b200":null,"fr":null},
+{"p":"infomaniak","c":"Geneva","cc":"CH","x":-299,"y":-640,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"safe-swiss-cloud","c":"Zurich","cc":"CH","x":-113,"y":-510,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"hikube","c":"Geneva","cc":"CH","x":-300,"y":-633,"h100":null,"h200":null,"b200":null,"fr":null},
+{"p":"polarise","c":"Munich","cc":"DE","x":119,"y":-427,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"polarise","c":"Frankfurt","cc":"DE","x":-93,"y":-210,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"polarise","c":"Oslo","cc":"NO","x":42,"y":880,"h100":null,"h200":null,"b200":null,"fr":null},
+{"p":"nebius","c":"Mantsala","cc":"FI","x":830,"y":1050,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"nebius","c":"Paris","cc":"FR","x":-555,"y":-323,"h100":null,"h200":null,"b200":null,"fr":null},
+{"p":"aws","c":"Frankfurt","cc":"DE","x":-94,"y":-209,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"aws","c":"Zurich","cc":"CH","x":-110,"y":-513,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"aws","c":"Dublin","cc":"IE","x":-1069,"y":271,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"aws","c":"London","cc":"GB","x":-698,"y":-6,"h100":7.97,"h200":null,"b200":null,"fr":7.97},{"p":"aws","c":"Paris","cc":"FR","x":-559,"y":-320,"h100":null,"h200":null,"b200":19.43,"fr":19.43},{"p":"aws","c":"Stockholm","cc":"SE","x":457,"y":840,"h100":6.56,"h200":7.55,"b200":15.97,"fr":6.56},{"p":"aws","c":"Milan","cc":"IT","x":-63,"y":-726,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"aws","c":"Zaragoza","cc":"ES","x":-905,"y":-1084,"h100":null,"h200":7.62,"b200":null,"fr":7.62},{"p":"aws","c":"Brandenburg (European Sovereign Cloud)","cc":"DE","x":172,"y":49,"h100":null,"h200":null,"b200":null,"fr":null},
+{"p":"azure","c":"Amsterdam","cc":"NL","x":-343,"y":51,"h100":7.94,"h200":null,"b200":null,"fr":7.94},{"p":"azure","c":"Dublin","cc":"IE","x":-1072,"y":269,"h100":7.47,"h200":11.34,"b200":null,"fr":6.42},{"p":"azure","c":"Paris","cc":"FR","x":-562,"y":-319,"h100":null,"h200":11.81,"b200":null,"fr":6.69},{"p":"azure","c":"Frankfurt","cc":"DE","x":-96,"y":-208,"h100":8.09,"h200":12.29,"b200":null,"fr":6.96},{"p":"azure","c":"Gavle","cc":"SE","x":389,"y":983,"h100":8.09,"h200":12.29,"b200":null,"fr":7.49},{"p":"azure","c":"Zurich","cc":"CH","x":-108,"y":-508,"h100":8.9,"h200":null,"b200":null,"fr":8.9},{"p":"azure","c":"Warsaw","cc":"PL","x":749,"y":85,"h100":12.82,"h200":14.56,"b200":null,"fr":8.24},{"p":"azure","c":"Milan","cc":"IT","x":-61,"y":-724,"h100":null,"h200":12.29,"b200":null,"fr":12.29},{"p":"azure","c":"Madrid","cc":"ES","x":-1159,"y":-1180,"h100":8.09,"h200":12.29,"b200":null,"fr":8.09},{"p":"azure","c":"Oslo","cc":"NO","x":44,"y":878,"h100":null,"h200":13.52,"b200":null,"fr":13.52},{"p":"azure","c":"London","cc":"GB","x":-696,"y":-5,"h100":7.78,"h200":11.81,"b200":null,"fr":6.69},{"p":"azure","c":"Vienna","cc":"AT","x":474,"y":-400,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"azure","c":"Copenhagen","cc":"DK","x":161,"y":412,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"azure","c":"Brussels","cc":"BE","x":-396,"y":-113,"h100":null,"h200":null,"b200":null,"fr":null},
+{"p":"google-cloud","c":"St. Ghislain","cc":"BE","x":-437,"y":-152,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"google-cloud","c":"Eemshaven","cc":"NL","x":-210,"y":165,"h100":null,"h200":null,"b200":null,"fr":null},
+{"p":"coreweave","c":"Norway","cc":"NO","x":25,"y":1011,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"coreweave","c":"Sweden","cc":"SE","x":377,"y":1173,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"coreweave","c":"Barcelona","cc":"ES","x":-655,"y":-1144,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"coreweave","c":"London","cc":"GB","x":-693,"y":-10,"h100":null,"h200":null,"b200":null,"fr":null}],
+"gpus":{"gb300":["GB300","frontier"],"b300":["B300","frontier"],"b200":["B200","frontier"],"h200":["H200","frontier"],"h100":["H100","frontier"],"mi300x":["MI300X","frontier"],"a100":["A100","datacenter"],"rtx-pro-6000":["RTX PRO 6000","datacenter"],"l40s":["L40S","datacenter"],"l4":["L4","inference"]}};
+
+const C = { bg: '#070b12', panel: '#0c121c', deep: '#0a0f18', raised: '#111a27', line: '#1a2433', line2: '#273447', ink: '#edf1f6', ink2: '#a9b4c2', ink3: '#7d8899', sov: '#3987e5', sovInk: '#8fbcf3', for: '#d95926', forInk: '#f2a37f', rev: '#8b96a3', good: '#22b14c', warn: '#fab219', crit: '#ef6b6b' };
+const ST = {
+  sovereign: { label: 'Sovereign', color: C.sov, ink: C.sovInk, bg: 'rgba(57,135,229,0.15)' },
+  non_sovereign: { label: 'Not sovereign', color: C.for, ink: C.forInk, bg: 'rgba(217,89,38,0.15)' },
+  under_review: { label: 'Under review', color: C.rev, ink: '#c3cad3', bg: 'rgba(139,150,163,0.16)' },
+};
+const CC = { FR: 'France', DE: 'Germany', FI: 'Finland', CH: 'Switzerland', NL: 'Netherlands', US: 'United States', MX: 'Mexico', PL: 'Poland', IT: 'Italy', IS: 'Iceland', AT: 'Austria', BG: 'Bulgaria', HR: 'Croatia', NO: 'Norway', IE: 'Ireland', GB: 'United Kingdom', SE: 'Sweden', ES: 'Spain', DK: 'Denmark', BE: 'Belgium' };
+const MG = ['gb300', 'b300', 'b200', 'h200', 'h100', 'mi300x', 'a100', 'rtx-pro-6000', 'l40s', 'l4'];
+const EXG = ['h100', 'h200', 'b200', 'b300', 'a100', 'l40s', 'rtx-pro-6000'];
+const GL = Object.fromEntries(Object.entries(D.gpus).map(([k, v]) => [k, v[0]]));
+const MAPGPU = { h100: 'H100', h200: 'H200', b200: 'B200', fr: 'any frontier GPU' };
+const CRIT = [['seat', 'Registered in the EU or Switzerland'], ['control', 'Controlled from the EU or Switzerland'], ['no_extraterritorial', 'Out of reach of the US CLOUD Act']];
+const RES = { pass: { icon: '✓', color: C.good, word: 'yes' }, fail: { icon: '✕', color: C.crit, word: 'no' }, unknown: { icon: '?', color: C.warn, word: 'unclear' } };
+const COLL = { awaiting_agreement: 'No public price list · data agreement pending', no_public_price: 'No public price list', no_machine_readable_price: 'Price page not machine-readable', no_public_api: 'Contract pricing, no public data', planned: 'Collector planned' };
+const METHOD = { api: 'Public API', html: 'Public product page', none: 'No public source' };
+const HATCH = 'repeating-linear-gradient(135deg, transparent 0 5px, #1a2433 5px 6px)';
+const BODY = "'Schibsted Grotesk', 'Helvetica Neue', Arial, sans-serif";
+const MONO = "'JetBrains Mono', ui-monospace, Consolas, monospace";
+const LUGANO = [8.9511, 46.0037];
+const US_ANCHOR = [-36, 49];
+const PROV = Object.fromEntries(D.providers.map((p) => [p.id, p]));
+const BOARD = Object.fromEntries(D.boards.map((b) => [b.id, b]));
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+const eur = (v) => (v == null ? '—' : '€' + Number(v).toFixed(2));
+const day = (iso) => { const [y, m, d] = iso.slice(0, 10).split('-'); return Number(d) + ' ' + MONTHS[Number(m) - 1] + ' ' + y; };
+const stamp = (iso) => day(iso) + ' · ' + iso.slice(11, 16) + ' UTC';
+const pct = (v, max) => Math.max(0, Math.min(100, (v / max) * 100)).toFixed(2) + '%';
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const chip = (label, on, pick) => ({ label, pressed: on, pick, bg: on ? C.ink : 'transparent', fg: on ? C.bg : C.ink2, border: on ? C.ink : C.line2 });
+const checksOf = (crit) => CRIT.map(([id, label]) => ({ label, ...RES[crit[id]] }));
+const ctlPlace = (p) => (p.contested ? 'contested control' : CC[p.ctl[1]] || p.ctl[1]);
+
+function laea(lon, lat) {
+  const R = 6371.0072, lat0 = (52 * Math.PI) / 180, lon0 = (10 * Math.PI) / 180;
+  const lam = (lon * Math.PI) / 180, phi = (lat * Math.PI) / 180, d = lam - lon0;
+  const k = Math.sqrt(2 / (1 + Math.sin(lat0) * Math.sin(phi) + Math.cos(lat0) * Math.cos(phi) * Math.cos(d)));
+  return [R * k * Math.cos(phi) * Math.sin(d), R * k * (Math.cos(lat0) * Math.sin(phi) - Math.sin(lat0) * Math.cos(phi) * Math.cos(d))];
+}
+
+function defaultWhy(p) {
+  if (p.st === 'sovereign') return 'Seat and control are both in ' + CC[p.ent[1]] + ', and no parent answers to US law. It counts in the sovereign basket.';
+  if (p.st === 'non_sovereign') return 'The ultimate owner, ' + p.ctl[0] + ', is a US company. US law can reach the data wherever it is stored, even in a European data centre.';
+  return p.why || 'A fact the rule needs is contested or unknown.';
+}
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      gpu: 'h100', mode: 'price', board: 'CSX-H100',
+      pg: { ovhcloud: true, scaleway: true, verda: true }, hypoOn: false, hypo: 9,
+      exGpu: 'h100', exBasket: 'all', exSort: 'price',
+      fOnly: false, hover: null, pick: 'aws',
+      seat: 'EU', owner: 'US', reach: 'yes',
+      tamper: 0, openRow: null, phase: 'p1', drawer: null, w: 1440,
+    };
+    this.view = { az: -0.08, pol: 0.98, dist: 6.6, tx: -0.15, tz: -0.5 };
+    this.mt = 0;
+    this.items = [];
+    this.lastInteract = 0;
+    this.tkx = 0;
+    this.glow = {};
+  }
+
+  componentDidMount() {
+    if (this.props.startMode === 'control') this.setState({ mode: 'control' });
+  }
+
+  componentWillUnmount() {
+    this.stopMap();
+    if (this.rro) this.rro.disconnect();
+  }
+
+  // ---------------------------------------------------------------- refs
+  setRoot = (el) => {
+    if (el === this.rootEl) return;
+    if (this.rro) this.rro.disconnect();
+    this.rootEl = el;
+    if (!el) return;
+    this.rro = new ResizeObserver(() => {
+      const w = Math.round(el.clientWidth);
+      if (w && Math.abs(w - this.state.w) > 6) this.setState({ w });
+    });
+    this.rro.observe(el);
+  };
+
+  setTicker = (el) => { this.tk = el; };
+  pauseTicker = () => { this.tkPause = true; };
+  resumeTicker = () => { this.tkPause = false; };
+
+  setCanvas = (el) => {
+    if (el === this.cv) return;
+    this.stopMap();
+    this.cv = el;
+    if (!el) return;
+    this.ctx = el.getContext('2d');
+    this.reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    this.buildItems();
+    this.ro = new ResizeObserver(() => this.sizeCanvas());
+    this.ro.observe(el);
+    this.io = new IntersectionObserver((es) => { this.visible = es[es.length - 1].isIntersecting; });
+    this.io.observe(el);
+    el.addEventListener('pointerdown', this.onDown);
+    el.addEventListener('pointermove', this.onMove);
+    el.addEventListener('pointerup', this.onUp);
+    el.addEventListener('pointercancel', this.onUp);
+    el.addEventListener('pointerleave', this.onLeave);
+    el.addEventListener('dblclick', this.onDbl);
+    this.visible = true;
+    this.t0 = performance.now();
+    this.last = this.t0;
+    fetch(DOTS).then((r) => r.json()).then((j) => this.prepDots(j.points)).catch(() => { this.dots = null; });
+    this.sizeCanvas();
+    this.raf = requestAnimationFrame(this.frame);
+  };
+
+  stopMap() {
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.raf = null;
+    if (this.ro) this.ro.disconnect();
+    if (this.io) this.io.disconnect();
+    const el = this.cv;
+    if (el) {
+      el.removeEventListener('pointerdown', this.onDown);
+      el.removeEventListener('pointermove', this.onMove);
+      el.removeEventListener('pointerup', this.onUp);
+      el.removeEventListener('pointercancel', this.onUp);
+      el.removeEventListener('pointerleave', this.onLeave);
+      el.removeEventListener('dblclick', this.onDbl);
+    }
+  }
+
+  // ---------------------------------------------------------------- map data
+  sizeCanvas() {
+    const el = this.cv;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    if (!r.width || !r.height) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    this.W = r.width;
+    this.H = r.height;
+    el.width = Math.round(r.width * dpr);
+    el.height = Math.round(r.height * dpr);
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  prepDots(pts) {
+    const groups = [[], [], [], []];
+    for (let i = 0; i < pts.length; i += 3) groups[pts[i + 2]].push(pts[i] / 1000, -pts[i + 1] / 1000);
+    this.dots = groups.map((g) => Float32Array.from(g));
+  }
+
+  buildItems() {
+    const lug = laea(LUGANO[0], LUGANO[1]);
+    this.lug = [lug[0] / 1000, -lug[1] / 1000];
+    const us = laea(US_ANCHOR[0], US_ANCHOR[1]);
+    this.us = [us[0] / 1000, -us[1] / 1000];
+    const cities = {};
+    const items = D.sites.map((s) => {
+      const key = Math.round(s.x / 30) + ':' + Math.round(s.y / 30);
+      (cities[key] = cities[key] || []).push(s.p);
+      return { s, p: PROV[s.p], key, x: s.x / 1000, z: -s.y / 1000, h: 0, reveal: 0, arc: null };
+    });
+    for (const it of items) {
+      const group = cities[it.key];
+      if (group.length > 1) {
+        const a = (group.indexOf(it.p.id) / group.length) * Math.PI * 2 + 0.6;
+        it.x += Math.cos(a) * 0.055;
+        it.z += Math.sin(a) * 0.055;
+      }
+      it.delay = Math.hypot(it.x - this.lug[0], it.z - this.lug[1]) * 0.16;
+      const end = it.p.us ? this.us : [it.p.hq[0] / 1000, -it.p.hq[1] / 1000];
+      const dist = Math.hypot(end[0] - it.x, end[1] - it.z);
+      if (dist > 0.03) {
+        const mx = (it.x + end[0]) / 2, mz = (it.z + end[1]) / 2, my = 0.15 + dist * 0.32;
+        const pts = [];
+        for (let k = 0; k <= 40; k++) {
+          const t = k / 40, a = (1 - t) * (1 - t), b = 2 * (1 - t) * t, c = t * t;
+          pts.push([a * it.x + b * mx + c * end[0], b * my, a * it.z + b * mz + c * end[1]]);
+        }
+        it.arc = pts;
+      }
+    }
+    this.items = items;
+  }
+
+  // ---------------------------------------------------------------- pointer
+  hitTest(list, m) {
+    if (!m || !list) return null;
+    let best = 14, hit = null;
+    for (const L of list) {
+      const a = L.b, e = L.top || L.b;
+      const vx = e[0] - a[0], vy = e[1] - a[1], len = vx * vx + vy * vy;
+      const u = len ? clamp(((m[0] - a[0]) * vx + (m[1] - a[1]) * vy) / len, 0, 1) : 0;
+      const d = Math.hypot(m[0] - (a[0] + u * vx), m[1] - (a[1] + u * vy));
+      if (d < best) { best = d; hit = L; }
+    }
+    return hit;
+  }
+
+  onDown = (e) => {
+    const r = this.cv.getBoundingClientRect();
+    this.mouse = [e.clientX - r.left, e.clientY - r.top];
+    this.drag = { x: e.clientX, y: e.clientY, az: this.view.az, pol: this.view.pol, moved: 0 };
+    try { this.cv.setPointerCapture(e.pointerId); } catch (err) { /* capture is optional */ }
+    this.lastInteract = performance.now();
+  };
+
+  onMove = (e) => {
+    const r = this.cv.getBoundingClientRect();
+    this.mouse = [e.clientX - r.left, e.clientY - r.top];
+    const d = this.drag;
+    if (!d) return;
+    const dx = e.clientX - d.x, dy = e.clientY - d.y;
+    d.moved = Math.max(d.moved, Math.abs(dx) + Math.abs(dy));
+    this.view.az = clamp(d.az - dx * 0.005, -0.9, 1.3);
+    this.view.pol = clamp(d.pol - dy * 0.004, 0.5, 1.2);
+    this.lastInteract = performance.now();
+  };
+
+  onUp = (e) => {
+    const d = this.drag;
+    this.drag = null;
+    try { this.cv.releasePointerCapture(e.pointerId); } catch (err) { /* already released */ }
+    if (!d || d.moved >= 6 || e.type === 'pointercancel') return;
+    const r = this.cv.getBoundingClientRect();
+    const hit = this.hitTest(this.lastList, [e.clientX - r.left, e.clientY - r.top]);
+    if (hit) this.setState({ drawer: hit.it.p.id });
+  };
+
+  onLeave = () => { this.mouse = null; };
+  onDbl = () => { this.lastInteract = 0; };
+
+  // ---------------------------------------------------------------- render loop
+  frame = (now) => {
+    this.raf = requestAnimationFrame(this.frame);
+    const dt = Math.min((now - this.last) / 1000, 0.1);
+    this.last = now;
+    if (this.tk && !this.reduce && !this.tkPause) {
+      const half = this.tk.scrollWidth / 2;
+      if (half > 0) {
+        this.tkx -= dt * 36;
+        if (-this.tkx >= half) this.tkx += half;
+        this.tk.style.transform = 'translateX(' + this.tkx.toFixed(1) + 'px)';
+      }
+    }
+    if (!this.visible || document.hidden || !this.W) return;
+    const k = this.reduce ? 1 : 1 - Math.exp(-dt * 3.2);
+    const goal = this.state.mode === 'control' ? 1 : 0;
+    this.mt += (goal - this.mt) * k;
+    const v = this.view, aspect = this.W / this.H;
+    v.dist += ((aspect > 1.3 ? 6.5 : aspect > 0.95 ? 7.6 : 9.4) - v.dist) * k;
+    v.tx += ((aspect > 1.3 ? -0.15 : 0.3) - 0.95 * this.mt - v.tx) * k;
+    const idle = now - this.lastInteract > 5000;
+    if (!this.drag && (idle || Math.abs(goal - this.mt) > 0.02)) {
+      const sway = !this.reduce && this.props.ambient !== false && idle ? Math.sin(now / 9000) * 0.1 : 0;
+      v.az += (-0.08 + 0.55 * this.mt + sway - v.az) * k;
+      if (idle) v.pol += (0.98 - v.pol) * k;
+    }
+    this.draw(now, dt);
+  };
+
+  cam() {
+    const v = this.view, sp = Math.sin(v.pol), cp = Math.cos(v.pol);
+    const cx = v.tx + v.dist * sp * Math.sin(v.az), cy = v.dist * cp, cz = v.tz + v.dist * sp * Math.cos(v.az);
+    let fx = v.tx - cx, fy = -cy, fz = v.tz - cz;
+    const fl = Math.hypot(fx, fy, fz);
+    fx /= fl; fy /= fl; fz /= fl;
+    let rx = -fz, rz = fx;
+    const rl = Math.hypot(rx, rz) || 1;
+    rx /= rl; rz /= rl;
+    return { cx, cy, cz, fx, fy, fz, rx, rz, ux: -rz * fy, uy: rz * fx - rx * fz, uz: rx * fy, F: this.H / 2 / Math.tan((16 * Math.PI) / 180), squash: Math.max(0.25, cp) };
+  }
+
+  proj(c, x, y, z) {
+    const dx = x - c.cx, dy = y - c.cy, dz = z - c.cz;
+    const zc = dx * c.fx + dy * c.fy + dz * c.fz;
+    if (zc < 0.2) return null;
+    const inv = c.F / zc;
+    return [this.W / 2 + (dx * c.rx + dz * c.rz) * inv, this.H / 2 - (dx * c.ux + dy * c.uy + dz * c.uz) * inv, zc];
+  }
+
+  glowFor(col) {
+    if (this.glow[col]) return this.glow[col];
+    const cnv = document.createElement('canvas');
+    cnv.width = cnv.height = 64;
+    const g = cnv.getContext('2d');
+    const n = parseInt(col.slice(1), 16), r = n >> 16, gg = (n >> 8) & 255, b = n & 255;
+    const grd = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grd.addColorStop(0, 'rgba(255,255,255,0.95)');
+    grd.addColorStop(0.2, 'rgba(' + r + ',' + gg + ',' + b + ',0.8)');
+    grd.addColorStop(1, 'rgba(' + r + ',' + gg + ',' + b + ',0)');
+    g.fillStyle = grd;
+    g.fillRect(0, 0, 64, 64);
+    this.glow[col] = cnv;
+    return cnv;
+  }
+
+  draw(now, dt) {
+    const ctx = this.ctx, W = this.W, H = this.H, st = this.state, c = this.cam();
+    const hw = W / 2, hh = H / 2;
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.setLineDash([]);
+
+    // Ground: Europe as dots. Brighter for the EU, white for Switzerland.
+    if (this.dots) {
+      const cols = ['#18222e', '#253548', '#38536f', '#e9eef2'];
+      const size = [0.0135, 0.0135, 0.015, 0.019];
+      for (let g = 0; g < 4; g++) {
+        const a = this.dots[g], s0 = size[g];
+        ctx.fillStyle = cols[g];
+        for (let i = 0; i < a.length; i += 2) {
+          const dx = a[i] - c.cx, dy = -c.cy, dz = a[i + 1] - c.cz;
+          const zc = dx * c.fx + dy * c.fy + dz * c.fz;
+          if (zc < 0.2) continue;
+          const inv = c.F / zc;
+          const sx = hw + (dx * c.rx + dz * c.rz) * inv;
+          const sy = hh - (dx * c.ux + dy * c.uy + dz * c.uz) * inv;
+          if (sx < -4 || sx > W + 4 || sy < -4 || sy > H + 4) continue;
+          const s = s0 * inv;
+          ctx.fillRect(sx - s / 2, sy - s / 2, s, s);
+        }
+      }
+    }
+
+    const t = (now - this.t0) / 1000;
+    const gk = st.gpu;
+    let maxP = 5;
+    for (const it of this.items) { const p = it.s[gk]; if (p && p > maxP) maxP = p; }
+    const kk = this.reduce ? 1 : 1 - Math.exp(-dt * 6);
+    const list = [];
+    for (const it of this.items) {
+      const price = it.s[gk];
+      it.h += ((price ? 0.08 + (price / maxP) * 0.95 : 0) - it.h) * kk;
+      const g0 = this.reduce ? 1 : clamp((t - it.delay) / 0.9, 0, 1);
+      const h = it.h * (1 - Math.pow(1 - g0, 3)) * (1 - 0.8 * this.mt);
+      const b = this.proj(c, it.x, 0, it.z);
+      if (!b) continue;
+      list.push({ it, b, top: h > 0.004 ? this.proj(c, it.x, h, it.z) : null, h, price, g0 });
+    }
+    list.sort((p, q) => q.b[2] - p.b[2]);
+
+    // Hover: nearest column (or base ring) to the pointer.
+    this.lastList = list;
+    const hover = this.drag ? null : this.hitTest(list, this.mouse);
+    if (this.cv) this.cv.style.cursor = this.drag ? 'grabbing' : hover ? 'pointer' : 'grab';
+
+    // Control mode: an arc from every site to the place that controls it.
+    if (this.mt > 0.01) {
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.lineCap = 'round';
+      const target = st.mode === 'control' ? 1 : 0;
+      const kr = this.reduce ? 1 : 1 - Math.exp(-dt * 1.6);
+      for (const it of this.items) {
+        if (!it.arc) continue;
+        it.reveal += (target - it.reveal) * kr;
+        const n = Math.max(2, Math.round(it.reveal * 40) + 1);
+        const pts = [];
+        for (let i = 0; i < n && i < it.arc.length; i++) {
+          const q = it.arc[i], p = this.proj(c, q[0], q[1], q[2]);
+          if (p) pts.push(p);
+        }
+        if (pts.length < 2) continue;
+        const col = ST[it.p.st].color;
+        ctx.strokeStyle = col;
+        ctx.beginPath();
+        ctx.moveTo(pts[0][0], pts[0][1]);
+        for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+        ctx.setLineDash([]);
+        ctx.globalAlpha = 0.18 * this.mt;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.setLineDash([7, 9]);
+        ctx.lineDashOffset = this.reduce ? 0 : -(now / 1000) * 30;
+        ctx.globalAlpha = 0.9 * this.mt;
+        ctx.lineWidth = it.p.st === 'non_sovereign' ? 1.7 : 1.4;
+        ctx.stroke();
+      }
+      ctx.restore();
+      const u = this.proj(c, this.us[0], 0, this.us[1]);
+      if (u && this.mt > 0.3) {
+        const pulse = this.reduce ? 0.5 : (Math.sin(now / 420) + 1) / 2;
+        ctx.globalAlpha = (this.mt - 0.3) / 0.7;
+        ctx.strokeStyle = C.for;
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([]);
+        ctx.beginPath();
+        ctx.ellipse(u[0], u[1], 10 + pulse * 6, (10 + pulse * 6) * c.squash, 0, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = C.forInk;
+        ctx.font = '600 11px ' + MONO;
+        ctx.textAlign = 'center';
+        ctx.fillText('US JURISDICTION · CLOUD ACT', u[0], u[1] - 22);
+        ctx.globalAlpha = 1;
+      }
+    } else {
+      for (const it of this.items) it.reveal = 0;
+    }
+
+    // Columns, far to near.
+    for (const L of list) {
+      const it = L.it, col = ST[it.p.st].color, sc = c.F / L.b[2], isHover = hover === L;
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.setLineDash([]);
+      ctx.globalAlpha = (L.price ? 0.95 : 0.75) * Math.max(0.25, L.g0);
+      ctx.strokeStyle = col;
+      ctx.lineWidth = isHover ? 2 : 1.2;
+      ctx.beginPath();
+      ctx.ellipse(L.b[0], L.b[1], 0.026 * sc, 0.026 * sc * c.squash, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      if (L.top) {
+        ctx.globalAlpha = 0.95 - 0.4 * this.mt;
+        ctx.lineWidth = Math.max(1.5, 0.02 * sc) * (isHover ? 1.7 : 1);
+        ctx.beginPath();
+        ctx.moveTo(L.b[0], L.b[1]);
+        ctx.lineTo(L.top[0], L.top[1]);
+        ctx.stroke();
+        const gs = Math.max(10, 0.14 * sc) * (isHover ? 1.5 : 1);
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.globalAlpha = 0.9;
+        ctx.drawImage(this.glowFor(col), L.top[0] - gs / 2, L.top[1] - gs / 2, gs, gs);
+      }
+    }
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalAlpha = 1;
+
+    // Lugano, where CompEU is based.
+    const lp = this.proj(c, this.lug[0], 0, this.lug[1]);
+    if (lp) {
+      ctx.fillStyle = C.ink;
+      ctx.beginPath();
+      ctx.arc(lp[0], lp[1] + 16, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.font = '600 10.5px ' + MONO;
+      ctx.textAlign = 'left';
+      ctx.fillText('LUGANO', lp[0] + 7, lp[1] + 20);
+    }
+
+    if (hover) this.drawTip(ctx, hover);
+  }
+
+  drawTip(ctx, L) {
+    const it = L.it, p = it.p, s = it.s, W = this.W, H = this.H;
+    const lines = [
+      [p.n, '600 13.5px ' + BODY, C.ink],
+      [s.c + ', ' + (CC[s.cc] || s.cc), '12px ' + BODY, C.ink3],
+      [MAPGPU[this.state.gpu] + ' on demand: ' + (L.price ? eur(L.price) + ' per GPU-hour' : 'no public listing'), '12px ' + BODY, C.ink2],
+      ['Controlled from: ' + (p.us ? 'United States' : ctlPlace(p)), '12px ' + BODY, C.ink2],
+      ['Click for the full profile', '11px ' + MONO, C.sovInk],
+    ];
+    let w = 0;
+    for (const [text, font] of lines) { ctx.font = font; w = Math.max(w, ctx.measureText(text).width); }
+    w += 34;
+    const h = lines.length * 19 + 18;
+    const a = L.top || L.b;
+    const x = clamp(a[0] - w / 2, 8, W - w - 8);
+    let y = a[1] - h - 16;
+    if (y < 8) y = Math.min(a[1] + 18, H - h - 8);
+    ctx.globalAlpha = 1;
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(12,18,28,0.97)';
+    ctx.strokeStyle = C.line2;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    if (ctx.roundRect) ctx.roundRect(x, y, w, h, 8); else ctx.rect(x, y, w, h);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = ST[p.st].color;
+    ctx.beginPath();
+    ctx.arc(x + 16, y + 21, 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.textAlign = 'left';
+    lines.forEach(([text, font, color], i) => {
+      ctx.font = font;
+      ctx.fillStyle = color;
+      ctx.fillText(text, i === 0 ? x + 26 : x + 14, y + 26 + i * 19);
+    });
+  }
+
+  // ---------------------------------------------------------------- view model
+  renderVals() {
+    const s = this.state;
+    const w = s.w || 1440, narrow = w < 720, mid = w < 1080;
+    const L = {
+      gutter: narrow ? '16px' : '32px',
+      sec: narrow ? '64px' : '104px',
+      navDisplay: mid ? 'none' : 'flex',
+      h1: narrow ? '38px' : '56px',
+      h2: narrow ? '30px' : '44px',
+      heroNum: narrow ? '88px' : mid ? '112px' : '136px',
+      heroPad: narrow ? '36px 16px 30px' : '64px 40px 56px 32px',
+      mapH: narrow ? '440px' : mid ? '580px' : '760px',
+      captionDisplay: narrow ? 'none' : 'block',
+      panelPad: narrow ? '18px' : '26px',
+      nameCol: narrow ? '108px' : '190px',
+      valCol: narrow ? '84px' : '170px',
+      healthCols: narrow ? 'minmax(0, 1.5fr) minmax(0, 1fr) 52px' : 'minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr) 64px',
+      hideNarrow: narrow ? 'none' : 'block',
+    };
+
+    const set = (patch) => () => this.setState(patch);
+    const open = (id) => () => this.setState({ drawer: id });
+
+    // Header and hero
+    const nav = [['Fixings', '#index'], ['Lab', '#lab'], ['Prices', '#prices'], ['Coverage', '#coverage'], ['Sovereignty', '#sovereignty'], ['Ledger', '#ledger'], ['Methodology', 'Methodology.dc.html']].map(([label, href]) => ({ label, href }));
+    const csx = BOARD['CSX-H100'], chx = BOARD['CHX-H100'];
+    const covKeys = Object.keys(D.covList);
+    const lit = covKeys.filter((k) => (D.covList[k] || []).length);
+    const covDots = lit.concat(covKeys.filter((k) => !lit.includes(k))).map((k) => {
+      const l = D.covList[k];
+      const on = !!(l && l.length);
+      return {
+        name: PROV[k].n + ': ' + (on ? l.map((g) => GL[g]).join(', ') : l ? 'no frontier GPU listed' : 'no public prices'),
+        bg: on ? C.sov : 'transparent',
+        ring: on ? 'none' : 'inset 0 0 0 1.5px ' + C.line2,
+      };
+    });
+    const hero = {
+      date: day(D.asOf), value: csx.v.toFixed(2), n: csx.c.length, csx: eur(csx.v), chx: eur(chx.v),
+      sovW: pct(csx.v, chx.v), discount: Math.round((1 - csx.v / chx.v) * 100) + '%',
+      covText: lit.length + ' of ' + covKeys.length,
+    };
+
+    // Map controls
+    const segBtn = (label, on, pick) => ({ label, pressed: on, pick, bg: on ? '#1d2738' : 'transparent', fg: on ? C.ink : C.ink2 });
+    const modeBtns = [['Price', 'price'], ['Who controls it', 'control']].map(([label, v]) => segBtn(label, s.mode === v, () => { this.lastInteract = 0; this.setState({ mode: v }); }));
+    const gpuBtns = [['H100', 'h100'], ['H200', 'h200'], ['B200', 'b200'], ['Any frontier', 'fr']].map(([label, v]) => segBtn(label, s.gpu === v, set({ gpu: v })));
+    const mapCaption = s.mode === 'control'
+      ? 'Each arc runs from a data centre to the place that legally controls it. US-controlled sites all lead to one point. Drag to turn the map.'
+      : 'Column height: cheapest on-demand ' + MAPGPU[s.gpu] + ' per GPU-hour at that site. Hollow ring: no public listing. Drag to turn, click a column.';
+
+    // Ticker
+    const tick = [];
+    for (const b of D.boards) if (b.st === 'published') tick.push({ name: b.id, gpu: 'fixing', price: eur(b.v), color: b.b === 'sovereign' ? C.sov : C.for });
+    for (const g of ['h100', 'h200', 'b200', 'b300']) {
+      for (const p of D.providers) {
+        const cell = (D.cells[p.id] || {})[g];
+        if (cell) tick.push({ name: p.n, gpu: GL[g], price: eur(cell[0]), color: p.global ? C.rev : ST[p.st].color });
+      }
+    }
+    const ticker = tick.concat(tick);
+
+    // Fixings board and detail
+    const boards = D.boards.map((b) => {
+      const sel = s.board === b.id, color = b.b === 'sovereign' ? C.sov : C.for, pub = b.st === 'published';
+      return {
+        id: b.id, name: b.n, pub, gap: !pub, value: pub ? eur(b.v) : '', gapWhy: b.c.length + ' of ' + b.min + ' providers with fresh prices',
+        pill: pub ? 'Published' : 'Gap', pillDot: pub ? C.good : C.warn, pressed: sel, pick: set({ board: b.id }),
+        bg: sel ? '#0f1726' : C.panel, border: sel ? color : C.line,
+        squares: Array.from({ length: Math.max(b.min, b.c.length) }, (_, i) => ({ bg: i < b.c.length ? color : C.line2 })),
+      };
+    });
+    const sb = BOARD[s.board];
+    const sbColor = sb.b === 'sovereign' ? C.sov : C.for;
+    const sbMax = Math.max(...sb.c.map((x) => x[1])) * 1.15;
+    const det = {
+      id: sb.id, name: sb.n, basket: sb.b === 'sovereign' ? 'sovereign basket' : 'US hyperscalers in Europe',
+      valueText: sb.st === 'published' ? eur(sb.v) : 'Not published', valueColor: sb.st === 'published' ? C.ink : C.ink2,
+      sub: sb.st === 'published'
+        ? 'Median of ' + sb.c.length + ' quotes, fixed on ' + day(D.asOf) + '. Per GPU-hour, on demand, excl. VAT.'
+        : 'Only ' + sb.c.length + ' of the ' + sb.min + ' providers needed had fresh prices on ' + day(D.asOf) + '. CompEU publishes a gap instead of a guess.',
+      rows: sb.c.map(([id, v, nat]) => ({ name: PROV[id].n, val: eur(v), native: 'listed ' + nat, w: pct(v, sbMax), color: sbColor, open: open(id) })),
+      note: 'USD prices converted at the ECB euro reference rate of ' + day(D.usd[1]) + ' (' + D.usd[0] + ' USD per euro). A fixing, once written, is never revised.',
+    };
+
+    // Lab
+    const LABQ = [['ovhcloud', 2.8], ['scaleway', 2.8665], ['verda', 3.9073]];
+    const SCALE = 15;
+    const vals = [], dots = [];
+    const rows = LABQ.map(([id, v]) => {
+      const on = !!s.pg[id];
+      if (on) { vals.push(v); dots.push({ left: pct(v, SCALE), color: C.sov, label: PROV[id].n + ' ' + eur(v) }); }
+      return {
+        name: PROV[id].n, price: eur(v), on, tick: on ? '✓' : '', box: on ? C.sov : 'transparent', ring: on ? C.sov : C.line2,
+        state: on ? 'Counted in the index' : 'Switched off, as if its price list stopped answering',
+        toggle: () => this.setState({ pg: { ...this.state.pg, [id]: !this.state.pg[id] } }),
+      };
+    });
+    if (s.hypoOn) { vals.push(s.hypo); dots.push({ left: pct(s.hypo, SCALE), color: C.forInk, label: 'Hypothetical provider ' + eur(s.hypo) }); }
+    const sorted = vals.slice().sort((a, b) => a - b), nv = sorted.length;
+    const median = nv ? (nv % 2 ? sorted[(nv - 1) / 2] : (sorted[nv / 2 - 1] + sorted[nv / 2]) / 2) : null;
+    const mean = nv ? vals.reduce((a, b) => a + b, 0) / nv : null;
+    const published = nv >= 3;
+    let labNote;
+    if (!nv) labNote = 'No provider is counted. CompEU would publish a gap today, not a number.';
+    else if (!published) labNote = 'Only ' + nv + (nv === 1 ? ' provider is' : ' providers are') + ' counted. Below three, CompEU publishes a gap today, not a number.';
+    else if (s.hypoOn) labNote = 'The hypothetical provider at ' + eur(s.hypo) + ' moves the mean to ' + eur(mean) + ', but the median only to ' + eur(median) + '. One unusual price cannot drag the index.';
+    else labNote = 'Today the median is Scaleway\'s ' + eur(2.8665) + '. The mean would be ' + eur(mean) + ': close today, but a single outlier would pull it away.';
+    const lab = {
+      rows, hypoOn: s.hypoOn, hypo: s.hypo, hypoText: eur(s.hypo),
+      hypoTick: s.hypoOn ? '✓' : '', hypoBox: s.hypoOn ? C.forInk : 'transparent', hypoRing: s.hypoOn ? C.forInk : C.line2,
+      toggleHypo: () => this.setState({ hypoOn: !this.state.hypoOn }),
+      onSlide: (e) => this.setState({ hypo: Math.round(parseFloat(e.target.value) * 100) / 100, hypoOn: true }),
+      reset: set({ pg: { ovhcloud: true, scaleway: true, verda: true }, hypoOn: false, hypo: 9 }),
+      median: eur(median), mean: eur(mean), n: String(nv),
+      status: published ? 'Published' : 'Not published', statusColor: published ? C.good : C.warn,
+      medLeft: median != null ? pct(median, SCALE) : '0%', meanLeft: mean != null ? pct(mean, SCALE) : '0%', markDisplay: nv ? 'block' : 'none',
+      dots, ticks: [0, 2.5, 5, 7.5, 10, 12.5, 15].map((v) => ({ left: pct(v, SCALE), label: '€' + v })),
+      aria: 'Price axis from 0 to 15 euro with the counted quotes, the median and the mean',
+      note: labNote,
+    };
+
+    // Price explorer
+    const g = s.exGpu;
+    let exRows = D.providers.filter((p) => (D.cells[p.id] || {})[g]).filter((p) => (s.exBasket === 'sov' ? p.st === 'sovereign' : s.exBasket === 'non' ? p.st === 'non_sovereign' : true));
+    exRows = exRows.map((p) => {
+      const cell = D.cells[p.id][g];
+      return {
+        id: p.id, name: p.n, v: cell[0], val: eur(cell[0]), tag: p.global ? 'global reference' : ST[p.st].label,
+        sub: cell[3] + '× ' + GL[g] + ' · ' + (cell[2] === 'catalogue' ? 'catalogue price' : cell[2]),
+        color: p.global ? C.rev : ST[p.st].color, st: p.st, global: p.global, open: open(p.id),
+      };
+    });
+    exRows.sort((a, b) => (s.exSort === 'name' ? a.name.localeCompare(b.name) : a.v - b.v));
+    const refs = [];
+    for (const [pre, color] of [['CSX', C.sov], ['CHX', C.for]]) {
+      const b = BOARD[pre + '-' + g.toUpperCase()];
+      if (b && b.st === 'published') refs.push({ v: b.v, label: pre + ' ' + eur(b.v), color });
+    }
+    const exMax = Math.max(1, ...exRows.map((r) => r.v), ...refs.map((r) => r.v)) * 1.06;
+    for (const r of exRows) r.w = pct(r.v, exMax);
+    for (const r of refs) r.left = pct(r.v, exMax);
+    const allG = D.providers.filter((p) => (D.cells[p.id] || {})[g]).map((p) => ({ p, v: D.cells[p.id][g][0] }));
+    const bs = allG.filter((x) => x.p.st === 'sovereign').sort((a, b) => a.v - b.v)[0];
+    const bn = allG.filter((x) => x.p.st === 'non_sovereign' && !x.p.global).sort((a, b) => a.v - b.v)[0];
+    const ex = {
+      gpuTabs: EXG.map((x) => chip(GL[x], g === x, set({ exGpu: x }))),
+      baskets: [['all', 'All providers'], ['sov', 'Sovereign'], ['non', 'Not sovereign']].map(([v, label]) => chip(label, s.exBasket === v, set({ exBasket: v }))),
+      sorts: [['price', 'Cheapest first'], ['name', 'A to Z']].map(([v, label]) => chip(label, s.exSort === v, set({ exSort: v }))),
+      rows: exRows, refs, empty: exRows.length === 0, gpuLabel: GL[g],
+      bestSov: bs ? eur(bs.v) : '—', bestSovName: bs ? bs.p.n : 'No sovereign provider lists it',
+      bestNon: bn ? eur(bn.v) : '—', bestNonName: bn ? bn.p.n : 'Not listed by AWS or Azure',
+      ratio: bs && bn ? (bn.v / bs.v).toFixed(1) + '×' : '—',
+      ratioNote: bs && bn ? 'what a hyperscaler charges for each euro of sovereign compute' : 'needs both a sovereign and a hyperscaler price',
+      fxDate: day(D.usd[1]), fxRate: D.usd[0],
+    };
+
+    // Coverage matrix
+    const cols = s.fOnly ? MG.filter((x) => D.gpus[x][1] === 'frontier') : MG;
+    const hv = s.hover;
+    const mx = {
+      fOnly: s.fOnly, toggle: () => this.setState({ fOnly: !this.state.fOnly, hover: null }),
+      btnBg: s.fOnly ? C.ink : 'transparent', btnFg: s.fOnly ? C.bg : C.ink2, btnBorder: s.fOnly ? C.ink : C.line2,
+      cols: 'minmax(180px, 1.7fr) repeat(' + cols.length + ', minmax(64px, 1fr))',
+      minW: 180 + cols.length * 70 + 'px',
+      head: cols.map((x) => ({ label: GL[x], color: hv && hv.g === x ? C.ink : D.gpus[x][1] === 'frontier' ? C.ink2 : C.ink3, bg: hv && hv.g === x ? C.raised : 'transparent' })),
+      groups: [['sovereign', 'Sovereign'], ['under_review', 'Under review'], ['non_sovereign', 'Not sovereign']].map(([stid, label]) => ({
+        label,
+        rows: D.providers.filter((p) => p.st === stid).map((p) => {
+          const cells = D.cells[p.id], noData = !cells;
+          return {
+            name: p.n, sw: stid === 'under_review' ? 'transparent' : ST[stid].color, swRing: stid === 'under_review' ? 'inset 0 0 0 1.5px ' + C.rev : 'none',
+            sub: noData ? COLL[p.cs] || 'No public data' : p.global ? 'Global marketplace, reference only' : '',
+            bg: hv && hv.p === p.id ? '#0f1726' : 'transparent', open: open(p.id),
+            cells: cols.map((x) => {
+              const cell = cells && cells[x], hot = hv && hv.p === p.id && hv.g === x, cross = hv && (hv.p === p.id || hv.g === x);
+              return {
+                text: noData ? '?' : cell ? cell[0].toFixed(2) : '·',
+                aria: p.n + ', ' + GL[x] + ': ' + (noData ? 'no public price data' : cell ? eur(cell[0]) + ' per GPU-hour' : 'not listed'),
+                bg: cell ? (p.global ? 'rgba(139,150,163,0.16)' : ST[p.st].bg) : noData ? HATCH : cross ? 'rgba(255,255,255,0.035)' : 'transparent',
+                fg: cell ? C.ink : C.ink3, ring: hot ? 'inset 0 0 0 1.5px ' + C.sovInk : 'none',
+                enter: () => this.setState({ hover: { p: p.id, g: x } }), leave: () => this.setState({ hover: null }), click: open(p.id),
+              };
+            }),
+          };
+        }),
+      })),
+      caption: (() => {
+        if (!hv) return 'Hover or tab through the cells to read them. Click to open the provider.';
+        const p = PROV[hv.p], cell = (D.cells[hv.p] || {})[hv.g];
+        if (!D.cells[hv.p]) return p.n + ' · ' + GL[hv.g] + ': no public price data. ' + (COLL[p.cs] || '');
+        if (!cell) return p.n + ' · ' + GL[hv.g] + ': not listed on demand in Europe today.';
+        return p.n + ' · ' + GL[hv.g] + ': ' + eur(cell[0]) + ' per GPU-hour, ' + cell[3] + '× ' + GL[hv.g] + ' offer ' + cell[1] + ' (' + (cell[2] === 'catalogue' ? 'catalogue price' : cell[2]) + ').';
+      })(),
+    };
+
+    // Sovereignty: provider check
+    const pk = PROV[s.pick];
+    const chk = {
+      chips: D.providers.map((p) => {
+        const on = s.pick === p.id;
+        return { label: p.n, pressed: on, pick: set({ pick: p.id }), dot: ST[p.st].color, bg: on ? C.raised : 'transparent', border: on ? ST[p.st].color : C.line2, fg: on ? C.ink : C.ink2 };
+      }),
+      entity: pk.ent[0] + ', ' + pk.ent[2], entityCC: CC[pk.ent[1]] || pk.ent[1],
+      ctl: pk.ctl[0], ctlCC: pk.contested ? 'contested' : CC[pk.ctl[1]] || pk.ctl[1],
+      checks: checksOf(pk.crit), verdict: ST[pk.st].label, vBg: ST[pk.st].bg, vInk: ST[pk.st].ink,
+      why: pk.why || defaultWhy(pk), open: open(pk.id),
+    };
+
+    // Sovereignty: your own cloud
+    const seatR = s.seat === 'EU' || s.seat === 'CH' ? 'pass' : 'fail';
+    const ctlR = s.owner === 'JOINT' ? 'unknown' : s.owner === 'EU' || s.owner === 'CH' ? 'pass' : 'fail';
+    const reachR = s.reach === 'no' ? 'pass' : s.reach === 'yes' ? 'fail' : 'unknown';
+    const results = [seatR, ctlR, reachR];
+    const verdict = results.includes('fail') ? 'non_sovereign' : results.includes('unknown') ? 'under_review' : 'sovereign';
+    let reason = 'All three tests pass: this cloud would count in the sovereign basket.';
+    if (seatR === 'fail') reason = 'The contracting company is registered outside the EU and Switzerland, so it fails the first test.';
+    else if (ctlR === 'fail') reason = 'The ultimate owner sits outside the EU and Switzerland. A European subsidiary does not change who controls it.';
+    else if (reachR === 'fail') reason = 'A parent under the CLOUD Act can be compelled to hand over data stored anywhere, so the cloud is not sovereign.';
+    else if (verdict === 'under_review') reason = 'A fact the rule needs is contested or unknown. The cloud would be shown, but kept out of the index until the fact is settled.';
+    const PRESETS = [['AWS European Sovereign Cloud', { seat: 'EU', owner: 'US', reach: 'yes' }], ['A Finnish neocloud', { seat: 'EU', owner: 'EU', reach: 'no' }], ['Exoscale today', { seat: 'CH', owner: 'JOINT', reach: 'unsure' }], ['A UK neocloud', { seat: 'GB', owner: 'GB', reach: 'no' }]];
+    const tst = {
+      presets: PRESETS.map(([label, v]) => chip(label, s.seat === v.seat && s.owner === v.owner && s.reach === v.reach, set(v))),
+      seat: s.seat, owner: s.owner, reach: s.reach,
+      onSeat: (e) => this.setState({ seat: e.target.value }),
+      onOwner: (e) => this.setState({ owner: e.target.value }),
+      onReach: (e) => this.setState({ reach: e.target.value }),
+      checks: checksOf({ seat: seatR, control: ctlR, no_extraterritorial: reachR }),
+      verdict: ST[verdict].label, vBg: ST[verdict].bg, vInk: ST[verdict].ink, reason,
+    };
+
+    // Ledger simulation on the real fingerprints
+    const [r1, r2] = D.runs, tp = s.tamper;
+    const blocks = [
+      {
+        kind: 'Run 1', title: stamp(r1.t), meta: r1.n + ' prices from ' + r1.ok + ' of ' + r1.tot + ' sources',
+        obs: tp === 1 ? r1.os + ' ≠ 7d41e0a95b2c' : tp === 2 ? '7d41e0a95b2c' : r1.os,
+        hash: tp === 2 ? 'e93b0c7f51d2' : r1.h, prev: r1.prev,
+        obsColor: tp === 1 ? C.crit : tp === 2 ? C.warn : C.ink, hashColor: tp === 2 ? C.warn : C.ink, prevColor: C.ink3,
+        bg: C.panel, border: tp === 1 ? C.crit : tp === 2 ? C.warn : C.line,
+        stateText: tp === 1 ? 'Broken: its prices no longer match the fingerprint it stored' : tp === 2 ? 'Rewritten to hide the edit' : 'Verified',
+        stateColor: tp === 1 ? C.crit : tp === 2 ? C.warn : C.good,
+      },
+      {
+        kind: 'Run 2', title: stamp(r2.t), meta: r2.n + ' prices from ' + r2.ok + ' of ' + r2.tot + ' sources',
+        obs: r2.os, hash: r2.h, prev: tp === 2 ? r2.prev + ' ≠ e93b0c7f51d2' : r2.prev,
+        obsColor: C.ink, hashColor: C.ink, prevColor: tp === 2 ? C.crit : C.ink3,
+        bg: C.panel, border: tp === 2 ? C.crit : C.line,
+        stateText: tp === 2 ? 'Broken: points to a run that no longer exists' : 'Verified', stateColor: tp === 2 ? C.crit : C.good,
+      },
+      {
+        kind: 'Next run', title: '21 Oct 2026 · 05:20 UTC', meta: 'Scheduled', obs: 'pending', hash: 'pending', prev: r2.h,
+        obsColor: C.ink3, hashColor: C.ink3, prevColor: C.ink3, bg: 'transparent', border: C.line,
+        stateText: 'Will chain onto run 2', stateColor: C.ink3,
+      },
+    ];
+    const OUT = {
+      0: ['$ uv run compeu verify', 'ledger OK'],
+      1: ['$ uv run compeu verify', 'ERROR run ' + r1.id + ': observation lines differ from what the run recorded', '1 problem'],
+      2: ['$ uv run compeu verify', 'ERROR runs.jsonl line 2: prev does not match the line before', '1 problem', '$ uv run compeu verify --against origin/main', 'ERROR ledger/runs.jsonl: existing lines were changed (only appending is allowed)'],
+    }[tp];
+    const btn = (label, primary, run) => ({ label, run, bg: primary ? C.ink : 'transparent', fg: primary ? C.bg : C.ink2, border: primary ? C.ink : C.line2 });
+    const led = {
+      blocks, obs: D.obs, nFix: D.nFix, fixHead: D.fixHead,
+      out: OUT.map((line) => ({ line, color: line.startsWith('ERROR') ? C.crit : line.startsWith('$') ? C.ink3 : line === 'ledger OK' ? C.good : C.ink2 })),
+      actions: tp === 0 ? [btn('Change one past price', true, set({ tamper: 1 }))]
+        : tp === 1 ? [btn('Rewrite run 1 to hide it', true, set({ tamper: 2 })), btn('Undo', false, set({ tamper: 0 }))]
+          : [btn('Undo everything', true, set({ tamper: 0 }))],
+      explain: tp === 0 ? 'Edit a price from the first run of 20 October and see what the public check says.'
+        : tp === 1 ? 'The edited prices no longer match the fingerprint run 1 stored. Now try to hide it by rewriting run 1 itself.'
+          : 'Rewriting run 1 gives it a new fingerprint, so run 2 now points to nothing. And the public git history still holds the original line.',
+    };
+
+    // Data health
+    const health = D.providers.slice().sort((a, b) => (a.m === 'none') - (b.m === 'none') || a.n.localeCompare(b.n)).map((p) => {
+      const isOpen = s.openRow === p.id, collected = p.m !== 'none';
+      return {
+        name: p.n, sw: p.st === 'under_review' ? 'transparent' : ST[p.st].color, swRing: p.st === 'under_review' ? 'inset 0 0 0 1.5px ' + C.rev : 'none',
+        method: METHOD[p.m], status: collected ? (p.ok ? 'Collected' : 'Not run yet') : COLL[p.cs] || 'No public data',
+        dot: collected ? C.good : C.ink3, last: p.ok ? stamp(p.ok + ':00Z') : '—', offers: p.offers != null ? String(p.offers) : '—',
+        note: p.cn + (p.notes ? ' Last run: ' + p.notes + ' note' + (p.notes === 1 ? '' : 's') + ', such as sizes with a fraction of a GPU, which are not counted.' : ''),
+        src: p.src || 'No public source yet', open: isOpen, chev: isOpen ? '−' : '+', bg: isOpen ? C.raised : 'transparent',
+        toggle: () => this.setState({ openRow: this.state.openRow === p.id ? null : p.id }),
+      };
+    });
+
+    // Roadmap
+    const phases = [
+      ['p1', 'Phase 1', 'Live', C.good, 'The index', 'Daily public prices, a sovereignty test computed from legal facts, and a ledger anyone can verify. Free to read and to cite.', 'Next: more collectors (Nebius, Google Cloud, IONOS) and Level 2 confirmations from Swiss and German providers that publish no prices today.'],
+      ['p2', 'Phase 2', 'Planned', C.warn, 'A capacity desk', 'Pool demand from European buyers who need sovereign GPUs and negotiate capacity with neoclouds.', 'Prices from real deals become Level 3 data: the index moves from list prices towards what compute really trades at.'],
+      ['p3', 'Phase 3', 'Subject to licensing', C.ink3, 'A reference price for contracts', 'Cash-settled contracts on compute need a licensed venue and an authorised benchmark administrator.', 'The method already follows the IOSCO benchmark principles: versioned rules, no hand-made numbers, fixings never revised. The history built today stays usable.'],
+    ].map(([id, when, state, stateColor, title, text, more]) => ({
+      when, state, stateColor, title, text, more, open: s.phase === id,
+      border: s.phase === id ? (id === 'p1' ? C.sov : C.line2) : C.line,
+      cta: s.phase === id ? 'Show less' : 'Read more',
+      toggle: () => this.setState({ phase: this.state.phase === id ? null : id }),
+    }));
+
+    // Provider profile drawer
+    let dr = { open: false };
+    const dp = s.drawer && PROV[s.drawer];
+    if (dp) {
+      const cells = D.cells[dp.id] || {};
+      const prices = Object.keys(cells).sort((a, b) => cells[a][0] - cells[b][0]).map((x) => ({ gpu: GL[x], val: eur(cells[x][0]), sku: cells[x][3] + '× · ' + cells[x][1] }));
+      const links = [];
+      if (dp.src) links.push({ href: dp.src, label: 'Source: ' + dp.src.replace('https://', '') });
+      dr = {
+        open: true, name: dp.n, aka: dp.aka ? '  formerly ' + dp.aka : '',
+        verdict: ST[dp.st].label, vBg: ST[dp.st].bg, vInk: ST[dp.st].ink,
+        provisional: dp.prov ? 'Some facts are provisional: not yet checked against a company register.' : 'Rule sovereignty/1',
+        checks: checksOf(dp.crit), entity: dp.ent[0] + ', ' + dp.ent[2] + ' (' + (CC[dp.ent[1]] || dp.ent[1]) + ')',
+        ctl: dp.ctl[0], method: METHOD[dp.m], last: dp.ok ? stamp(dp.ok + ':00Z') : 'never collected',
+        hasWhy: true, why: dp.why || defaultWhy(dp), disc: dp.disc.map((text) => ({ text })),
+        hasPrices: prices.length > 0, noPrices: prices.length === 0, prices, cnote: COLL[dp.cs] || '',
+        note: dp.cn, links,
+        close: set({ drawer: null }),
+        onKey: (e) => { if (e.key === 'Escape') this.setState({ drawer: null }); },
+      };
+    }
+
+    return {
+      L, nav, status: narrow ? day(D.lastRun) : 'Updated ' + stamp(D.lastRun), hero, covDots,
+      modeBtns, gpuBtns, mapCaption, ticker, boards, det, lab, ex, mx, chk, tst, led, health, phases, dr,
+      showControl: () => { this.lastInteract = 0; this.setState({ mode: 'control' }); },
+      setRoot: this.setRoot, setCanvas: this.setCanvas, setTicker: this.setTicker,
+      pauseTicker: this.pauseTicker, resumeTicker: this.resumeTicker,
+    };
+  }
+}
+</script>
+</body>
+</html>

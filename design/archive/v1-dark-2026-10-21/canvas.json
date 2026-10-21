@@ -1,0 +1,59 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 8000,
+      "is_interactive": true,
+      "title": "Home · desktop",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    },
+    "Methodology.dc.html": {
+      "expand": "fill",
+      "h": 3600,
+      "is_interactive": true,
+      "title": "Methodology",
+      "w": 1440,
+      "x": 1990,
+      "y": 0
+    },
+    "Mobile.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 28,
+      "title": "Home · phone",
+      "w": 390,
+      "x": 1520,
+      "y": 0
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-21T16:10:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "file": "Main.dc.html",
+    "view": "focused"
+  },
+  "notes": {
+    "title": {
+      "kind": "title1",
+      "maxW": 3430,
+      "text": "CompEU · the price of compute Europe controls",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Mobile.dc.html",
+    "Methodology.dc.html"
+  ],
+  "pages": [],
+  "title": "CompEU"
+}
