@@ -73,14 +73,19 @@ collectors already use the operating system's certificate store.
 |---|---|---|
 | Scaleway | sovereign | public product catalogue API |
 | OVHcloud | sovereign | public order catalogue API |
-| Hetzner | sovereign | GPU product page (structured price elements) |
+| Hetzner | sovereign | public price file (per data centre) + GPU page |
 | Verda (DataCrunch) | sovereign (provisional) | public instance-types API |
-| Exoscale | under review | public pricing JSON + instance-type API |
+| Seeweb | sovereign (provisional) | GPU page + its price list |
+| Lyceum | sovereign (provisional) | public pricing page |
+| Exoscale | control under review, counted by decision (index/2) | public pricing JSON + instance-type API |
+| Nebius | control under review, counted by decision (index/2) | public price page |
 | AWS | not sovereign | Price List bulk API |
 | Microsoft Azure | not sovereign | Retail Prices API |
 | RunPod | not sovereign, global reference | public GraphQL API |
-| IONOS, Infomaniak, Safe Swiss Cloud, Hikube, Polarise | sovereign | no public price list yet |
-| Nebius, Google Cloud, CoreWeave | various | planned / no public API |
+| STACKIT, Open Telekom Cloud | sovereign | collector planned |
+| IONOS, Infomaniak, Safe Swiss Cloud, Hikube, Polarise, Swisscom, Phoenix (kvant), Sesterce | sovereign | no public price list yet |
+| Gcore | under review | collector planned |
+| Google Cloud, CoreWeave | not sovereign | planned / no public API |
 
 Exchange rates: ECB euro foreign exchange reference rates.
 

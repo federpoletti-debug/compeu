@@ -1,0 +1,116 @@
+# CompEU methodology, version 2.
+#
+# Same structure and rules as index/1 (see index-v1.yaml for the IOSCO-based
+# rationale), with one change decided on 22 Oct 2026: the sovereign basket also
+# counts providers whose control the sovereignty rule marks as under review, when
+# the index administrator has decided to include them (listed below with date and
+# reason). The rule itself (sovereignty/1) is unchanged: those providers keep the
+# status "under review" and are labelled as such.
+#
+# Fixings up to 21 Oct 2026 were calculated with index/1 and are never recalculated.
+
+id: index/2
+effective_from: "2026-10-22"
+calculation_currency: EUR
+fx_source: ECB euro foreign exchange reference rates (daily, around 16:00 CET)
+fx_rule: >-
+  A price in another currency is converted with the ECB reference rate of the latest
+  TARGET business day on or before the observation date.
+
+# Where an offer must be located to count as "European" compute.
+location_scope:
+  label: EU27 + EEA + Switzerland
+  countries: [AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU,
+              MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, "NO", CH]
+  catalogue_prices: >-
+    An offer published as a single catalogue price (no region) counts only when the
+    registry marks that catalogue as the provider's European price list
+    (collection.catalogue_in_scope), with the reason written next to it.
+
+# Which offers are eligible.
+eligibility:
+  pricing_model: on_demand
+  min_tier: 1
+  unit: EUR per GPU-hour, excluding VAT
+
+# How one provider becomes one number. Each provider has one vote, however many
+# SKUs or regions it lists, so a provider with forty SKUs cannot dominate.
+provider_quote: minimum per-GPU-hour price among the provider's eligible offers
+
+# How quotes become the index.
+aggregation: median
+staleness_days: 3          # a quote older than this is excluded and flagged as stale
+
+baskets:
+  sovereign:
+    label: Sovereign
+    rule: sovereignty/1
+    status: sovereign
+    # Providers the rule marks under_review (control contested) that the index
+    # administrator has decided to count, with the decision and its date. They stay
+    # labelled "control under review" everywhere they appear.
+    include_under_review:
+      - { provider: exoscale, decided: "2026-10-22", by: CompEU (Massimo), reason: "Swiss seat; European parent group (A1, Vienna) with the Austrian state as blocking shareholder; no US parent." }
+      - { provider: nebius, decided: "2026-10-22", by: CompEU (Massimo), reason: "Dutch seat and holding company; no US parent; US listing and US subsidiaries disclosed." }
+  hyperscaler:
+    label: US hyperscalers in Europe
+    rule: sovereignty/1
+    status: non_sovereign
+    providers: [aws, azure, google-cloud]
+
+indices:
+  - id: CSX-H100
+    name: CompEU Sovereign H100
+    basket: sovereign
+    gpu: h100
+    min_constituents: 3
+    headline: true
+  - id: CHX-H100
+    name: CompEU Hyperscaler H100
+    basket: hyperscaler
+    gpu: h100
+    min_constituents: 2
+  - id: CSX-H200
+    name: CompEU Sovereign H200
+    basket: sovereign
+    gpu: h200
+    min_constituents: 3
+  - id: CHX-H200
+    name: CompEU Hyperscaler H200
+    basket: hyperscaler
+    gpu: h200
+    min_constituents: 2
+  - id: CSX-B200
+    name: CompEU Sovereign B200
+    basket: sovereign
+    gpu: b200
+    min_constituents: 3
+  - id: CHX-B200
+    name: CompEU Hyperscaler B200
+    basket: hyperscaler
+    gpu: b200
+    min_constituents: 2
+  - id: CSX-A100
+    name: CompEU Sovereign A100
+    basket: sovereign
+    gpu: a100
+    min_constituents: 3
+  - id: CSX-L40S
+    name: CompEU Sovereign L40S
+    basket: sovereign
+    gpu: l40s
+    min_constituents: 3
+
+# Coverage: how much frontier capacity sovereign providers list publicly. Counts
+# every sovereign provider in the registry, including those with no public price,
+# so the denominator does not shrink when data is missing.
+coverage:
+  id: CSC-FRONTIER
+  name: Sovereign frontier coverage
+  basket: sovereign
+  tier: frontier
+
+# When an index cannot be calculated (too few fresh constituents) the fixing is
+# published as "not published: insufficient data" with the reason. No value is
+# carried forward, interpolated or estimated.
+insufficient_data: publish_gap

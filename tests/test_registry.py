@@ -81,9 +81,22 @@ def test_registry_statuses_match_expectations():
 
 
 def test_every_collected_provider_has_sites_or_a_scope():
+    # A collected provider needs a place for its prices: published sites, a global
+    # scope, or a catalogue the registry marks as its European price list.
     for p in registry.providers().values():
-        if (p.get("collection") or {}).get("method") in ("api", "html"):
-            assert p.get("sites") or p.get("scope") == "global", p["id"]
+        col = p.get("collection") or {}
+        if col.get("method") in ("api", "html"):
+            placed = p.get("sites") or p.get("scope") == "global" or col.get("catalogue_in_scope")
+            assert placed, p["id"]
+
+
+def test_new_providers_classify_as_expected():
+    c = registry.classifications()
+    assert c["seeweb"].status == "sovereign" and c["seeweb"].provisional
+    assert c["stackit"].status == "sovereign"
+    assert c["swisscom"].status == "sovereign"
+    assert c["gcore"].status == "under_review"
+    assert c["nebius"].status == "under_review"  # counted in index/2 by decision, rule unchanged
 
 
 def test_country_codes_are_strings():

@@ -17,7 +17,7 @@ import yaml
 from .util import root
 
 CURRENT_RULE = "sovereignty/1"
-CURRENT_METHODOLOGY = "index/1"
+CURRENT_METHODOLOGY = "index/2"
 
 
 def _load(path: Path) -> Any:
@@ -48,6 +48,18 @@ def rule(rule_id: str = CURRENT_RULE) -> dict:
 def methodology(method_id: str = CURRENT_METHODOLOGY) -> dict:
     name = method_id.replace("/", "-v") + ".yaml"
     return _load(registry_dir() / "methodology" / name)
+
+
+def methodology_for(day: str) -> str:
+    """Id of the methodology in force on `day`: the latest whose effective_from <= day."""
+    best = None
+    for path in sorted((registry_dir() / "methodology").glob("index-v*.yaml")):
+        m = _load(path)
+        if str(m["effective_from"]) <= day and (best is None or str(m["effective_from"]) > best[0]):
+            best = (str(m["effective_from"]), m["id"])
+    if best is None:
+        raise ValueError(f"no methodology in force on {day}")
+    return best[1]
 
 
 @cache

@@ -62,8 +62,14 @@ def _in_scope(obs: dict, scope: set[str]) -> bool:
     return obs.get("country") in scope
 
 
+def included_by_decision(basket: dict) -> set[str]:
+    """Under-review providers the administrator decided to count (index/2 onwards)."""
+    return {d["provider"] for d in basket.get("include_under_review") or []}
+
+
 def _in_basket(provider: str, status: str, basket: dict) -> bool:
-    if status != basket["status"]:
+    decided = status == "under_review" and provider in included_by_decision(basket)
+    if status != basket["status"] and not decided:
         return False
     members = basket.get("providers")
     return members is None or provider in members
@@ -171,7 +177,12 @@ def coverage(
     basket = method["baskets"][cov["basket"]]
     stale_before = (date.fromisoformat(day) - timedelta(days=method["staleness_days"])).isoformat()
     classes = registry.classifications(basket["rule"])
-    members = sorted(p for p, c in classes.items() if c.status == basket["status"])
+    extra = included_by_decision(basket)
+    members = sorted(
+        p
+        for p, c in classes.items()
+        if c.status == basket["status"] or (c.status == "under_review" and p in extra)
+    )
     listing = {}
     for p in members:
         s = states.get(p)
@@ -200,7 +211,8 @@ def coverage(
     }
 
 
-def compute_day(day: str, method_id: str = registry.CURRENT_METHODOLOGY) -> list[dict]:
+def compute_day(day: str, method_id: str | None = None) -> list[dict]:
+    method_id = method_id or registry.methodology_for(day)
     states = provider_states(day)
     method = registry.methodology(method_id)
     out = [fixing(day, d, states, method_id) for d in method["indices"]]

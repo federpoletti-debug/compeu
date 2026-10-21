@@ -32,6 +32,7 @@ models:
   - { id: rtx-5000-ada, label: RTX 5000 Ada, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 32, tier: inference, match: ['rtx ?5000 ?ada'] }
   - { id: rtx-4000-ada, label: RTX 4000 Ada, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 20, tier: inference, match: ['rtx ?4000 (sff )?ada'] }
   - { id: rtx-2000-ada, label: RTX 2000 Ada, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 16, tier: inference, match: ['rtx ?2000 ?ada'] }
+  - { id: quadro-rtx-6000, label: Quadro RTX 6000, vendor: NVIDIA, arch: Turing, memory_gb: 24, tier: inference, match: ['quadro.?rtx.?6000'] }
   - { id: quadro-rtx-5000, label: Quadro RTX 5000, vendor: NVIDIA, arch: Turing, memory_gb: 16, tier: inference, match: ['quadro.?rtx.?5000'] }
   - { id: rtx-a6000, label: RTX A6000, vendor: NVIDIA, arch: Ampere, memory_gb: 48, tier: inference, match: ['a6000'] }
   - { id: a40, label: A40, vendor: NVIDIA, arch: Ampere, memory_gb: 48, tier: inference, match: ['\ba40\b'] }

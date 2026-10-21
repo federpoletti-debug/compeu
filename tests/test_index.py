@@ -148,3 +148,26 @@ def test_publish_never_rewrites_a_fixing(tmp_root, monkeypatch):
     assert len(index.publish("d")) == 1
     assert index.publish("d") == []
     assert [f["value"] for f in ledger.fixings()] == ["1"]
+
+
+def test_index2_counts_under_review_providers_only_by_decision():
+    from compeu import registry
+
+    method = registry.methodology("index/2")
+    basket = method["baskets"]["sovereign"]
+    exo = _obs("exoscale", "r", "2", cls="under_review", region="ch-gva-2", country="CH")
+    gcore = dict(exo, provider="gcore")
+    assert index.eligible(exo, "h100", method, basket)  # included by the 22 Oct decision
+    assert not index.eligible(gcore, "h100", method, basket)  # under review, not decided
+    v1 = registry.methodology("index/1")
+    assert not index.eligible(exo, "h100", v1, v1["baskets"]["sovereign"])
+
+
+def test_methodology_follows_the_fixing_date():
+    from compeu import registry
+
+    assert registry.methodology_for("2026-10-20") == "index/1"
+    assert registry.methodology_for("2026-10-21") == "index/1"
+    assert registry.methodology_for("2026-10-22") == "index/2"
+    with pytest.raises(ValueError):
+        registry.methodology_for("2026-01-01")

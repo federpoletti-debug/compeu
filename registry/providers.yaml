@@ -264,9 +264,172 @@ providers:
       - { id: fi-mantsala, city: Mäntsälä, country: FI, lat: 60.6339, lon: 25.3172 }
       - { id: fr-paris, city: Paris, country: FR, lat: 48.8400, lon: 2.4000 }
     collection:
+      method: html
+      collector: nebius
+      source: https://nebius.com/prices
+      catalogue_in_scope: true   # one list price, the same in its EU regions (Finland, Paris)
+      note: >-
+        Public price page: on-demand and preemptible prices per GPU-hour in USD, the same
+        in every region. Nebius also sells in the US; the price counts for its European
+        regions, where the same list applies.
+
+  # ---------------------------------------------------------------- added 22 Oct 2026
+  - id: seeweb
+    name: Seeweb
+    website: https://www.seeweb.it
+    legal_entity: { name: Seeweb srl, country: IT, city: Frosinone }
+    ultimate_controller:
+      name: DHH group (Dominion Hosting Holding, listed on Euronext Growth Milan; Italian founders are the largest shareholders)
+      country: IT
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Frosinone, lat: 41.6400, lon: 13.3500 }
+    sites:
+      - { id: fr1, city: Frosinone, country: IT, lat: 41.6400, lon: 13.3500 }
+      - { id: mi1, city: Milan, country: IT, lat: 45.4700, lon: 9.1700 }
+    collection:
+      method: html
+      collector: seeweb
+      source: https://www.seeweb.it/en/products/cloud-server-gpu
+      catalogue_in_scope: true   # data centres in Frosinone and Milan
+      note: >-
+        Product page joined with the price list in its script: euro per GPU-hour, excl.
+        VAT, the same in both Italian data centres.
+    evidence:
+      - { claim: "Seeweb is part of the DHH group (Dominion Hosting Holding)", url: "https://www.finanzaonline.com/notizie/seeweb-il-gioiello-italiano-del-cloud-guarda-al-futuro-dopo-la-fusione-con-dhh" }
+
+  - id: lyceum
+    name: Lyceum
+    website: https://lyceum.technology
+    legal_entity: { name: Lyceum Technology Germany GmbH, country: DE, city: Berlin }
+    ultimate_controller:
+      name: Founders and European investors (pre-seed led by redalpine, with 10x Founders)
+      country: DE
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Berlin, lat: 52.5200, lon: 13.4050 }
+    sites: []
+    locations_note: European regions (Central, Northern, Southern and Western Europe); cities not published.
+    collection:
+      method: html
+      collector: lyceum
+      source: https://lyceum.technology/resources/pricing/
+      catalogue_in_scope: true   # European regions only
+      note: Public pricing page with on-demand and spot prices per GPU-hour, in USD.
+    evidence:
+      - { claim: "Berlin and Zurich based sovereign AI cloud; pre-seed led by redalpine", url: "https://tech.eu/2025/06/24/sovereign-by-design-lyceum-emerges-with-eur103m-to-redefine-cloud-infrastructure-in-europe/" }
+
+  - id: stackit
+    name: STACKIT
+    website: https://www.stackit.de
+    legal_entity: { name: STACKIT GmbH & Co. KG, country: DE, city: Neckarsulm }
+    ultimate_controller:
+      name: Schwarz Group (Lidl and Kaufland), owned by a German foundation structure
+      country: DE
+      extraterritorial_law: false
+    hq: { city: Neckarsulm, lat: 49.1912, lon: 9.2253 }
+    sites: []
+    locations_note: Data centres in Germany.
+    collection:
       method: none
       status: planned
-      note: Public price page exists; parser planned for sprint 2.
+      note: >-
+        Publishes a GPU price list (H100, A100, L40S, in euro per hour). Its site does not
+        answer from our development machine; a collector is planned for the next sprint.
+    evidence:
+      - { claim: "STACKIT is the cloud of the Schwarz Group", url: "https://en.wikipedia.org/wiki/Schwarz_Gruppe" }
+
+  - id: open-telekom-cloud
+    name: Open Telekom Cloud
+    website: https://www.open-telekom-cloud.com
+    legal_entity: { name: T-Systems International GmbH, country: DE, city: Frankfurt }
+    ultimate_controller:
+      name: Deutsche Telekom AG (largest shareholder the German state, directly and through KfW)
+      country: DE
+      extraterritorial_law: false
+    disclosures:
+      - Deutsche Telekom owns a majority of T-Mobile US, a US company.
+    hq: { city: Frankfurt, lat: 50.1109, lon: 8.6821 }
+    sites:
+      - { id: eu-de-mag, city: Magdeburg, country: DE, lat: 52.1205, lon: 11.6276 }
+      - { id: eu-de-bie, city: Biere, country: DE, lat: 51.9667, lon: 11.6500 }
+    collection:
+      method: none
+      status: planned
+      note: Public price calculator with GPU flavours; collector planned for the next sprint.
+    evidence:
+      - { claim: "Open Telekom Cloud is run by T-Systems, part of Deutsche Telekom", url: "https://en.wikipedia.org/wiki/T-Systems" }
+
+  - id: swisscom
+    name: Swisscom
+    website: https://www.swisscom.ch
+    legal_entity: { name: Swisscom AG, country: CH, city: Ittigen }
+    ultimate_controller:
+      name: Swiss Confederation (majority shareholder)
+      country: CH
+      extraterritorial_law: false
+    hq: { city: Ittigen, lat: 46.9750, lon: 7.4830 }
+    sites: []
+    locations_note: Swiss AI Platform in Swiss data centres (NVIDIA DGX SuperPOD).
+    collection:
+      method: none
+      status: no_public_price
+      note: GPU capacity sold through the Swiss AI Platform; no public GPU price list.
+    evidence:
+      - { claim: "The Swiss Confederation holds a majority of Swisscom", url: "https://en.wikipedia.org/wiki/Swisscom" }
+
+  - id: phoenix-kvant
+    name: Phoenix Technologies (kvant)
+    website: https://kvant.cloud
+    legal_entity: { name: Phoenix Technologies AG, country: CH, confidence: provisional }
+    ultimate_controller:
+      name: Privately held, Swiss (shareholders not published)
+      country: CH
+      extraterritorial_law: false
+      confidence: provisional
+    sites: []
+    locations_note: H100 GPUs hosted in Swiss data centres.
+    collection:
+      method: none
+      status: no_public_price
+      note: Swiss sovereign cloud with H100 GPU-as-a-service; no public GPU price list found.
+    evidence:
+      - { claim: "kvant, the sovereign Swiss cloud and AI platform of Phoenix Technologies", url: "https://phoenix-systems.ch/en/products-and-services/kvant-cloud-platform/ai-cloud" }
+
+  - id: gcore
+    name: Gcore
+    website: https://gcore.com
+    legal_entity: { name: G-Core Labs S.A., country: LU, city: Luxembourg, confidence: provisional }
+    ultimate_controller:
+      name: Founders and investors; the shareholder split after the 2024 funding round is not published
+      country: unknown
+      extraterritorial_law: unknown
+    hq: { city: Luxembourg, lat: 49.6116, lon: 6.1319 }
+    sites: []
+    locations_note: GPU regions in Europe and elsewhere.
+    collection:
+      method: none
+      status: planned
+      note: Publishes GPU prices on its website; a collector is planned once control is settled.
+    evidence:
+      - { claim: "Gcore is headquartered in Luxembourg", url: "https://en.wikipedia.org/wiki/Gcore" }
+
+  - id: sesterce
+    name: Sesterce
+    website: https://www.sesterce.com
+    legal_entity: { name: Sesterce SAS, country: FR, city: Marseille, confidence: provisional }
+    ultimate_controller:
+      name: Founders and French investors (privately held)
+      country: FR
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Marseille, lat: 43.2965, lon: 5.3698 }
+    sites: []
+    locations_note: GPU capacity in France.
+    collection:
+      method: none
+      status: no_public_price
+      note: No public GPU price page found (its pricing page returns "not found").
 
   # ---------------------------------------------------------------- non-sovereign benchmarks
   - id: aws

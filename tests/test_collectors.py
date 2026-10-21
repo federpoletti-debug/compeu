@@ -2,7 +2,19 @@
 
 from decimal import Decimal
 
-from compeu.collectors import aws, azure, exoscale, hetzner, ovhcloud, runpod, scaleway, verda
+from compeu.collectors import (
+    aws,
+    azure,
+    exoscale,
+    hetzner,
+    lyceum,
+    nebius,
+    ovhcloud,
+    runpod,
+    scaleway,
+    seeweb,
+    verda,
+)
 from compeu.collectors.base import Fetched
 
 
@@ -247,3 +259,67 @@ def test_runpod_flags_placeholder_and_skips_mig():
         "community": "suspect_placeholder",
     }
     assert any("MIG" in p for p in f.problems)
+
+
+NEBIUS_TEXT = """<table>
+<tr><td>NVIDIA GB200 NVL72</td><td>112</td><td>800</td><td>-</td><td>Contact us</td></tr>
+<tr><td>NVIDIA HGX H100</td><td>16</td><td>200</td><td>from $0.79</td><td>$4.50</td></tr>
+<tr><td>NVIDIA L40S with Intel CPU</td><td>8-40</td><td>32-160</td>
+<td>from $0.74**</td><td>from $1.55</td></tr></table>"""
+
+
+def test_nebius_rows_skip_contact_us_and_keep_per_gpu_prices():
+    rows = nebius.extract_rows(NEBIUS_TEXT)
+    assert rows == [
+        {"name": "NVIDIA HGX H100", "on_demand": "4.50", "preemptible": "0.79"},
+        {"name": "NVIDIA L40S with Intel CPU", "on_demand": "1.55", "preemptible": "0.74"},
+    ]
+    offers = nebius.Nebius().parse(Fetched("u", rows))
+    assert {(o.sku, o.pricing_model, o.price) for o in offers} == {
+        ("NVIDIA HGX H100", "on_demand", Decimal("4.50")),
+        ("NVIDIA HGX H100", "spot", Decimal("0.79")),
+        ("NVIDIA L40S with Intel CPU", "on_demand", Decimal("1.55")),
+        ("NVIDIA L40S with Intel CPU", "spot", Decimal("0.74")),
+    }
+    assert all(o.currency == "USD" and o.region == "catalogue" for o in offers)
+
+
+LYCEUM_TEXT = """<div>NVIDIA H100</div><span>80 GB</span> On demand $4.69 Spot $2.39 On demand $4.69
+<div>NVIDIA L40S</div><span>48 GB</span> On demand $1.99 On demand $1.99 Spot Not offered"""
+
+
+def test_lyceum_on_demand_and_optional_spot():
+    rows = lyceum.extract_rows(LYCEUM_TEXT)
+    assert [(r["name"], r["on_demand"], r["spot"]) for r in rows] == [
+        ("NVIDIA H100", "4.69", "2.39"),
+        ("NVIDIA L40S", "1.99", None),
+    ]
+    offers = lyceum.Lyceum().parse(Fetched("u", rows))
+    assert [(o.sku, o.pricing_model) for o in offers] == [
+        ("NVIDIA H100", "on_demand"),
+        ("NVIDIA H100", "spot"),
+        ("NVIDIA L40S", "on_demand"),
+    ]
+
+
+SEEWEB_PAGE = """<div id="gpu1" class="cardType"><h2><span>CLOUD GPU</span>
+<span class="cardname">NVIDIA H100</span></h2></div>
+<div id="gpu9" class="cardType featured"><h2><span class="cardname">NVIDIA H200</span></h2></div>
+<div id="gpu11" class="cardType"><h2><span class="cardname">NVIDIA B200</span></h2></div>"""
+SEEWEB_BUNDLE = 'x={"CLOUDECS7H":0.63,"CLOUDGPU1H":1.89,"CLOUDGPU9H":2.6,"CLOUDGPU10H":1.25}'
+
+
+def test_seeweb_joins_cards_with_per_gpu_rates():
+    recs = seeweb.extract(SEEWEB_PAGE, SEEWEB_BUNDLE)
+    assert recs == [
+        {"card": "gpu1", "name": "NVIDIA H100", "rate_eur": "1.89"},
+        {"card": "gpu9", "name": "NVIDIA H200", "rate_eur": "2.6"},
+        {"card": "gpu11", "name": "NVIDIA B200", "rate_eur": None},
+    ]
+    f = Fetched("u", recs)
+    offers = seeweb.Seeweb().parse(f)
+    assert [(o.gpu_raw, o.per_gpu_hour(), o.currency) for o in offers] == [
+        ("NVIDIA H100", Decimal("1.89"), "EUR"),
+        ("NVIDIA H200", Decimal("2.6"), "EUR"),
+    ]
+    assert any("gpu11" in p for p in f.problems)  # a card without a rate is reported
