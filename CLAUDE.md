@@ -46,16 +46,19 @@ Le prove che scaricano dati vanno fatte con `COMPEU_ROOT` che punta a una copia 
 - Parametri del metodo in `registry/methodology/`, impostazioni del sito in `site/site.yaml`.
 - Prima di ogni commit: `uv run pytest`, `uv run ruff check .`, `uv run ruff format .`.
 - Nessun push se Massimo non lo chiede.
+- Il ledger lo scrive GitHub ogni mattina (05:20 UTC, commit di `compeu-bot`): **prima di lavorare, `git pull`**, e non lanciare `compeu daily` in locale sul ramo main (creerebbe righe in conflitto con quelle del bot).
+- `gh` (GitHub CLI) è in `C:\Program Files\GitHub CLI\gh.exe` e funziona solo dallo strumento PowerShell (il login è nel keyring di Windows).
 
 ## Stato al 21 ottobre 2026
 
 - Primo fixing reale il 20 ottobre 2026: CSX-H100 €2,87 (OVHcloud, Scaleway, Verda), CHX-H100 €7,02 (AWS, Azure). Copertura frontier: 3 sovrani su 9.
 - 8 collector attivi: Scaleway, OVHcloud, Hetzner, Verda, Exoscale, AWS, Azure, RunPod.
-- Repository locale, non ancora su GitHub: il workflow giornaliero parte solo dopo il primo push.
+- Repository pubblico https://github.com/federpoletti-debug/compeu, CI verde, raccolta giornaliera attiva, Pages su https://federpoletti-debug.github.io/compeu/.
+- Il sito nel codice ha ancora il primo design (Ceresio, rinominato CompEU). Il design nuovo e interattivo è nel canvas Claude Design: va portato nel codice.
 
 ## Prossimi passi
 
-1. Creare il repository GitHub (o Codeberg), push, attivare Pages; aggiornare `repo` in `site/site.yaml`.
+1. Portare nel codice il design del canvas Claude Design (home, telefono, metodologia).
 2. Dominio e hosting europeo (Scaleway Object Storage già previsto nel workflow).
 3. Decidere Exoscale e Nebius (oggi `under_review`): servono i fatti sul controllo.
 4. Collector: Nebius (pagina prezzi), Google Cloud (chiave API gratuita), IONOS, AWS European Sovereign Cloud.
