@@ -12,8 +12,8 @@ from typing import Any
 
 
 def root() -> Path:
-    """Repository root. Override with CERESIO_ROOT (used by tests)."""
-    env = os.environ.get("CERESIO_ROOT")
+    """Repository root. Override with COMPEU_ROOT (used by tests)."""
+    env = os.environ.get("COMPEU_ROOT")
     if env:
         return Path(env)
     return Path(__file__).resolve().parents[2]

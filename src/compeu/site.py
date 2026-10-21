@@ -5,8 +5,8 @@ page gets one JSON document (embedded in the HTML and also published at
 data/latest.json); the browser only draws it. There is no server and no
 database: a static host is enough.
 
-    uv run ceresio build            # dist/ for a static host
-    uv run ceresio build --single   # one self-contained HTML file (for previews)
+    uv run compeu build            # dist/ for a static host
+    uv run compeu build --single   # one self-contained HTML file (for previews)
 """
 
 from __future__ import annotations
@@ -330,7 +330,7 @@ def build(out_dir: str = "dist", single: bool = False) -> Path:
             geo_json=geo,
             prefix="",
         )
-        target = out / "ceresio-index.html"
+        target = out / "compeu.html"
         target.write_text(html, encoding="utf-8")
         return target
 

@@ -32,15 +32,15 @@ jobs:
       - run: uv sync --frozen
 
       - name: Collect, convert, fix
-        run: uv run ceresio daily
+        run: uv run compeu daily
 
       - name: Check the ledger only grew
-        run: uv run ceresio verify --against HEAD
+        run: uv run compeu verify --against HEAD
 
       - name: Commit the new ledger lines
         run: |
-          git config user.name "ceresio-bot"
-          git config user.email "ceresio-bot@users.noreply.github.com"
+          git config user.name "compeu-bot"
+          git config user.email "compeu-bot@users.noreply.github.com"
           git add ledger state
           git diff --cached --quiet || git commit -m "Collection $(date -u +%Y-%m-%d)"
           git push
@@ -49,14 +49,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if ! uv run ceresio alerts --streak 2 > alerts.md; then
+          if ! uv run compeu alerts --streak 2 > alerts.md; then
             title="Collection failing: $(date -u +%Y-%m-%d)"
             gh issue create --title "$title" --body-file alerts.md --label collection || \
             gh issue create --title "$title" --body-file alerts.md
           fi
 
       - name: Build the site
-        run: uv run ceresio build
+        run: uv run compeu build
 
       - uses: actions/upload-pages-artifact@v3
         with:

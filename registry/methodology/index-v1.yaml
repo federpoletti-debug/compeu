@@ -1,4 +1,4 @@
-# Ceresio Index methodology, version 1.
+# CompEU methodology, version 1.
 #
 # Written to follow the structure of the IOSCO Principles for Financial
 # Benchmarks (2013): a published, versioned methodology; data sufficiency rules;
@@ -11,6 +11,11 @@
 #
 # Changing anything below means writing index-v2.yaml. Published fixings keep the
 # methodology id they were calculated with and are never recalculated.
+#
+# 21 Oct 2026: display names changed with the rename to CompEU (index ids unchanged).
+# Bug fix: "NO" (Norway) is now quoted. Unquoted, YAML read it as false, so Norwegian
+# regions were silently outside the scope this file always listed. No fixing
+# published on 20 Oct changes: no Norwegian offer would have been a constituent.
 
 id: index/1
 effective_from: "2026-10-20"
@@ -24,7 +29,7 @@ fx_rule: >-
 location_scope:
   label: EU27 + EEA + Switzerland
   countries: [AT, BE, BG, HR, CY, CZ, DK, EE, FI, FR, DE, GR, HU, IE, IT, LV, LT, LU,
-              MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, NO, CH]
+              MT, NL, PL, PT, RO, SK, SI, ES, SE, IS, LI, "NO", CH]
   catalogue_prices: >-
     An offer published as a single catalogue price (no region) counts only when the
     registry marks that catalogue as the provider's European price list
@@ -57,43 +62,43 @@ baskets:
 
 indices:
   - id: CSX-H100
-    name: Ceresio Sovereign H100
+    name: CompEU Sovereign H100
     basket: sovereign
     gpu: h100
     min_constituents: 3
     headline: true
   - id: CHX-H100
-    name: Hyperscaler H100 in Europe
+    name: CompEU Hyperscaler H100
     basket: hyperscaler
     gpu: h100
     min_constituents: 2
   - id: CSX-H200
-    name: Ceresio Sovereign H200
+    name: CompEU Sovereign H200
     basket: sovereign
     gpu: h200
     min_constituents: 3
   - id: CHX-H200
-    name: Hyperscaler H200 in Europe
+    name: CompEU Hyperscaler H200
     basket: hyperscaler
     gpu: h200
     min_constituents: 2
   - id: CSX-B200
-    name: Ceresio Sovereign B200
+    name: CompEU Sovereign B200
     basket: sovereign
     gpu: b200
     min_constituents: 3
   - id: CHX-B200
-    name: Hyperscaler B200 in Europe
+    name: CompEU Hyperscaler B200
     basket: hyperscaler
     gpu: b200
     min_constituents: 2
   - id: CSX-A100
-    name: Ceresio Sovereign A100
+    name: CompEU Sovereign A100
     basket: sovereign
     gpu: a100
     min_constituents: 3
   - id: CSX-L40S
-    name: Ceresio Sovereign L40S
+    name: CompEU Sovereign L40S
     basket: sovereign
     gpu: l40s
     min_constituents: 3

@@ -6,5 +6,5 @@ btn?.addEventListener("click", () => {
   const dark = cur ? cur === "dark" : !matchMedia("(prefers-color-scheme: light)").matches;
   const next = dark ? "light" : "dark";
   root.setAttribute("data-theme", next);
-  try { localStorage.setItem("ceresio-theme", next); } catch (e) {}
+  try { localStorage.setItem("compeu-theme", next); } catch (e) {}
 });

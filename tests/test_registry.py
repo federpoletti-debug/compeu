@@ -1,6 +1,6 @@
 import pytest
 
-from ceresio import registry
+from compeu import registry
 
 
 @pytest.mark.parametrize(
@@ -84,3 +84,17 @@ def test_every_collected_provider_has_sites_or_a_scope():
     for p in registry.providers().values():
         if (p.get("collection") or {}).get("method") in ("api", "html"):
             assert p.get("sites") or p.get("scope") == "global", p["id"]
+
+
+def test_country_codes_are_strings():
+    """YAML 1.1 reads a bare NO (Norway) as false: every code must stay a string."""
+    for p in registry.providers().values():
+        for s in p.get("sites") or []:
+            assert isinstance(s["country"], str), (p["id"], s)
+            assert isinstance(s["id"], str), (p["id"], s)
+        for fact in ("legal_entity", "ultimate_controller"):
+            assert isinstance((p.get(fact) or {}).get("country", ""), str), p["id"]
+    method = registry.methodology()
+    assert all(isinstance(c, str) for c in method["location_scope"]["countries"])
+    assert "NO" in method["location_scope"]["countries"]
+    assert all(isinstance(c, str) for c in registry.rule()["countries"])

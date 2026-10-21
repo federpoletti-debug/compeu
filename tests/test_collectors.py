@@ -2,8 +2,8 @@
 
 from decimal import Decimal
 
-from ceresio.collectors import aws, azure, exoscale, hetzner, ovhcloud, runpod, scaleway, verda
-from ceresio.collectors.base import Fetched
+from compeu.collectors import aws, azure, exoscale, hetzner, ovhcloud, runpod, scaleway, verda
+from compeu.collectors.base import Fetched
 
 
 def test_scaleway_per_minute_price():

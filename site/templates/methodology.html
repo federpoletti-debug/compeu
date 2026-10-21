@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %}Ceresio Index methodology{% endblock %}
-{% block description %}How the Ceresio Index is calculated: sources, the sovereignty rule, eligibility, aggregation, data sufficiency and the append-only ledger.{% endblock %}
+{% block title %}CompEU methodology{% endblock %}
+{% block description %}How the CompEU is calculated: sources, the sovereignty rule, eligibility, aggregation, data sufficiency and the append-only ledger.{% endblock %}
 {% block content %}
 <div class="wrap">
   <header class="page-head">
     <div class="eyebrow">Methodology {{ data.methodology.id }} · effective {{ data.methodology.effective_from }} · rule {{ data.rule.id }}</div>
-    <h1>How the Ceresio Index is calculated</h1>
+    <h1>How the CompEU is calculated</h1>
     <p class="lede">The full method, versioned. Any change produces a new version; past fixings keep the version they were calculated with and are never recalculated.</p>
   </header>
   <div class="grid-12" style="padding-block:40px 72px">
@@ -41,7 +41,7 @@
       <h2>6. Coverage</h2>
       <p>The coverage measure counts the sovereign providers that publicly list at least one frontier GPU (Hopper generation or newer, or AMD MI300 or newer) on demand in Europe, over all sovereign providers in the registry, including those that publish no prices. Providers without public data count as not listing, so missing data never makes coverage look better.</p>
       <h2>7. The ledger</h2>
-      <p>Prices, runs and fixings are stored as append-only text files in the public repository. Each run record stores the hash of the price lines it added and the hash of the previous run; fixings are chained the same way. An automated check rejects any change that edits or deletes an existing line. Anyone can verify the whole history with <code>uv run ceresio verify</code>.</p>
+      <p>Prices, runs and fixings are stored as append-only text files in the public repository. Each run record stores the hash of the price lines it added and the hash of the previous run; fixings are chained the same way. An automated check rejects any change that edits or deletes an existing line. Anyone can verify the whole history with <code>uv run compeu verify</code>.</p>
       <h2>8. Governance and limits</h2>
       <p>Phase 1 publishes an informational index, not a regulated benchmark. The methodology is written to follow the IOSCO Principles for Financial Benchmarks (2013) so that it can be submitted for authorisation later without rewriting history. List prices are not transaction prices: discounts, commitments and availability are not captured until Level 2 and Level 3 data arrive.</p>
     </article>

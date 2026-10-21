@@ -2,7 +2,7 @@ from decimal import Decimal
 
 import pytest
 
-from ceresio import fx, index, ledger
+from compeu import fx, index, ledger
 
 
 def _fx(tmp_root, day="2026-10-19", usd="1.12"):
@@ -115,7 +115,7 @@ def test_delisted_offer_is_not_carried_forward(tmp_root):
     ],
 )
 def test_eligibility(change, kept):
-    from ceresio import registry
+    from compeu import registry
 
     method = registry.methodology()
     o = dict(_obs("scaleway", "r", "1"), **change)
@@ -123,7 +123,7 @@ def test_eligibility(change, kept):
 
 
 def test_hyperscaler_basket_only_takes_listed_providers():
-    from ceresio import registry
+    from compeu import registry
 
     method = registry.methodology()
     basket = method["baskets"]["hyperscaler"]

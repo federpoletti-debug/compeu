@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %}Ceresio Index data{% endblock %}
-{% block description %}Download the Ceresio Index fixings and prices, or read them as static JSON. CC BY 4.0.{% endblock %}
+{% block title %}CompEU data{% endblock %}
+{% block description %}Download the CompEU fixings and prices, or read them as static JSON. CC BY 4.0.{% endblock %}
 {% block content %}
 <div class="wrap">
   <header class="page-head">
@@ -24,11 +24,11 @@
     </div>
     <div class="span-5 prose" style="align-content:start">
       <h2 style="margin-top:0">Cite</h2>
-      <p>Ceresio Index, methodology {{ data.methodology.id }}, fixing of &lt;date&gt;. Lugano, Switzerland. Licensed under CC BY 4.0.</p>
+      <p>CompEU, methodology {{ data.methodology.id }}, fixing of &lt;date&gt;. Lugano, Switzerland. Licensed under CC BY 4.0.</p>
       <h2>Verify</h2>
       <pre class="cmd">git clone {{ data.repo }}
-cd ceresio-index
-uv run ceresio verify</pre>
+cd compeu
+uv run compeu verify</pre>
       <p>The check recomputes every hash in the ledger and fails if any past price, run or fixing was changed.</p>
     </div>
   </div>

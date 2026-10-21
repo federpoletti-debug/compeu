@@ -1,7 +1,7 @@
 import json
 import subprocess
 
-from ceresio import ledger
+from compeu import ledger
 
 
 def _run_with(n_obs: int, run_id: str):

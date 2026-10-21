@@ -1,4 +1,4 @@
-"""Command line: `uv run ceresio <command>`.
+"""Command line: `uv run compeu <command>`.
 
 daily      fx + collect + fix: what the scheduled job runs every day
 collect    run the collectors once (--only scaleway,azure to restrict)
@@ -101,7 +101,7 @@ def _daily(args) -> int:
 def main(argv: list[str] | None = None) -> int:
     use_system_trust_store()
     p = argparse.ArgumentParser(
-        prog="ceresio", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+        prog="compeu", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
     )
     sub = p.add_subparsers(dest="cmd", required=True)
     for name, fn in [

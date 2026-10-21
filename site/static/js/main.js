@@ -4,7 +4,7 @@ import { el, $, eur, native, pct, dateLong, timeUTC, ago, shortHash, STATUS_LABE
 import { lineChart, ladder, sparkline } from "./charts.js";
 import { createMap } from "./map3d.js";
 
-const D = JSON.parse(document.getElementById("ceresio-data").textContent);
+const D = JSON.parse(document.getElementById("compeu-data").textContent);
 const P = Object.fromEntries(D.providers.map((p) => [p.id, p]));
 const GPU = D.gpus;
 const SCOPE = new Set(D.methodology.scope_countries);
@@ -31,13 +31,13 @@ function cheapest(offers) {
   const btn = $("#theme");
   if (!btn) return;
   const root = document.documentElement;
-  try { const t = localStorage.getItem("ceresio-theme"); if (t) root.setAttribute("data-theme", t); } catch (e) {}
+  try { const t = localStorage.getItem("compeu-theme"); if (t) root.setAttribute("data-theme", t); } catch (e) {}
   btn.addEventListener("click", () => {
     const cur = root.getAttribute("data-theme");
     const dark = cur ? cur === "dark" : !matchMedia("(prefers-color-scheme: light)").matches;
     const next = dark ? "light" : "dark";
     root.setAttribute("data-theme", next);
-    try { localStorage.setItem("ceresio-theme", next); } catch (e) {}
+    try { localStorage.setItem("compeu-theme", next); } catch (e) {}
   });
 })();
 
@@ -55,7 +55,7 @@ async function setupMap() {
   const host = $("#map");
   if (!host) return;
   let dots;
-  const inline = document.getElementById("ceresio-geo");
+  const inline = document.getElementById("compeu-geo");
   try {
     dots = inline ? JSON.parse(inline.textContent) : await (await fetch(host.dataset.geo)).json();
   } catch (e) {

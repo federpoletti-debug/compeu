@@ -21,10 +21,10 @@ jobs:
       - run: uv run ruff format --check .
       - run: uv run pytest -q
       - name: Ledger integrity
-        run: uv run ceresio verify
+        run: uv run compeu verify
       - name: Ledger is append-only versus the base branch
         if: github.event_name == 'pull_request'
-        run: uv run ceresio verify --against "origin/${{ github.base_ref }}"
+        run: uv run compeu verify --against "origin/${{ github.base_ref }}"
       - name: Ledger is append-only versus the previous commit
         if: github.event_name == 'push' && github.event.before != '0000000000000000000000000000000000000000'
-        run: uv run ceresio verify --against "${{ github.event.before }}"
+        run: uv run compeu verify --against "${{ github.event.before }}"

@@ -1,7 +1,7 @@
 # Provider registry: who each provider is and who controls it.
 #
 # The sovereignty status is NOT written here. It is computed by
-# `ceresio.registry.classify` from the facts below and the rule in
+# `compeu.registry.classify` from the facts below and the rule in
 # registry/rules/. To change a status, change a fact (with evidence) or write a
 # new rule version; never type a status by hand.
 #
@@ -237,7 +237,7 @@ providers:
     sites:
       - { id: muc, city: Munich, country: DE, lat: 48.1500, lon: 11.6000 }
       - { id: fra, city: Frankfurt, country: DE, lat: 50.1000, lon: 8.7000 }
-      - { id: osl, city: Oslo, country: NO, lat: 59.9139, lon: 10.7522 }
+      - { id: osl, city: Oslo, country: "NO", lat: 59.9139, lon: 10.7522 }
     collection:
       method: none
       status: no_public_price
@@ -322,7 +322,7 @@ providers:
       - { id: polandcentral, city: Warsaw, country: PL, lat: 52.2500, lon: 21.0500 }
       - { id: italynorth, city: Milan, country: IT, lat: 45.4800, lon: 9.2200 }
       - { id: spaincentral, city: Madrid, country: ES, lat: 40.4168, lon: -3.7038 }
-      - { id: norwayeast, city: Oslo, country: NO, lat: 59.9000, lon: 10.7800 }
+      - { id: norwayeast, city: Oslo, country: "NO", lat: 59.9000, lon: 10.7800 }
       - { id: uksouth, city: London, country: GB, lat: 51.5200, lon: -0.1000 }
       - { id: austriaeast, city: Vienna, country: AT, lat: 48.2200, lon: 16.4000 }
       - { id: denmarkeast, city: Copenhagen, country: DK, lat: 55.6761, lon: 12.5683 }
@@ -360,7 +360,7 @@ providers:
       extraterritorial_law: true
     hq: { city: Livingston, lat: 40.7959, lon: -74.3149 }
     sites:
-      - { id: no, city: Norway, country: NO, lat: 61.1000, lon: 10.4700 }
+      - { id: "no", city: Norway, country: "NO", lat: 61.1000, lon: 10.4700 }
       - { id: se, city: Sweden, country: SE, lat: 62.3900, lon: 17.3000 }
       - { id: es, city: Barcelona, country: ES, lat: 41.3874, lon: 2.1686 }
       - { id: gb, city: London, country: GB, lat: 51.4800, lon: -0.0500 }

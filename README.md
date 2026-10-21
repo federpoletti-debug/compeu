@@ -1,8 +1,8 @@
-# Ceresio Index
+# CompEU
 
 The daily price of European sovereign GPU compute.
 
-Ceresio reads the public price lists of GPU cloud providers every day, classifies each
+CompEU reads the public price lists of GPU cloud providers every day, classifies each
 provider as **sovereign** or not by who controls it (legal seat and ultimate owner in
 the EU or Switzerland, out of reach of the US CLOUD Act), and publishes:
 
@@ -14,7 +14,7 @@ the EU or Switzerland, out of reach of the US CLOUD Act), and publishes:
 No price is ever estimated, interpolated or carried forward. When there is not enough
 fresh data, the index says so.
 
-Published from Lugano, Switzerland.
+Based in Lugano, Switzerland.
 
 ## How it works
 
@@ -24,7 +24,7 @@ registry/            who the providers are, the sovereignty rule, the index meth
   rules/             sovereignty-v1.yaml, one file per rule version
   methodology/       index-v1.yaml, one file per methodology version
   gpus.yaml          canonical GPU models and the patterns that recognise them
-src/ceresio/
+src/compeu/
   collectors/        one module per provider: fetch() does I/O, parse() is pure
   collect.py         runs the collectors, writes observations and a run record
   fx.py              ECB euro reference rates
@@ -46,20 +46,20 @@ and the hash of the previous run. Fixings are chained the same way in
 `ledger/snapshots/`. CI rejects any commit that changes an existing ledger line.
 
 ```bash
-uv run ceresio verify                      # recompute every hash
-uv run ceresio verify --against origin/main  # and check the ledger only grew
+uv run compeu verify                      # recompute every hash
+uv run compeu verify --against origin/main  # and check the ledger only grew
 ```
 
 ## Commands
 
 ```bash
 uv sync                       # Python 3.12 environment
-uv run ceresio daily          # ECB rates + collection + today's fixings
-uv run ceresio collect --only scaleway,azure
-uv run ceresio classify       # sovereignty status of every provider, with the criteria
-uv run ceresio build          # static site in dist/
-uv run ceresio build --single # one self-contained HTML file (for previews)
-uv run ceresio alerts         # providers failing 2+ runs in a row
+uv run compeu daily          # ECB rates + collection + today's fixings
+uv run compeu collect --only scaleway,azure
+uv run compeu classify       # sovereignty status of every provider, with the criteria
+uv run compeu build          # static site in dist/
+uv run compeu build --single # one self-contained HTML file (for previews)
+uv run compeu alerts         # providers failing 2+ runs in a row
 uv run pytest
 uv run ruff check . && uv run ruff format .
 ```
@@ -87,8 +87,8 @@ Exchange rates: ECB euro foreign exchange reference rates.
 ## Adding a provider
 
 1. Add its legal facts to `registry/providers.yaml`, with evidence links.
-   `uv run ceresio classify` shows the status the rule gives it.
-2. Write `src/ceresio/collectors/<id>.py` with `fetch()` and a pure `parse()`; register
+   `uv run compeu classify` shows the status the rule gives it.
+2. Write `src/compeu/collectors/<id>.py` with `fetch()` and a pure `parse()`; register
    it in `collectors/__init__.py`.
 3. Add a parse test on a trimmed real response in `tests/test_collectors.py`.
 

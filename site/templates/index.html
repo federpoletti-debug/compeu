@@ -15,7 +15,7 @@
         <div class="fix-value" style="font-size:2.4rem">Not published today</div>
         {% endif %}
         <div class="fix-meta">
-          <span>Ceresio Sovereign H100</span>
+          <span>CompEU Sovereign H100</span>
           <span>median of {{ csx.constituents | length }} sovereign providers</span>
           <span>on-demand list prices · EUR excl. VAT</span>
           {% if csx.previous %}<span>previous {{ csx.previous | eur }}</span>{% else %}<span>first fixing</span>{% endif %}
@@ -85,7 +85,7 @@
           </div>
         </div>
         <div class="panel-body">
-          <div class="legend"><span class="key"><i class="sov"></i>Ceresio Sovereign (CSX)</span><span class="key"><i class="for"></i>US hyperscalers in Europe (CHX)</span></div>
+          <div class="legend"><span class="key"><i class="sov"></i>CompEU Sovereign (CSX)</span><span class="key"><i class="for"></i>US hyperscalers in Europe (CHX)</span></div>
           <div class="chart" id="history" style="margin-top:12px"></div>
           <p class="note" id="history-note"></p>
         </div>
@@ -191,7 +191,7 @@
           <dt>Prices</dt><dd class="mono" style="font-size:12px">{{ data.ledger.observations }} observations, {{ data.ledger.runs }} runs</dd>
         </dl>
         <pre class="cmd">git clone {{ data.repo }}
-uv run ceresio verify</pre>
+uv run compeu verify</pre>
       </div></div>
       <div class="panel"><div class="panel-body" style="display:grid;gap:8px">
         <h3 style="font-size:var(--t-lg)">Three levels of evidence</h3>
