@@ -8,7 +8,8 @@ from urllib3.util.retry import Retry
 
 from . import __version__
 
-USER_AGENT = f"CeresioIndex/{__version__} (+https://github.com/ceresio-index; price research)"
+REPO_URL = "https://github.com/federpoletti-debug/ceresio-index"
+USER_AGENT = f"CeresioIndex/{__version__} (+{REPO_URL}; price research)"
 TIMEOUT = 60
 
 
