@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CompEU · why sovereignty matters</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&amp;family=Cinzel:wght@400..700&amp;family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400..600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F3EC}
+a{color:#1B2850}a:hover{color:#2350B8}
+::selection{background:#DDE5F5}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes breathe{0%,100%{opacity:1}50%{opacity:.35}}
+@media (prefers-reduced-motion: reduce){.tk{animation:none!important}.pulse{animation:none!important}}
+</style>
+</helmet>
+<div ref="{{setRoot}}" style="font-family: 'Geist', 'Helvetica Neue', Arial, sans-serif; color: #18213A; background: #F5F3EC; font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility">
+<header style="position: sticky; top: 0; z-index: 40; background: rgba(245,243,236,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid #DAD4C6">
+<div style="max-width: 1320px; margin: 0 auto; box-sizing: border-box; padding-left: {{L.gutter}}; padding-right: {{L.gutter}}; height: 68px; display: flex; align-items: center; gap: 26px">
+<a href="{{homeHref}}" aria-label="CompEU, home" style="display: flex; align-items: center; gap: 11px; text-decoration: none; color: #18213A; flex: none">
+<svg width="24" height="32" viewBox="0 0 24 32" aria-hidden="true" style="display: block; flex: none">
+<rect x="1" y="1" width="22" height="3" fill="#18213A"></rect>
+<path d="M3 4h18l-2.5 3h-13z" fill="#18213A"></path>
+<rect x="6.5" y="7.5" width="11" height="18.5" fill="none" stroke="#18213A" stroke-width="1.3"></rect>
+<line x1="10.2" y1="8" x2="10.2" y2="25.5" stroke="#18213A" stroke-width="0.9"></line>
+<line x1="13.8" y1="8" x2="13.8" y2="25.5" stroke="#18213A" stroke-width="0.9"></line>
+<circle cx="12" cy="11.5" r="1.15" fill="#2350B8"></circle>
+<circle cx="12" cy="15.5" r="1.15" fill="#2350B8"></circle>
+<circle cx="12" cy="19.5" r="1.15" fill="#A57A23"></circle>
+<rect x="4" y="26" width="16" height="2" fill="#18213A"></rect>
+<rect x="1.5" y="28.6" width="21" height="2.6" fill="#18213A"></rect>
+</svg>
+<span style="font-family: 'Bodoni Moda', 'Bodoni 72', Didot, Georgia, serif; font-weight: 500; font-size: 26px; letter-spacing: -0.01em; line-height: 1">Comp<span style="font-style: italic; color: #2350B8">EU</span></span>
+</a>
+<nav aria-label="Pages" style="display: {{L.navLinks}}; align-items: center; gap: 2px">
+<sc-for list="{{nav}}" as="n" hint-placeholder-count="3">
+<a href="{{n.href}}" aria-current="{{n.current}}" style="font-size: 15px; color: {{n.color}}; text-decoration: {{n.deco}}; text-underline-offset: 6px; text-decoration-color: #A57A23; padding: 8px 12px" style-hover="color: #18213A; text-decoration: underline; text-underline-offset: 6px; text-decoration-color: #A57A23">{{n.label}}</a>
+</sc-for>
+</nav>
+<div style="margin-left: auto; display: flex; align-items: center; gap: 18px">
+<span style="display: {{L.statusDisplay}}; align-items: center; gap: 9px; font-size: 13.5px; color: #5B6375; white-space: nowrap">
+<span class="pulse" style="width: 7px; height: 7px; border-radius: 50%; background: #2350B8; animation: breathe 2.4s ease-in-out infinite"></span><span>Fixing of {{fixDay}}</span>
+</span>
+<a href="{{contactHref}}" style="font-size: 14.5px; font-weight: 500; color: #1B2850; text-decoration: none; border: 1px solid #1B2850; padding: 9px 16px; white-space: nowrap" style-hover="background: #1B2850; color: #F5F3EC">Contact</a>
+<button type="button" onClick="{{toggleMenu}}" aria-expanded="{{menuOpen}}" aria-label="Menu" style="display: {{L.menuBtn}}; align-items: center; justify-content: center; width: 44px; height: 44px; appearance: none; background: transparent; border: 1px solid #CCD2DC; cursor: pointer; padding: 0">
+<svg width="20" height="14" viewBox="0 0 20 14" aria-hidden="true"><path d="M0 1h20M0 7h20M0 13h20" stroke="#18213A" stroke-width="1.5"></path></svg>
+</button>
+</div>
+</div>
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{false}}">
+<nav aria-label="Pages" style="border-top: 1px solid #DAD4C6; padding: 8px {{L.gutter}} 16px; display: flex; flex-direction: column">
+<sc-for list="{{nav}}" as="n" hint-placeholder-count="3">
+<a href="{{n.href}}" style="font-family: 'Bodoni Moda', Georgia, serif; font-size: 24px; color: #18213A; text-decoration: none; padding: 12px 0; border-bottom: 1px solid #E6E1D5">{{n.label}}</a>
+</sc-for>
+</nav>
+</sc-if>
+</header>
+<div aria-label="Today's fixings" style="background: #EFEBDF; border-bottom: 1px solid #DAD4C6; overflow: hidden; height: 42px">
+<div class="tk" style="display: flex; align-items: center; height: 42px; width: max-content; animation: ticker 80s linear infinite" style-hover="animation-play-state: paused">
+<sc-for list="{{tick}}" as="t" hint-placeholder-count="16">
+<span style="display: inline-flex; align-items: baseline; gap: 10px; padding: 0 24px; white-space: nowrap; border-right: 1px solid #DAD4C6">
+<span style="font-family: 'Cinzel', Georgia, serif; font-size: 12.5px; font-weight: 600; letter-spacing: 0.14em; color: {{t.color}}">{{t.code}}</span>
+<span style="font-size: 14.5px; font-variant-numeric: tabular-nums; color: {{t.valColor}}; font-style: {{t.valStyle}}">{{t.val}}</span>
+</span>
+</sc-for>
+</div>
+</div>
+
+<section style="background: #F5F3EC; padding: 72px {{L.gutter}} 96px">
+<div style="max-width: 1320px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
+<div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+<span style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.26em; color: #86621A">Why sovereignty</span>
+<h1 style="margin: 0; font-family: 'Bodoni Moda', 'Bodoni 72', Didot, Georgia, serif; font-weight: 500; font-size: clamp(40px, 5vw, 74px); line-height: 1.04; letter-spacing: -0.02em; text-wrap: balance">AI runs on machines. Machines answer to their <em style="font-style: italic; color: #2350B8">owners</em>.</h1>
+<p style="margin: 0; max-width: 32em; font-size: clamp(16.5px, 1.35vw, 19px); line-height: 1.6; color: #394256; text-wrap: pretty">Most of Europe’s cloud is owned from abroad, and the owner’s law travels with it. CompEU measures the price of the part that Europe controls.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px">
+<a href="#test" style="font-size: 15.5px; font-weight: 500; color: #F5F3EC; background: #1B2850; text-decoration: none; padding: 15px 24px; border: 1px solid #1B2850; box-shadow: inset 0 0 0 3px #1B2850, inset 0 0 0 4px rgba(245,243,236,0.35)" style-hover="background: #23346A; color: #FFFFFF">Test a provider</a>
+<a href="Main.dc.html" style="font-size: 15.5px; font-weight: 500; color: #1B2850; text-decoration: none; padding: 15px 24px; border: 1px solid #1B2850" style-hover="background: #EAE6DA">Today’s prices</a>
+</div>
+</div>
+<figure style="flex: 1 1 520px; min-width: 0; margin: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="padding: 12px; background: #FBFAF7; box-shadow: 0 0 0 1px #CFC8B6, 0 34px 60px -36px rgba(24,33,58,0.5)">
+<img src="/_blob/37c608fe217d7341805c2d3a484dab9a" alt="Caspar Wolf's painting of the Lauteraar glacier: travellers on a rock outcrop below icy peaks." style="display: block; width: 100%; height: auto; aspect-ratio: 2000 / 1323; object-fit: cover">
+</div>
+<figcaption style="font-family: 'Bodoni Moda', Georgia, serif; font-style: italic; font-size: 14.5px; color: #5B6375">Caspar Wolf, The Lauteraar Glacier, 1776</figcaption>
+</figure>
+</div>
+</section>
+
+<section aria-labelledby="w1" style="background: #EDF0F4; padding: 104px {{L.gutter}}; border-top: 1px solid #DAD4C6">
+<div style="max-width: 1180px; margin: 0 auto">
+<div style="display: flex; align-items: center; justify-content: center; gap: 16px">
+<span style="width: 56px; height: 1px; background: #A57A23"></span>
+<span style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.26em; color: #86621A">I · Dependence</span>
+<span style="width: 56px; height: 1px; background: #A57A23"></span>
+</div>
+<h2 id="w1" style="margin: 20px auto 0; font-family: 'Bodoni Moda', 'Bodoni 72', Didot, Georgia, serif; font-weight: 500; font-size: clamp(32px, 4.2vw, 58px); line-height: 1.06; letter-spacing: -0.015em; text-align: center; max-width: 15em; text-wrap: balance">Europe rents its cloud from abroad.</h2>
+<div style="margin-top: 52px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 1px; background: #DAD4C6; border: 1px solid #DAD4C6">
+<div style="background: #F5F3EC; padding: 30px 28px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-family: 'Bodoni Moda', Georgia, serif; font-size: clamp(48px, 5vw, 68px); line-height: 1; color: #B0412A; font-variation-settings: 'opsz' 30">70%</span>
+<span style="font-size: 16px; line-height: 1.5; color: #394256">of Europe’s cloud market is held by Amazon, Microsoft and Google.</span>
+</div>
+<div style="background: #F5F3EC; padding: 30px 28px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-family: 'Bodoni Moda', Georgia, serif; font-size: clamp(48px, 5vw, 68px); line-height: 1; color: #2350B8; font-variation-settings: 'opsz' 30">15%</span>
+<span style="font-size: 16px; line-height: 1.5; color: #394256">is held by European providers, down from 29% in 2017.</span>
+</div>
+<div style="background: #F5F3EC; padding: 30px 28px; display: flex; flex-direction: column; gap: 10px">
+<span style="font-family: 'Bodoni Moda', Georgia, serif; font-size: clamp(48px, 5vw, 68px); line-height: 1; color: #18213A; font-variation-settings: 'opsz' 30">3 <span style="font-size: 0.5em; color: #5B6375">against</span> 40</span>
+<span style="font-size: 16px; line-height: 1.5; color: #394256">notable AI models built in Europe and in the United States in 2024.</span>
+</div>
+</div>
+<p style="margin: 22px 0 0; text-align: center; font-size: 13.5px; color: #5B6375">Sources: <a href="https://www.srgresearch.com/articles/european-cloud-providers-local-market-share-now-holds-steady-at-15" style="color: #1B2850">Synergy Research Group, July 2025</a> · <a href="https://hai.stanford.edu/ai-index/2025-ai-index-report" style="color: #1B2850">Stanford AI Index 2025</a></p>
+</div>
+</section>
+
+<section aria-labelledby="w2" style="background: #F5F3EC; padding: 104px {{L.gutter}}">
+<div style="max-width: 1180px; margin: 0 auto">
+<div style="display: flex; align-items: center; justify-content: center; gap: 16px">
+<span style="width: 56px; height: 1px; background: #A57A23"></span>
+<span style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.26em; color: #86621A">II · Reach</span>
+<span style="width: 56px; height: 1px; background: #A57A23"></span>
+</div>
+<h2 id="w2" style="margin: 20px auto 0; font-family: 'Bodoni Moda', 'Bodoni 72', Didot, Georgia, serif; font-weight: 500; font-size: clamp(32px, 4.2vw, 58px); line-height: 1.06; letter-spacing: -0.015em; text-align: center; max-width: 15em; text-wrap: balance">The data can be called home.</h2>
+<blockquote style="margin: 52px auto 0; max-width: 900px; padding: 40px clamp(20px, 5vw, 64px); border-top: 1px solid #A57A23; border-bottom: 1px solid #A57A23; text-align: center">
+<p style="margin: 0; font-family: 'Bodoni Moda', 'Bodoni 72', Didot, Georgia, serif; font-style: italic; font-size: clamp(24px, 2.8vw, 38px); line-height: 1.3; color: #18213A; text-wrap: balance">“…regardless of whether such communication, record, or other information is located within or outside of the United States.”</p>
+<footer style="margin-top: 20px; font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.16em; color: #86621A">18 U.S.C. § 2713 · The CLOUD Act, 2018</footer>
+</blockquote>
+<p style="margin: 34px auto 0; max-width: 34em; text-align: center; font-size: 18px; line-height: 1.6; color: #394256; text-wrap: pretty">A US provider must answer US legal orders for the data it controls. A data centre in Frankfurt does not change that.</p>
+</div>
+</section>
+
+<section aria-labelledby="w3" style="background: #EDF0F4; padding: 104px {{L.gutter}}; border-top: 1px solid #DAD4C6">
+<div style="max-width: 1180px; margin: 0 auto">
+<div style="display: flex; align-items: center; justify-content: center; gap: 16px">
+<span style="width: 56px; height: 1px; background: #A57A23"></span>
+<span style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.26em; color: #86621A">III · Control</span>
+<span style="width: 56px; height: 1px; background: #A57A23"></span>
+</div>
+<h2 id="w3" style="margin: 20px auto 0; font-family: 'Bodoni Moda', 'Bodoni 72', Didot, Georgia, serif; font-weight: 500; font-size: clamp(32px, 4.2vw, 58px); line-height: 1.06; letter-spacing: -0.015em; text-align: center; max-width: 15em; text-wrap: balance">A sovereign label is not sovereign control.</h2>
+<p style="margin: 20px auto 0; max-width: 34em; text-align: center; font-size: 18px; line-height: 1.6; color: #394256; text-wrap: pretty">What counts is the top of the ownership chain. Follow it for four providers.</p>
+<div role="group" aria-label="Provider" style="margin: 36px auto 0; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{chain.tabs}}" as="t" hint-placeholder-count="4">
+<button type="button" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}" style="appearance: none; cursor: pointer; font: inherit; font-size: 14.5px; padding: 11px 16px; min-height: 44px; border: 1px solid {{t.bd}}; background: {{t.bg}}; color: {{t.fg}}">{{t.label}}</button>
+</sc-for>
+</div>
+<div style="max-width: 640px; margin: 40px auto 0; display: flex; flex-direction: column; align-items: stretch">
+<sc-for list="{{chain.links}}" as="k" hint-placeholder-count="4">
+<sc-if value="{{k.notFirst}}" hint-placeholder-val="{{true}}">
+<div aria-hidden="true" style="align-self: center; display: flex; flex-direction: column; align-items: center; color: #8E95A3; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 0"><span style="width: 1px; height: 14px; background: #8E95A3"></span>owned by<span style="width: 1px; height: 14px; background: #8E95A3"></span></div>
+</sc-if>
+<div style="background: #FBFAF7; border: 1px solid {{k.bd}}; border-left: 4px solid {{k.edge}}; padding: 16px 20px; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap">
+<span style="font-weight: 600; font-size: 16px">{{k.name}}</span>
+<span style="font-size: 14.5px; color: {{k.placeColor}}; font-weight: {{k.placeWeight}}">{{k.place}}</span>
+</div>
+</sc-for>
+</div>
+<div style="max-width: 640px; margin: 22px auto 0; padding: 18px 20px; background: {{chain.verdictBg}}; display: flex; flex-direction: column; gap: 6px">
+<span style="font-size: 16px; font-weight: 600; color: {{chain.verdictColor}}">{{chain.verdict}}</span>
+<span style="font-size: 14.5px; line-height: 1.55; color: #394256">{{chain.note}}</span>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="w4" style="background: #F5F3EC; padding: 104px {{L.gutter}}">
+<div style="max-width: 1240px; margin: 0 auto">
+<div style="display: flex; align-items: center; justify-content: center; gap: 16px">
+<span style="width: 56px; height: 1px; background: #A57A23"></span>
+<span style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.26em; color: #86621A">IV · Law</span>
+<span style="width: 56px; height: 1px; background: #A57A23"></span>
+</div>
+<h2 id="w4" style="margin: 20px auto 0; font-family: 'Bodoni Moda', 'Bodoni 72', Didot, Georgia, serif; font-weight: 500; font-size: clamp(32px, 4.2vw, 58px); line-height: 1.06; letter-spacing: -0.015em; text-align: center; max-width: 15em; text-wrap: balance">Europe’s rules now ask who is in control.</h2>
+<div role="list" style="margin-top: 52px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr)); gap: 0; border-top: 2px solid #18213A">
+<sc-for list="{{miles}}" as="m" hint-placeholder-count="6">
+<button type="button" role="listitem" aria-pressed="{{m.pressed}}" onClick="{{m.pick}}" style="appearance: none; cursor: pointer; font: inherit; color: inherit; text-align: left; background: {{m.bg}}; border: none; border-right: 1px solid #E6E1D5; padding: 0 18px 22px; display: flex; flex-direction: column; gap: 8px; position: relative; min-height: 150px" style-hover="background: #FBFAF7">
+<span aria-hidden="true" style="width: 13px; height: 13px; border-radius: 50%; background: {{m.dot}}; border: 2px solid #18213A; margin-top: -8px; box-sizing: border-box"></span>
+<span style="font-family: 'Bodoni Moda', Georgia, serif; font-size: 26px; line-height: 1.1; font-variation-settings: 'opsz' 30">{{m.date}}</span>
+<span style="font-size: 15px; font-weight: 600; line-height: 1.35; color: {{m.titleColor}}">{{m.title}}</span>
+</button>
+</sc-for>
+</div>
+<p aria-live="polite" style="margin: 30px auto 0; max-width: 40em; min-height: 3.2em; text-align: center; font-size: 18px; line-height: 1.6; color: #394256; text-wrap: pretty">{{mile.text}} <a href="{{mile.src}}" style="color: #1B2850; font-size: 14px">Source</a></p>
+</div>
+</section>
+
+<section aria-labelledby="w5" style="background: #EDF0F4; padding: 104px {{L.gutter}}; border-top: 1px solid #DAD4C6">
+<div style="max-width: 1180px; margin: 0 auto">
+<div style="display: flex; align-items: center; justify-content: center; gap: 16px">
+<span style="width: 56px; height: 1px; background: #A57A23"></span>
+<span style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.26em; color: #86621A">V · Capacity</span>
+<span style="width: 56px; height: 1px; background: #A57A23"></span>
+</div>
+<h2 id="w5" style="margin: 20px auto 0; font-family: 'Bodoni Moda', 'Bodoni 72', Didot, Georgia, serif; font-weight: 500; font-size: clamp(32px, 4.2vw, 58px); line-height: 1.06; letter-spacing: -0.015em; text-align: center; max-width: 15em; text-wrap: balance">Capacity is coming. Prices stay hidden.</h2>
+<div style="margin-top: 52px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 1px; background: #DAD4C6; border: 1px solid #DAD4C6">
+<div style="background: #F5F3EC; padding: 28px 26px; display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'Bodoni Moda', Georgia, serif; font-size: clamp(44px, 4.6vw, 62px); line-height: 1; font-variation-settings: 'opsz' 30">19</span><span style="font-size: 15.5px; line-height: 1.5; color: #394256">AI Factories selected by EuroHPC, October 2025.</span></div>
+<div style="background: #F5F3EC; padding: 28px 26px; display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'Bodoni Moda', Georgia, serif; font-size: clamp(44px, 4.6vw, 62px); line-height: 1; font-variation-settings: 'opsz' 30">76</span><span style="font-size: 15.5px; line-height: 1.5; color: #394256">proposals for AI gigafactories, from 16 member states, June 2025.</span></div>
+<div style="background: #F5F3EC; padding: 28px 26px; display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'Bodoni Moda', Georgia, serif; font-size: clamp(44px, 4.6vw, 62px); line-height: 1; font-variation-settings: 'opsz' 30">€20bn</span><span style="font-size: 15.5px; line-height: 1.5; color: #394256">EU fund for AI gigafactories, within the InvestAI plan.</span></div>
+<div style="background: #FBFAF7; padding: 28px 26px; display: flex; flex-direction: column; gap: 10px; box-shadow: inset 0 3px 0 #2350B8"><span style="font-family: 'Bodoni Moda', Georgia, serif; font-size: clamp(44px, 4.6vw, 62px); line-height: 1; color: #2350B8; font-variation-settings: 'opsz' 30">{{cov}}</span><span style="font-size: 15.5px; line-height: 1.5; color: #394256">sovereign clouds publish their frontier GPU prices today.</span></div>
+</div>
+<p style="margin: 22px 0 0; text-align: center; font-size: 13.5px; color: #5B6375">Sources: <a href="https://www.eurohpc-ju.europa.eu/eurohpc-ju-selects-six-additional-ai-factories-expand-europes-ai-capabilities-2025-10-10_en" style="color: #1B2850">EuroHPC JU</a> · <a href="https://digital-strategy.ec.europa.eu/en/news/overwhelming-response-76-respondents-express-interest-european-ai-gigafactories-initiative" style="color: #1B2850">European Commission</a> · CompEU, fixing of {{fixDay}}</p>
+</div>
+</section>
+
+<section id="test" aria-labelledby="w6" style="background: #F5F3EC">
+<figure style="margin: 0; position: relative; height: clamp(200px, 24vw, 340px); overflow: hidden; border-bottom: 1px solid #DAD4C6">
+<img src="/_blob/b27a6d543c1883f204bff6fda96da7f0" alt="Ferdinand Hodler's painting of Lake Geneva seen from Chexbres: a pale lake under a yellow sky, bare trees on a green bank." style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; display: block">
+<figcaption style="position: absolute; right: 14px; bottom: 12px; background: rgba(245,243,236,0.92); padding: 6px 11px; font-family: 'Bodoni Moda', Georgia, serif; font-style: italic; font-size: 13.5px; color: #394256">Ferdinand Hodler, Lake Geneva from Chexbres, 1911</figcaption>
+</figure>
+<div style="padding: 96px {{L.gutter}} 104px">
+<div style="max-width: 1060px; margin: 0 auto">
+<div style="display: flex; align-items: center; justify-content: center; gap: 16px">
+<span style="width: 56px; height: 1px; background: #A57A23"></span>
+<span style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.26em; color: #86621A">VI · The test</span>
+<span style="width: 56px; height: 1px; background: #A57A23"></span>
+</div>
+<h2 id="w6" style="margin: 20px auto 0; font-family: 'Bodoni Moda', 'Bodoni 72', Didot, Georgia, serif; font-weight: 500; font-size: clamp(32px, 4.2vw, 58px); line-height: 1.06; letter-spacing: -0.015em; text-align: center; max-width: 15em; text-wrap: balance">Five questions for any cloud.</h2>
+<p style="margin: 20px auto 0; max-width: 34em; text-align: center; font-size: 18px; line-height: 1.6; color: #394256; text-wrap: pretty">Pick a provider. The answers come from the CompEU registry; an open fact stays open.</p>
+<div role="group" aria-label="Provider to test" style="margin: 34px auto 0; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{ask.tabs}}" as="t" hint-placeholder-count="6">
+<button type="button" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}" style="appearance: none; cursor: pointer; font: inherit; font-size: 14.5px; padding: 11px 16px; min-height: 44px; border: 1px solid {{t.bd}}; background: {{t.bg}}; color: {{t.fg}}">{{t.label}}</button>
+</sc-for>
+</div>
+<ol style="list-style: none; margin: 36px 0 0; padding: 0; border-top: 1px solid #DAD4C6">
+<sc-for list="{{ask.rows}}" as="r" hint-placeholder-count="5">
+<li style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 22px; padding: 18px 4px; border-bottom: 1px solid #DAD4C6">
+<span style="flex: none; width: 2em; font-family: 'Bodoni Moda', Georgia, serif; font-size: 26px; color: #A57A23">{{r.n}}</span>
+<span style="flex: 1 1 260px; font-size: 17px; font-weight: 500">{{r.q}}</span>
+<span style="flex: 1 1 260px; font-size: 15.5px; color: #394256">{{r.a}}</span>
+<span style="flex: none; min-width: 5.5em; text-align: center; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 6px 10px; color: {{r.color}}; background: {{r.bg}}">{{r.verdict}}</span>
+</li>
+</sc-for>
+</ol>
+<p style="margin: 22px 0 0; text-align: center; font-size: 16px; color: #394256">Result: <strong style="color: {{ask.color}}; font-weight: 600">{{ask.result}}</strong></p>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="w7" style="background: #EDF0F4; padding: 104px {{L.gutter}}; border-top: 1px solid #DAD4C6">
+<div style="max-width: 1240px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
+<figure style="flex: 1 1 520px; min-width: 0; margin: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="padding: 12px; background: #FBFAF7; box-shadow: 0 0 0 1px #CFC8B6, 0 34px 60px -36px rgba(24,33,58,0.5)">
+<img src="/_blob/93391cae370e867dc6331a8a1dfec4b6" alt="Boullée's drawing of the cenotaph for Isaac Newton: an immense sphere on a round base ringed with cypress trees." style="display: block; width: 100%; height: auto; aspect-ratio: 1492 / 898; object-fit: cover">
+</div>
+<figcaption style="font-family: 'Bodoni Moda', Georgia, serif; font-style: italic; font-size: 14.5px; color: #5B6375">Étienne-Louis Boullée, Cenotaph for Newton, 1784 · BnF</figcaption>
+</figure>
+<div style="flex: 1 1 400px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<span style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.26em; color: #86621A">VII · Our answer</span>
+<h2 id="w7" style="margin: 0; font-family: 'Bodoni Moda', 'Bodoni 72', Didot, Georgia, serif; font-weight: 500; font-size: clamp(32px, 4vw, 54px); line-height: 1.06; letter-spacing: -0.015em; text-wrap: balance">A public price for the machines Europe controls.</h2>
+<p style="margin: 0; font-size: 18px; line-height: 1.6; color: #394256; text-wrap: pretty">Boullée drew temples to reason. Ours are data centres. CompEU publishes what they cost every morning, with every source and every rule in the open.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="Main.dc.html" style="font-size: 15.5px; font-weight: 500; color: #F5F3EC; background: #1B2850; text-decoration: none; padding: 15px 24px; border: 1px solid #1B2850" style-hover="background: #23346A; color: #FFFFFF">See today’s index</a>
+<a href="Methodology.dc.html" style="font-size: 15.5px; font-weight: 500; color: #1B2850; text-decoration: none; padding: 15px 24px; border: 1px solid #1B2850" style-hover="background: #EAE6DA">How the rules work</a>
+</div>
+</div>
+</div>
+</section>
+<footer style="background: #F5F3EC; border-top: 2px solid #A57A23; padding: 56px {{L.gutter}} 40px">
+<div style="max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 32px 40px">
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-family: 'Bodoni Moda', Georgia, serif; font-size: 28px; line-height: 1">Comp<span style="font-style: italic; color: #2350B8">EU</span></span>
+<span style="font-size: 14.5px; line-height: 1.5; color: #5B6375">The daily price of AI compute that Europe controls. Lugano, Switzerland.</span>
+</div>
+<nav aria-label="Footer" style="display: flex; flex-direction: column; gap: 8px; font-size: 14.5px">
+<span style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; color: #86621A">Pages</span>
+<a href="Index.dc.html" style="color: #18213A; text-decoration: none">The index</a>
+<a href="Why.dc.html" style="color: #18213A; text-decoration: none">Why sovereignty</a>
+<a href="Methodology.dc.html" style="color: #18213A; text-decoration: none">Method and rules</a>
+<a href="https://github.com/federpoletti-debug/compeu" style="color: #18213A; text-decoration: none">Code and data</a>
+</nav>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 13.5px; line-height: 1.45; color: #5B6375">
+<span style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; color: #86621A">Pictures</span>
+<span>Étienne-Louis Boullée, Giovanni Battista Piranesi, Caspar Wolf, J. M. W. Turner and Ferdinand Hodler.</span>
+<span>All in the public domain, via Wikimedia Commons, the BnF and the Tate.</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; font-size: 13.5px; line-height: 1.5; color: #5B6375">
+<span style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; color: #86621A">Notice</span>
+<span>Information only. Not investment advice, and not a benchmark for financial instruments. List prices, not transaction prices.</span>
+</div>
+</div>
+<p style="max-width: 1320px; margin: 40px auto 0; font-size: 13px; color: #5B6375; border-top: 1px solid #DAD4C6; padding-top: 18px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between"><span>© 2026 CompEU</span><span>Method {{method}} · Rule sovereignty/1 · Fixing of {{fixDay}}</span></p>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":6900}}'>
+const IMG = {"hero":"/_blob/8e74964184d71d5a9952f60720ae4feb","alps":"/_blob/0ea484f635c1ebb7615bf3bb15c6037e","rigi":"/_blob/c596b86adfe4d9eb64e4d1c86662a722","temple":"/_blob/29a6ed1feb28f5a005aabeb69a865cff","newton":"/_blob/93391cae370e867dc6331a8a1dfec4b6","lake":"/_blob/b27a6d543c1883f204bff6fda96da7f0","glacier":"/_blob/37c608fe217d7341805c2d3a484dab9a","dots":"/_blob/062d75ea86a55d625e48e76e255d0526"};
+
+// Real data from the CompEU ledger and registry. Rebuilt from the repository by
+// the site build; change the numbers there, not here.
+const D = {"asOf":"2026-10-22","method":"index/2","versions":[{"id":"index/1","from":"2026-10-20"},{"id":"index/2","from":"2026-10-22"}],"lastRun":"2026-10-22T10:11:49Z","nRuns":4,"obs":3515,"nFix":27,"fixHead":"d4ccf36e9c42","chain":[{"d":"2026-10-22","i":"CHX-H100","v":"7.0044","h":"a805e2bb278a","p":"69f57fff877b"},{"d":"2026-10-22","i":"CSX-H200","v":"5.1896","h":"f546ccfbd450","p":"a805e2bb278a"},{"d":"2026-10-22","i":"CHX-H200","v":"9.4294","h":"1f7e0fd5cc6c","p":"f546ccfbd450"},{"d":"2026-10-22","i":"CSX-B200","v":"7.5663","h":"272d08c93f39","p":"1f7e0fd5cc6c"},{"d":"2026-10-22","i":"CHX-B200","v":null,"h":"4adf22242256","p":"272d08c93f39"},{"d":"2026-10-22","i":"CSX-A100","v":"1.7074","h":"e87db8dcd025","p":"4adf22242256"},{"d":"2026-10-22","i":"CSX-L40S","v":"1.435","h":"672f8a80595c","p":"e87db8dcd025"},{"d":"2026-10-22","i":"CSC-FRONTIER","v":"6/18","h":"d4ccf36e9c42","p":"672f8a80595c"}],"seals":{"CSX-H100":["69f57fff877b","5d589cabf4f5"],"CHX-H100":["a805e2bb278a","69f57fff877b"],"CSX-H200":["f546ccfbd450","a805e2bb278a"],"CHX-H200":["1f7e0fd5cc6c","f546ccfbd450"],"CSX-B200":["272d08c93f39","1f7e0fd5cc6c"],"CHX-B200":["4adf22242256","272d08c93f39"],"CSX-A100":["e87db8dcd025","4adf22242256"],"CSX-L40S":["672f8a80595c","e87db8dcd025"],"CSC-FRONTIER":["d4ccf36e9c42","672f8a80595c"]},"usd":["1.1234","2026-10-21"],"cov":"6/18","covList":{"exoscale":[],"hetzner":[],"hikube":null,"infomaniak":null,"ionos":null,"lyceum":["b200","b300","h100","h200"],"nebius":["b200","b300","h100","h200"],"open-telekom-cloud":null,"ovhcloud":["h100","h200"],"phoenix-kvant":null,"polarise":null,"safe-swiss-cloud":null,"scaleway":["b300","h100"],"seeweb":["h100","h200","mi300x"],"sesterce":null,"stackit":null,"swisscom":null,"verda":["b200","b300","gb300","h100","h200"]},"boards":[{"id":"CSX-H100","n":"CompEU Sovereign H100","g":"h100","b":"sovereign","min":3,"st":"published","d":"2026-10-22","v":3.4228,"prev":2.8665,"c":[["lyceum",4.1748,"4.69 USD"],["nebius",4.0057,"4.5 USD"],["ovhcloud",2.8,"2.8 EUR"],["scaleway",2.8665,"2.8665 EUR"],["seeweb",1.89,"1.89 EUR"],["verda",3.979,"4.47 USD"]],"why":null},{"id":"CHX-H100","n":"CompEU Hyperscaler H100","g":"h100","b":"hyperscaler","min":2,"st":"published","d":"2026-10-22","v":7.0044,"prev":7.0044,"c":[["aws",6.553,"7.3616 USD"],["azure",7.4559,"8.376 USD"]],"why":null},{"id":"CSX-H200","n":"CompEU Sovereign H200","g":"h200","b":"sovereign","min":3,"st":"published","d":"2026-10-22","v":5.1896,"prev":null,"c":[["lyceum",5.5101,"6.19 USD"],["nebius",4.8068,"5.4 USD"],["ovhcloud",5.25,"5.25 EUR"],["seeweb",2.6,"2.6 EUR"],["verda",5.1896,"5.83 USD"]],"why":null},{"id":"CHX-H200","n":"CompEU Hyperscaler H200","g":"h200","b":"hyperscaler","min":2,"st":"published","d":"2026-10-22","v":9.4294,"prev":9.4294,"c":[["aws",7.5359,"8.46584 USD"],["azure",11.3228,"12.72 USD"]],"why":null},{"id":"CSX-B200","n":"CompEU Sovereign B200","g":"b200","b":"sovereign","min":3,"st":"published","d":"2026-10-22","v":7.5663,"prev":null,"c":[["lyceum",7.8245,"8.79 USD"],["nebius",7.5663,"8.5 USD"],["verda",7.3616,"8.27 USD"]],"why":null},{"id":"CHX-B200","n":"CompEU Hyperscaler B200","g":"b200","b":"hyperscaler","min":2,"st":"insufficient_data","d":"2026-10-22","v":null,"prev":null,"c":[["aws",15.9384,"17.905251 USD"]],"why":"1 fresh constituent(s), 2 required"},{"id":"CSX-A100","n":"CompEU Sovereign A100","g":"a100","b":"sovereign","min":3,"st":"published","d":"2026-10-22","v":1.7074,"prev":null,"c":[["lyceum",2.0385,"2.29 USD"],["ovhcloud",2.75,"2.75 EUR"],["seeweb",0.99,"0.99 EUR"],["verda",1.3762,"1.546 USD"]],"why":null},{"id":"CSX-L40S","n":"CompEU Sovereign L40S","g":"l40s","b":"sovereign","min":3,"st":"published","d":"2026-10-22","v":1.435,"prev":1.4699,"c":[["lyceum",1.7714,"1.99 USD"],["nebius",1.3797,"1.55 USD"],["ovhcloud",1.4,"1.4 EUR"],["scaleway",1.4699,"1.46988 EUR"],["seeweb",0.85,"0.85 EUR"],["verda",1.6101,"1.80875 USD"]],"why":null}],"series":{"CSX-H100":[["2026-10-20",2.8665],["2026-10-21",2.8665],["2026-10-22",3.4228]],"CHX-H100":[["2026-10-20",7.0164],["2026-10-21",7.0044],["2026-10-22",7.0044]],"CSX-H200":[["2026-10-20",null],["2026-10-21",null],["2026-10-22",5.1896]],"CHX-H200":[["2026-10-20",9.4454],["2026-10-21",9.4294],["2026-10-22",9.4294]],"CSX-B200":[["2026-10-20",null],["2026-10-21",null],["2026-10-22",7.5663]],"CHX-B200":[["2026-10-20",null],["2026-10-21",null],["2026-10-22",null]],"CSX-A100":[["2026-10-20",null],["2026-10-21",null],["2026-10-22",1.7074]],"CSX-L40S":[["2026-10-20",1.4699],["2026-10-21",1.4699],["2026-10-22",1.435]]},"providers":[{"id":"scaleway","n":"Scaleway","aka":null,"web":"https://www.scaleway.com","st":"sovereign","prov":false,"dec":null,"ent":["Scaleway SAS","FR","Paris"],"ctl":["Iliad Group (controlled by Xavier Niel)","FR"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"api","cs":null,"cn":"Public product catalogue, no authentication. Prices per minute, EUR, excl. VAT.","src":"https://api.scaleway.com/product-catalog/v2alpha1/public-catalog/products","hq":[-561,-318],"hqc":"Paris","us":false,"ok":"2026-10-22 10:11","offers":30,"global":false,"nsites":3,"ev":[["Scaleway is the cloud subsidiary of the French Iliad group","https://www.iliad.fr/en/"]]},{"id":"ovhcloud","n":"OVHcloud","aka":null,"web":"https://www.ovhcloud.com","st":"sovereign","prov":false,"dec":null,"ent":["OVH Groupe SA","FR","Roubaix"],"ctl":["Klaba family (majority shareholder; listed on Euronext Paris)","FR"],"contested":false,"why":null,"disc":["Operates a separate US subsidiary (OVHcloud US) for the US market."],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"api","cs":null,"cn":"Public order catalogue, no authentication. Catalogue prices are uniform across regions and the catalogue does not say which regions carry each GPU, so offers are recorded with region \"catalogue\".","src":"https://api.ovh.com/1.0/order/catalog/public/cloud?ovhSubsidiary=FR","hq":[-480,-123],"hqc":"Roubaix","us":false,"ok":"2026-10-22 10:11","offers":52,"global":false,"nsites":7,"ev":[["OVH Groupe is headquartered in Roubaix and listed on Euronext Paris","https://corporate.ovhcloud.com/en/investors/"]]},{"id":"hetzner","n":"Hetzner","aka":null,"web":"https://www.hetzner.com","st":"sovereign","prov":false,"dec":null,"ent":["Hetzner Online GmbH","DE","Gunzenhausen"],"ctl":["Privately held (founder-owned)","DE"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"api","cs":null,"cn":"GPU servers are dedicated machines (GEX line), not part of the Hetzner Cloud API. Prices come from the public price file the GPU product page loads (EUR column, per data centre), joined with the page for server names, GPUs and product ids. Hourly price with a monthly cap and a one-time setup fee.","src":"https://www.hetzner.com/_resources/app/data/app/live_data_prices.json","hq":[55,-320],"hqc":"Gunzenhausen","us":false,"ok":"2026-10-22 10:11","offers":12,"global":false,"nsites":3,"ev":[["Hetzner Online GmbH, Gunzenhausen, Germany","https://www.hetzner.com/legal/legal-notice/"]]},{"id":"verda","n":"Verda","aka":"DataCrunch","web":"https://verda.com","st":"sovereign","prov":true,"dec":null,"ent":["Verda Cloud Oy (formerly DataCrunch Oy)","FI","Helsinki"],"ctl":["Founders and European venture investors (privately held)","FI"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"api","cs":null,"cn":"The brief marked Verda as uncertain; its API publishes on-demand and spot prices without authentication. Prices in USD. Location availability needs a token, so offers are recorded with region \"catalogue\".","src":"https://api.verda.com/v1/instance-types","hq":[821,995],"hqc":"Helsinki","us":false,"ok":"2026-10-22 10:11","offers":104,"global":false,"nsites":2,"ev":[["Verda (formerly DataCrunch) is a Finnish GPU cloud","https://verda.com"]]},{"id":"exoscale","n":"Exoscale","aka":null,"web":"https://www.exoscale.com","st":"under_review","prov":false,"dec":{"on":"2026-10-22","why":"Swiss seat; European parent group (A1, Vienna) with the Austrian state as blocking shareholder; no US parent."},"ent":["Akenes SA","CH","Lausanne"],"ctl":["A1 Telekom Austria Group, majority-owned by América Móvil (Mexico) under a syndicate agreement with the Austrian state holding ÖBAG","MX"],"contested":true,"why":"Exoscale belongs to A1 Digital (A1 Group, Vienna). A1's majority shareholder is América Móvil; ÖBAG holds a blocking minority under a shareholder agreement. Whether this counts as European control is the open question, so the rule returns under_review and Exoscale stays out of both baskets until it is settled.","disc":[],"crit":{"seat":"pass","control":"unknown","no_extraterritorial":"unknown"},"m":"api","cs":null,"cn":"Public pricing JSON behind exoscale.com/pricing, joined with the public instance-type API (GPU count and zones). EUR, excl. VAT.","src":"https://portal.exoscale.com/api/pricing/opencompute","hq":[-258,-603],"hqc":"Lausanne","us":false,"ok":"2026-10-22 10:11","offers":34,"global":false,"nsites":7,"ev":[["Exoscale is part of A1 Digital, A1 Group","https://www.exoscale.com/company/"],["América Móvil is A1 Group's majority shareholder","https://www.a1.group/en/investor-relations/shareholder-structure"]]},{"id":"ionos","n":"IONOS","aka":null,"web":"https://cloud.ionos.com","st":"sovereign","prov":false,"dec":null,"ent":["IONOS SE","DE","Montabaur"],"ctl":["United Internet AG (majority shareholder)","DE"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"none","cs":"no_machine_readable_price","cn":"GPU prices are not exposed in a machine-readable form on the public price page. Next step: ask IONOS for a price feed or a Level 2 confirmation.","src":null,"hq":[-154,-171],"hqc":"Montabaur","us":false,"ok":null,"offers":null,"global":false,"nsites":3,"ev":[]},{"id":"infomaniak","n":"Infomaniak","aka":null,"web":"https://www.infomaniak.com","st":"sovereign","prov":false,"dec":null,"ent":["Infomaniak Network SA","CH","Geneva"],"ctl":["Independent, owned by founders and employees","CH"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"none","cs":"awaiting_agreement","cn":"No public GPU price list. Outreach for a data-sharing agreement in progress.","src":null,"hq":[-297,-636],"hqc":"Geneva","us":false,"ok":null,"offers":null,"global":false,"nsites":1,"ev":[]},{"id":"safe-swiss-cloud","n":"Safe Swiss Cloud","aka":null,"web":"https://www.safeswisscloud.ch","st":"sovereign","prov":true,"dec":null,"ent":["Safe Swiss Cloud AG","CH","Zurich"],"ctl":["Privately held, Swiss","CH"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"none","cs":"awaiting_agreement","cn":"No public GPU price list found.","src":null,"hq":[-110,-513],"hqc":"Zurich","us":false,"ok":null,"offers":null,"global":false,"nsites":1,"ev":[]},{"id":"hikube","n":"Hikube","aka":null,"web":"https://hikube.cloud","st":"sovereign","prov":true,"dec":null,"ent":["Hikube","CH","Geneva"],"ctl":["Privately held, Swiss","CH"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"none","cs":"awaiting_agreement","cn":"No public GPU price list found.","src":null,"hq":[-297,-636],"hqc":"Geneva","us":false,"ok":null,"offers":null,"global":false,"nsites":1,"ev":[]},{"id":"polarise","n":"Polarise","aka":null,"web":"https://www.polarise.eu","st":"sovereign","prov":true,"dec":null,"ent":["Polarise GmbH","DE","Munich"],"ctl":["Privately held, German","DE"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"none","cs":"no_public_price","cn":"NVIDIA Cloud Partner with high-end GPUs (sovereign and frontier: the combination the index is looking for), but no public price list. Priority contact.","src":null,"hq":[117,-428],"hqc":"Munich","us":false,"ok":null,"offers":null,"global":false,"nsites":3,"ev":[]},{"id":"nebius","n":"Nebius","aka":null,"web":"https://nebius.com","st":"under_review","prov":false,"dec":{"on":"2026-10-22","why":"Dutch seat and holding company; no US parent; US listing and US subsidiaries disclosed."},"ent":["Nebius Group N.V.","NL","Amsterdam"],"ctl":["Listed on Nasdaq (NBIS); voting control and shareholder base under review","NL"],"contested":true,"why":"Dutch holding company with a US listing and US operating subsidiaries. Whether it is reachable by the CLOUD Act through those subsidiaries is the open question.","disc":["Listed on a US exchange (Nasdaq).","Operates data centres in the United States."],"crit":{"seat":"pass","control":"unknown","no_extraterritorial":"unknown"},"m":"html","cs":null,"cn":"Public price page: on-demand and preemptible prices per GPU-hour in USD, the same in every region. Nebius also sells in the US; the price counts for its European regions, where the same list applies.","src":"https://nebius.com/prices","hq":[-346,53],"hqc":"Amsterdam","us":false,"ok":"2026-10-22 10:11","offers":14,"global":false,"nsites":2,"ev":[]},{"id":"seeweb","n":"Seeweb","aka":null,"web":"https://www.seeweb.it","st":"sovereign","prov":true,"dec":null,"ent":["Seeweb srl","IT","Frosinone"],"ctl":["DHH group (Dominion Hosting Holding, listed on Euronext Growth Milan; Italian founders are the largest shareholders)","IT"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"html","cs":null,"cn":"Product page joined with the price list in its script: euro per GPU-hour, excl. VAT, the same in both Italian data centres.","src":"https://www.seeweb.it/en/products/cloud-server-gpu","hq":[279,-1144],"hqc":"Frosinone","us":false,"ok":"2026-10-22 10:11","offers":10,"global":false,"nsites":2,"ev":[["Seeweb is part of the DHH group (Dominion Hosting Holding)","https://www.finanzaonline.com/notizie/seeweb-il-gioiello-italiano-del-cloud-guarda-al-futuro-dopo-la-fusione-con-dhh"]]},{"id":"lyceum","n":"Lyceum","aka":null,"web":"https://lyceum.technology","st":"sovereign","prov":true,"dec":null,"ent":["Lyceum Technology Germany GmbH","DE","Berlin"],"ctl":["Founders and European investors (pre-seed led by redalpine, with 10x Founders)","DE"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"html","cs":null,"cn":"Public pricing page with on-demand and spot prices per GPU-hour, in USD.","src":"https://lyceum.technology/resources/pricing/","hq":[230,63],"hqc":"Berlin","us":false,"ok":"2026-10-22 10:11","offers":11,"global":false,"nsites":0,"ev":[["Berlin and Zurich based sovereign AI cloud; pre-seed led by redalpine","https://tech.eu/2025/06/24/sovereign-by-design-lyceum-emerges-with-eur103m-to-redefine-cloud-infrastructure-in-europe/"]]},{"id":"stackit","n":"STACKIT","aka":null,"web":"https://www.stackit.de","st":"sovereign","prov":false,"dec":null,"ent":["STACKIT GmbH & Co. KG","DE","Neckarsulm"],"ctl":["Schwarz Group (Lidl and Kaufland), owned by a German foundation structure","DE"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"none","cs":"planned","cn":"Publishes a GPU price list (H100, A100, L40S, in euro per hour). Its site does not answer from our development machine; a collector is planned for the next sprint.","src":null,"hq":[-56,-312],"hqc":"Neckarsulm","us":false,"ok":null,"offers":null,"global":false,"nsites":0,"ev":[["STACKIT is the cloud of the Schwarz Group","https://en.wikipedia.org/wiki/Schwarz_Gruppe"]]},{"id":"open-telekom-cloud","n":"Open Telekom Cloud","aka":null,"web":"https://www.open-telekom-cloud.com","st":"sovereign","prov":false,"dec":null,"ent":["T-Systems International GmbH","DE","Frankfurt"],"ctl":["Deutsche Telekom AG (largest shareholder the German state, directly and through KfW)","DE"],"contested":false,"why":null,"disc":["Deutsche Telekom owns a majority of T-Mobile US, a US company."],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"none","cs":"planned","cn":"Public price calculator with GPU flavours; collector planned for the next sprint.","src":null,"hq":[-94,-209],"hqc":"Frankfurt","us":false,"ok":null,"offers":null,"global":false,"nsites":2,"ev":[["Open Telekom Cloud is run by T-Systems, part of Deutsche Telekom","https://en.wikipedia.org/wiki/T-Systems"]]},{"id":"swisscom","n":"Swisscom","aka":null,"web":"https://www.swisscom.ch","st":"sovereign","prov":false,"dec":null,"ent":["Swisscom AG","CH","Ittigen"],"ctl":["Swiss Confederation (majority shareholder)","CH"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"none","cs":"no_public_price","cn":"GPU capacity sold through the Swiss AI Platform; no public GPU price list.","src":null,"hq":[-191,-555],"hqc":"Ittigen","us":false,"ok":null,"offers":null,"global":false,"nsites":0,"ev":[["The Swiss Confederation holds a majority of Swisscom","https://en.wikipedia.org/wiki/Swisscom"]]},{"id":"phoenix-kvant","n":"Phoenix Technologies (kvant)","aka":null,"web":"https://kvant.cloud","st":"sovereign","prov":true,"dec":null,"ent":["Phoenix Technologies AG","CH",null],"ctl":["Privately held, Swiss (shareholders not published)","CH"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"none","cs":"no_public_price","cn":"Swiss sovereign cloud with H100 GPU-as-a-service; no public GPU price list found.","src":null,"hq":[null,null],"hqc":null,"us":false,"ok":null,"offers":null,"global":false,"nsites":0,"ev":[["kvant, the sovereign Swiss cloud and AI platform of Phoenix Technologies","https://phoenix-systems.ch/en/products-and-services/kvant-cloud-platform/ai-cloud"]]},{"id":"gcore","n":"Gcore","aka":null,"web":"https://gcore.com","st":"under_review","prov":true,"dec":null,"ent":["G-Core Labs S.A.","LU","Luxembourg"],"ctl":["Founders and investors; the shareholder split after the 2024 funding round is not published","unknown"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"unknown","no_extraterritorial":"unknown"},"m":"none","cs":"planned","cn":"Publishes GPU prices on its website; a collector is planned once control is settled.","src":null,"hq":[-279,-258],"hqc":"Luxembourg","us":false,"ok":null,"offers":null,"global":false,"nsites":0,"ev":[["Gcore is headquartered in Luxembourg","https://en.wikipedia.org/wiki/Gcore"]]},{"id":"sesterce","n":"Sesterce","aka":null,"web":"https://www.sesterce.com","st":"sovereign","prov":true,"dec":null,"ent":["Sesterce SAS","FR","Marseille"],"ctl":["Founders and French investors (privately held)","FR"],"contested":false,"why":null,"disc":[],"crit":{"seat":"pass","control":"pass","no_extraterritorial":"pass"},"m":"none","cs":"no_public_price","cn":"No public GPU price page found (its pricing page returns \"not found\").","src":null,"hq":[-376,-955],"hqc":"Marseille","us":false,"ok":null,"offers":null,"global":false,"nsites":0,"ev":[]},{"id":"aws","n":"AWS","aka":null,"web":"https://aws.amazon.com","st":"non_sovereign","prov":false,"dec":null,"ent":["Amazon Web Services","US","Seattle"],"ctl":["Amazon.com, Inc. (Delaware)","US"],"contested":false,"why":null,"disc":["AWS European Sovereign Cloud (Brandenburg, GA January 2026) is run by German legal entities with EU staff, but the ultimate parent is Amazon.com, Inc."],"crit":{"seat":"fail","control":"fail","no_extraterritorial":"fail"},"m":"api","cs":null,"cn":"Official AWS Price List bulk API, one offer file per region. The region index is checked on every run; a region file is downloaded only when AWS publishes a new version. European Sovereign Cloud prices are published in a separate partition and are not collected yet.","src":"https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/region_index.json","hq":[-3935,6414],"hqc":"Seattle","us":true,"ok":"2026-10-22 10:11","offers":186,"global":false,"nsites":9,"ev":[]},{"id":"azure","n":"Microsoft Azure","aka":null,"web":"https://azure.microsoft.com","st":"non_sovereign","prov":false,"dec":null,"ent":["Microsoft Corporation","US","Redmond"],"ctl":["Microsoft Corporation (Washington)","US"],"contested":false,"why":null,"disc":[],"crit":{"seat":"fail","control":"fail","no_extraterritorial":"fail"},"m":"api","cs":null,"cn":"Official Azure Retail Prices API, no authentication. USD, Linux, pay-as-you-go.","src":"https://prices.azure.com/api/retail/prices","hq":[-3940,6398],"hqc":"Redmond","us":true,"ok":"2026-10-22 10:11","offers":372,"global":false,"nsites":14,"ev":[]},{"id":"google-cloud","n":"Google Cloud","aka":null,"web":"https://cloud.google.com","st":"non_sovereign","prov":false,"dec":null,"ent":["Google LLC","US","Mountain View"],"ctl":["Alphabet Inc. (Delaware)","US"],"contested":false,"why":null,"disc":[],"crit":{"seat":"fail","control":"fail","no_extraterritorial":"fail"},"m":"none","cs":"planned","cn":"Cloud Billing Catalog API needs a free API key; planned for sprint 2.","src":null,"hq":[-4953,6665],"hqc":"Mountain View","us":true,"ok":null,"offers":null,"global":false,"nsites":2,"ev":[]},{"id":"coreweave","n":"CoreWeave","aka":null,"web":"https://www.coreweave.com","st":"non_sovereign","prov":false,"dec":null,"ent":["CoreWeave","US","Livingston"],"ctl":["CoreWeave, Inc. (listed on Nasdaq)","US"],"contested":false,"why":null,"disc":[],"crit":{"seat":"fail","control":"fail","no_extraterritorial":"fail"},"m":"none","cs":"no_public_api","cn":"Contract-driven pricing, no public price API. Reference only.","src":null,"hq":[-5432,2475],"hqc":"Livingston","us":true,"ok":null,"offers":null,"global":false,"nsites":4,"ev":[]},{"id":"runpod","n":"RunPod","aka":null,"web":"https://www.runpod.io","st":"non_sovereign","prov":false,"dec":null,"ent":["RunPod","US","Moorestown"],"ctl":["RunPod, Inc. (venture-backed)","US"],"contested":false,"why":null,"disc":[],"crit":{"seat":"fail","control":"fail","no_extraterritorial":"fail"},"m":"api","cs":null,"cn":"Global GPU marketplace; the public price is not tied to a European location, so RunPod is shown as a global reference and never enters the European baskets.","src":"https://api.runpod.io/graphql","hq":[-5529,2479],"hqc":"Moorestown","us":true,"ok":"2026-10-22 10:11","offers":86,"global":true,"nsites":0,"ev":[]}],"cells":{"aws":{"l40s":[1.75,"g6e.xlarge","eu-south-2",1],"a100":[2.64,"p4d.24xlarge","eu-north-1",8],"l4":[0.75,"g6.xlarge","eu-south-2",1],"b200":[15.94,"p6-b200.48xlarge","eu-north-1",8],"h100":[6.55,"p5.48xlarge","eu-north-1",8],"h200":[7.54,"p5en.48xlarge","eu-north-1",8]},"azure":{"a100":[3.92,"Standard_NC24ads_A100_v4","northeurope",1],"h100":[7.46,"Standard_NC40ads_H100_v5","northeurope",1],"mi300x":[6.41,"Standard_ND96is_MI300X_v5","northeurope",8],"h200":[11.32,"Standard_ND96isr_H200_v5","northeurope",8]},"exoscale":{"rtx-pro-6000":[2.0,"gpurtx6000pro.huge","at-vie-2",8]},"hetzner":{"rtx-pro-6000":[1.44,"GEX430","fsn",4]},"lyceum":{"b300":[9.87,"NVIDIA B300","catalogue",1],"b200":[7.82,"NVIDIA B200","catalogue",1],"h200":[5.51,"NVIDIA H200","catalogue",1],"h100":[4.17,"NVIDIA H100","catalogue",1],"a100":[2.04,"NVIDIA A100","catalogue",1],"l40s":[1.77,"NVIDIA L40S","catalogue",1]},"nebius":{"b300":[8.46,"NVIDIA HGX B300","catalogue",1],"b200":[7.57,"NVIDIA HGX B200","catalogue",1],"h200":[4.81,"NVIDIA HGX H200","catalogue",1],"h100":[4.01,"NVIDIA HGX H100","catalogue",1],"rtx-pro-6000":[1.6,"NVIDIA RTX PRO 6000","catalogue",1],"l40s":[1.38,"NVIDIA L40S with Intel CPU","catalogue",1]},"ovhcloud":{"h100":[2.8,"h100-760","catalogue",2],"l40s":[1.4,"l40s-360","catalogue",4],"l4":[0.75,"l4-90","catalogue",1],"a100":[2.75,"a100-720","catalogue",4],"h200":[5.25,"h200-1920","catalogue",8]},"runpod":{"mi300x":[2.13,"AMD Instinct MI300X OAM (secure)","global",1],"a100":[0.89,"NVIDIA A100-SXM4-40GB (community)","global",1],"b200":[5.32,"NVIDIA B200 (community)","global",1],"b300":[6.18,"NVIDIA B300 SXM6 AC (community)","global",1],"h100":[1.77,"NVIDIA H100 PCIe (community)","global",1],"h200":[3.2,"NVIDIA H200 (community)","global",1],"l4":[0.39,"NVIDIA L4 (community)","global",1],"l40s":[0.7,"NVIDIA L40S (community)","global",1],"rtx-pro-6000":[1.46,"NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition (community)","global",1]},"scaleway":{"b300":[7.5,"B300-SXM-8-288G","fr-par-2",8],"h100":[2.87,"H100-1-80G","pl-waw-2",1],"l40s":[1.47,"L40S-1-48G","pl-waw-2",1],"l4":[0.79,"L4-1-24G","pl-waw-2",1]},"seeweb":{"h100":[1.89,"gpu1","catalogue",1],"a100":[0.99,"gpu2","catalogue",1],"l40s":[0.85,"gpu3","catalogue",1],"l4":[0.38,"gpu5","catalogue",1],"mi300x":[2.35,"gpu8","catalogue",1],"h200":[2.6,"gpu9","catalogue",1],"rtx-pro-6000":[1.25,"gpu10","catalogue",1]},"verda":{"gb300":[10.83,"2GB300.64V","catalogue",2],"b300":[9.42,"8B300.240V","catalogue",8],"b200":[7.36,"1B200.30V","catalogue",1],"h200":[5.19,"8H200.141S.176V","catalogue",8],"h100":[3.98,"8H100.80S.176V","catalogue",8],"a100":[1.38,"8A100.40S.176V","catalogue",8],"rtx-pro-6000":[2.2,"8RTXPRO6000.240V","catalogue",8],"l40s":[1.61,"1L40S.20V","catalogue",1]}},"sites":[{"p":"scaleway","c":"Paris","cc":"FR","x":-559,"y":-320,"h100":2.87,"h200":null,"b200":null,"fr":2.87},{"p":"scaleway","c":"Amsterdam","cc":"NL","x":-346,"y":53,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"scaleway","c":"Warsaw","cc":"PL","x":747,"y":82,"h100":2.87,"h200":null,"b200":null,"fr":2.87},{"p":"ovhcloud","c":"Gravelines","cc":"FR","x":-550,"y":-83,"h100":2.8,"h200":5.25,"b200":null,"fr":2.8},{"p":"ovhcloud","c":"Roubaix","cc":"FR","x":-480,"y":-123,"h100":2.8,"h200":5.25,"b200":null,"fr":2.8},{"p":"ovhcloud","c":"Strasbourg","cc":"FR","x":-165,"y":-378,"h100":2.8,"h200":5.25,"b200":null,"fr":2.8},{"p":"ovhcloud","c":"Paris","cc":"FR","x":-559,"y":-320,"h100":2.8,"h200":5.25,"b200":null,"fr":2.8},{"p":"ovhcloud","c":"Limburg","cc":"DE","x":-138,"y":-178,"h100":2.8,"h200":5.25,"b200":null,"fr":2.8},{"p":"ovhcloud","c":"Warsaw","cc":"PL","x":747,"y":82,"h100":2.8,"h200":5.25,"b200":null,"fr":2.8},{"p":"ovhcloud","c":"Milan","cc":"IT","x":-63,"y":-726,"h100":2.8,"h200":5.25,"b200":null,"fr":2.8},{"p":"hetzner","c":"Falkenstein","cc":"DE","x":168,"y":-167,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"hetzner","c":"Nuremberg","cc":"DE","x":78,"y":-283,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"hetzner","c":"Helsinki","cc":"FI","x":821,"y":995,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"verda","c":"Helsinki","cc":"FI","x":805,"y":996,"h100":3.98,"h200":5.19,"b200":7.36,"fr":3.98},{"p":"verda","c":"Keflavík","cc":"IS","x":-1528,"y":1698,"h100":3.98,"h200":5.19,"b200":7.36,"fr":3.98},{"p":"exoscale","c":"Geneva","cc":"CH","x":-297,"y":-636,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"exoscale","c":"Zurich","cc":"CH","x":-110,"y":-513,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"exoscale","c":"Vienna","cc":"AT","x":472,"y":-401,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"exoscale","c":"Frankfurt","cc":"DE","x":-94,"y":-209,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"exoscale","c":"Munich","cc":"DE","x":117,"y":-428,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"exoscale","c":"Sofia","cc":"BG","x":1086,"y":-936,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"exoscale","c":"Zagreb","cc":"HR","x":464,"y":-669,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"ionos","c":"Frankfurt","cc":"DE","x":-94,"y":-209,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"ionos","c":"Berlin","cc":"DE","x":230,"y":63,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"ionos","c":"Karlsruhe","cc":"DE","x":-116,"y":-332,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"infomaniak","c":"Geneva","cc":"CH","x":-299,"y":-640,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"safe-swiss-cloud","c":"Zurich","cc":"CH","x":-113,"y":-510,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"hikube","c":"Geneva","cc":"CH","x":-300,"y":-633,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"polarise","c":"Munich","cc":"DE","x":119,"y":-427,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"polarise","c":"Frankfurt","cc":"DE","x":-93,"y":-210,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"polarise","c":"Oslo","cc":"NO","x":42,"y":880,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"nebius","c":"Mäntsälä","cc":"FI","x":830,"y":1050,"h100":4.01,"h200":4.81,"b200":7.57,"fr":4.01},{"p":"nebius","c":"Paris","cc":"FR","x":-555,"y":-323,"h100":4.01,"h200":4.81,"b200":7.57,"fr":4.01},{"p":"seeweb","c":"Frosinone","cc":"IT","x":279,"y":-1144,"h100":1.89,"h200":2.6,"b200":null,"fr":1.89},{"p":"seeweb","c":"Milan","cc":"IT","x":-65,"y":-725,"h100":1.89,"h200":2.6,"b200":null,"fr":1.89},{"p":"open-telekom-cloud","c":"Magdeburg","cc":"DE","x":111,"y":15,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"open-telekom-cloud","c":"Biere","cc":"DE","x":113,"y":-2,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"aws","c":"Frankfurt","cc":"DE","x":-94,"y":-209,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"aws","c":"Zurich","cc":"CH","x":-110,"y":-513,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"aws","c":"Dublin","cc":"IE","x":-1069,"y":271,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"aws","c":"London","cc":"GB","x":-698,"y":-6,"h100":7.96,"h200":null,"b200":null,"fr":7.96},{"p":"aws","c":"Paris","cc":"FR","x":-559,"y":-320,"h100":null,"h200":null,"b200":19.4,"fr":19.4},{"p":"aws","c":"Stockholm","cc":"SE","x":457,"y":840,"h100":6.55,"h200":7.54,"b200":15.94,"fr":6.55},{"p":"aws","c":"Milan","cc":"IT","x":-63,"y":-726,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"aws","c":"Zaragoza","cc":"ES","x":-905,"y":-1084,"h100":null,"h200":7.61,"b200":null,"fr":7.61},{"p":"aws","c":"Brandenburg","cc":"DE","x":172,"y":49,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"azure","c":"Amsterdam","cc":"NL","x":-343,"y":51,"h100":7.92,"h200":null,"b200":null,"fr":7.92},{"p":"azure","c":"Dublin","cc":"IE","x":-1072,"y":269,"h100":7.46,"h200":11.32,"b200":null,"fr":6.41},{"p":"azure","c":"Paris","cc":"FR","x":-562,"y":-319,"h100":null,"h200":11.79,"b200":null,"fr":6.68},{"p":"azure","c":"Frankfurt","cc":"DE","x":-96,"y":-208,"h100":8.08,"h200":12.27,"b200":null,"fr":6.94},{"p":"azure","c":"Gävle","cc":"SE","x":389,"y":983,"h100":8.08,"h200":12.27,"b200":null,"fr":7.48},{"p":"azure","c":"Zurich","cc":"CH","x":-108,"y":-508,"h100":8.88,"h200":null,"b200":null,"fr":8.88},{"p":"azure","c":"Warsaw","cc":"PL","x":749,"y":85,"h100":12.8,"h200":14.53,"b200":null,"fr":8.22},{"p":"azure","c":"Milan","cc":"IT","x":-61,"y":-724,"h100":null,"h200":12.27,"b200":null,"fr":12.27},{"p":"azure","c":"Madrid","cc":"ES","x":-1159,"y":-1180,"h100":8.08,"h200":12.27,"b200":null,"fr":8.08},{"p":"azure","c":"Oslo","cc":"NO","x":44,"y":878,"h100":null,"h200":13.49,"b200":null,"fr":13.49},{"p":"azure","c":"London","cc":"GB","x":-696,"y":-5,"h100":7.77,"h200":11.79,"b200":null,"fr":6.68},{"p":"azure","c":"Vienna","cc":"AT","x":474,"y":-400,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"azure","c":"Copenhagen","cc":"DK","x":161,"y":412,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"azure","c":"Brussels","cc":"BE","x":-396,"y":-113,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"google-cloud","c":"St. Ghislain","cc":"BE","x":-437,"y":-152,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"google-cloud","c":"Eemshaven","cc":"NL","x":-210,"y":165,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"coreweave","c":"Norway","cc":"NO","x":25,"y":1011,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"coreweave","c":"Sweden","cc":"SE","x":377,"y":1173,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"coreweave","c":"Barcelona","cc":"ES","x":-655,"y":-1144,"h100":null,"h200":null,"b200":null,"fr":null},{"p":"coreweave","c":"London","cc":"GB","x":-693,"y":-10,"h100":null,"h200":null,"b200":null,"fr":null}],"gpus":{"gb300":["GB300","frontier"],"b300":["B300","frontier"],"b200":["B200","frontier"],"h200":["H200","frontier"],"h100":["H100","frontier"],"mi300x":["MI300X","frontier"],"a100":["A100","datacenter"],"rtx-pro-6000":["RTX PRO 6000","datacenter"],"l40s":["L40S","datacenter"],"l4":["L4","inference"]}};
+
+const C = {
+  paper: '#F5F3EC', paper2: '#EDF0F4', card: '#FBFAF7', line: '#DAD4C6', line2: '#CCD2DC',
+  ink: '#18213A', text: '#394256', muted: '#5B6375', navy: '#1B2850',
+  lapis: '#2350B8', lapisT: '#DDE5F5', porph: '#B0412A', porphT: '#F4DED6',
+  lilac: '#6B579C', lilacT: '#E7E1F1', gold: '#A57A23', goldD: '#86621A', stone: '#8E95A3', stoneT: '#E5E7EC',
+};
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const CC = { FR: 'France', DE: 'Germany', FI: 'Finland', CH: 'Switzerland', NL: 'Netherlands', US: 'United States', MX: 'Mexico', PL: 'Poland', IT: 'Italy', IS: 'Iceland', AT: 'Austria', BG: 'Bulgaria', HR: 'Croatia', NO: 'Norway', IE: 'Ireland', GB: 'United Kingdom', SE: 'Sweden', ES: 'Spain', DK: 'Denmark', BE: 'Belgium', LU: 'Luxembourg', CZ: 'Czechia', PT: 'Portugal', GR: 'Greece', HU: 'Hungary', RO: 'Romania', LT: 'Lithuania', LV: 'Latvia', EE: 'Estonia', SI: 'Slovenia', SK: 'Slovakia', CY: 'Cyprus', MT: 'Malta' };
+const ST = {
+  sovereign: { label: 'Sovereign', color: C.lapis, tint: C.lapisT, jasper: '#5F7FB8' },
+  under_review: { label: 'Under review', color: C.lilac, tint: C.lilacT, jasper: '#8E7DB4' },
+  non_sovereign: { label: 'Not sovereign', color: C.porph, tint: C.porphT, jasper: '#C0705A' },
+};
+const COLL = { awaiting_agreement: 'No public price · data agreement pending', no_public_price: 'No public price list', no_machine_readable_price: 'Prices not machine-readable', no_public_api: 'Contract pricing only', planned: 'Collector being built' };
+const PROV = Object.fromEntries(D.providers.map((p) => [p.id, p]));
+const BOARD = Object.fromEntries(D.boards.map((b) => [b.id, b]));
+const FIX_DAY = (D.boards.find((b) => b.d) || {}).d || D.asOf;
+const PAGES = [['Index', 'Index.dc.html'], ['Why sovereignty', 'Why.dc.html'], ['Method', 'Methodology.dc.html']];
+
+const eur = (v, d = 2) => (v == null ? '—' : '€' + Number(v).toFixed(d));
+const day = (iso) => { const [y, m, d] = String(iso).slice(0, 10).split('-'); return Number(d) + ' ' + MONTHS[Number(m) - 1] + ' ' + y; };
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const place = (city, cc) => [city, CC[cc] || cc].filter(Boolean).join(', ');
+const live = (p) => (p.offers || 0) > 0;
+
+function reasonText(why) {
+  const m = /(\d+) fresh constituent\(s\), (\d+) required/.exec(why || '');
+  if (m) return 'Only ' + m[1] + (m[1] === '1' ? ' quote' : ' quotes') + ' today, ' + m[2] + ' needed. Never estimated.';
+  return (why || 'Not enough fresh quotes') + '. Never estimated.';
+}
+
+// A ref callback that keeps state.w equal to the root's width.
+function rootRef(self) {
+  return (el) => {
+    if (el === self.rootEl) return;
+    if (self.rro) self.rro.disconnect();
+    self.rootEl = el;
+    if (!el) return;
+    self.rro = new ResizeObserver(() => {
+      const w = Math.round(el.clientWidth);
+      if (w && Math.abs(w - self.state.w) > 4) self.setState({ w });
+    });
+    self.rro.observe(el);
+  };
+}
+
+// Values every page shares: layout switches, navigation, ticker, links.
+function baseVals(self, current) {
+  const w = self.state.w, phone = w < 640, narrow = w < 1024;
+  const L = {
+    phone, narrow, notPhone: !phone,
+    gutter: phone ? '20px' : narrow ? '32px' : '56px',
+    navLinks: phone ? 'none' : 'flex',
+    menuBtn: phone ? 'inline-flex' : 'none',
+    statusDisplay: w < 820 ? 'none' : 'flex',
+  };
+  const nav = PAGES.map(([label, href]) => {
+    const on = href === current;
+    return { label, href, current: on ? 'page' : 'false', color: on ? C.ink : C.text, deco: on ? 'underline' : 'none' };
+  });
+  const tickOne = D.boards.map((b) => ({
+    code: b.id.replace('-', ' · '),
+    val: b.v == null ? 'no fixing' : eur(b.v),
+    color: b.b === 'sovereign' ? C.lapis : C.porph,
+    valColor: b.v == null ? C.muted : C.ink,
+    valStyle: b.v == null ? 'italic' : 'normal',
+  }));
+  return {
+    L, nav,
+    tick: tickOne.concat(tickOne).map((t, i) => ({ ...t, key: i })),
+    homeHref: 'Main.dc.html', contactHref: 'Main.dc.html#contact',
+    fixDay: day(FIX_DAY), method: D.method,
+    menuOpen: self.state.menu, toggleMenu: () => self.setState({ menu: !self.state.menu }),
+    setRoot: self.setRoot,
+  };
+}
+
+// Ownership chains. AWS European Sovereign Cloud from Amazon's launch release of
+// 14 January 2026; the others from the CompEU registry.
+const CHAINS = [
+  {
+    id: 'aws-esc', label: 'AWS European Sovereign Cloud',
+    links: [
+      ['Data centres', 'Brandenburg, Germany'],
+      ['Three German subsidiaries (GmbH)', 'Germany'],
+      ['A new European parent company', 'Germany'],
+      ['Amazon.com, Inc.', 'Seattle, United States'],
+    ],
+    top: 'US',
+    verdict: 'Not sovereign: the top of the chain is in the United States.',
+    note: 'Opened in January 2026 with more than €7.8 billion invested in Germany. European staff and companies run it, but the ultimate owner is a US company.',
+  },
+  { id: 'scaleway' }, { id: 'exoscale' }, { id: 'nebius' },
+];
+
+const MILES = [
+  { date: '2018', title: 'US CLOUD Act', text: 'US providers must disclose the data they control, wherever it is stored.', src: 'https://www.law.cornell.edu/uscode/text/18/2713' },
+  { date: 'Oct 2024', title: 'NIS2 in force', text: 'Member states must apply stricter security rules to essential services and to their suppliers.', src: 'https://eur-lex.europa.eu/eli/dir/2022/2555/oj' },
+  { date: 'Jan 2025', title: 'DORA applies', text: 'Banks and insurers must manage the risk of the technology providers they depend on, cloud included.', src: 'https://eur-lex.europa.eu/eli/reg/2022/2554/oj' },
+  { date: 'Jan 2026', title: 'A US “sovereign” cloud', text: 'Amazon opens the AWS European Sovereign Cloud in Germany: a separate cloud, still owned in the United States.', src: 'https://press.aboutamazon.com/2026/1/aws-launches-aws-european-sovereign-cloud-and-announces-expansion-across-europe' },
+  { date: 'Jun 2026', title: 'Cloud and AI Development Act', text: 'The Commission proposes a single EU-wide assessment of cloud and AI sovereignty, with a mechanism for the public sector.', src: 'https://digital-strategy.ec.europa.eu/en/library/proposal-cloud-and-ai-development-act-cada' },
+  { date: 'Oct 2026', title: 'CompEU’s first fixing', text: 'The first daily price of sovereign compute in Europe, on 20 October 2026.', src: 'https://github.com/federpoletti-debug/compeu' },
+];
+
+const ASK = ['scaleway', 'ovhcloud', 'seeweb', 'exoscale', 'nebius', 'aws', 'azure'];
+
+function chainOf(def) {
+  if (def.links) return def;
+  const p = PROV[def.id];
+  const top = p.ctl[1];
+  const verdicts = {
+    sovereign: 'Sovereign: seat and control are both in Europe.',
+    under_review: 'Under review: a fact the rule needs is still open.',
+    non_sovereign: 'Not sovereign: the top of the chain is outside Europe.',
+  };
+  return {
+    id: p.id, label: p.n,
+    links: [[p.ent[0], place(p.ent[2], p.ent[1])], [p.ctl[0], CC[top] || top || 'Not disclosed']],
+    top: p.st === 'sovereign' ? 'EU' : p.st === 'under_review' ? 'REVIEW' : 'US',
+    verdict: verdicts[p.st],
+    note: p.dec ? 'Counted in the sovereign index by a recorded decision of ' + day(p.dec.on) + ': ' + p.dec.why : p.why || 'Facts from the provider’s own filings and public registers.',
+  };
+}
+
+function answer(p, k) {
+  const c = p.crit;
+  const yes = (v) => (v === 'pass' ? ['Yes', C.lapis, C.lapisT] : v === 'fail' ? ['No', C.porph, C.porphT] : ['Open', C.lilac, C.lilacT]);
+  const rev = (v) => (v === 'pass' ? ['No', C.lapis, C.lapisT] : v === 'fail' ? ['Yes', C.porph, C.porphT] : ['Open', C.lilac, C.lilacT]);
+  switch (k) {
+    case 0: return [place(p.ent[2], p.ent[1]) + ' · ' + p.ent[0], ...yes(c.seat)];
+    case 1: return [(p.ctl[0] || 'Not disclosed') + (p.ctl[1] ? ' · ' + (CC[p.ctl[1]] || p.ctl[1]) : ''), ...yes(c.control)];
+    case 2: return [c.control === 'pass' ? 'No parent outside the EU or Switzerland.' : c.control === 'fail' ? 'Yes: the parent is outside Europe.' : 'Not settled: see the facts under review.', ...rev(c.control)];
+    case 3: return [c.no_extraterritorial === 'pass' ? 'No parent subject to the US CLOUD Act.' : c.no_extraterritorial === 'fail' ? 'Yes, through its US parent.' : 'Not settled.', ...rev(c.no_extraterritorial)];
+    default: return [live(p) ? 'Yes: CompEU collects them every morning.' : (COLL[p.cs] || 'No public price') + '.', ...(live(p) ? ['Yes', C.lapis, C.lapisT] : ['No', C.stone, C.stoneT])];
+  }
+}
+
+const QUESTIONS = ['Where is your legal seat?', 'Who controls you in the end?', 'Does any parent sit outside the EU or Switzerland?', 'Can a foreign court order you to hand over my data?', 'Do you publish your prices?'];
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { w: 1440, menu: false, chain: 'aws-esc', mile: 4, ask: 'scaleway' };
+    this.setRoot = rootRef(this);
+  }
+
+  componentWillUnmount() {
+    if (this.rro) this.rro.disconnect();
+  }
+
+  renderVals() {
+    const s = this.state;
+    const base = baseVals(this, 'Why.dc.html');
+    const pill = (on) => (on ? { bg: C.navy, fg: '#F5F3EC', bd: C.navy } : { bg: 'transparent', fg: C.navy, bd: C.line2 });
+
+    const def = chainOf(CHAINS.find((c) => (c.id || c.links) && (c.id === s.chain)) || CHAINS[0]);
+    const n = def.links.length;
+    const topColor = def.top === 'US' ? C.porph : def.top === 'REVIEW' ? C.lilac : C.lapis;
+    const chain = {
+      tabs: CHAINS.map((c) => {
+        const d = chainOf(c);
+        return { label: d.label, pressed: s.chain === d.id ? 'true' : 'false', ...pill(s.chain === d.id), pick: () => this.setState({ chain: d.id }) };
+      }),
+      links: def.links.map(([name, where], i) => ({
+        key: i, name, place: where, notFirst: i > 0,
+        edge: i === n - 1 ? topColor : C.line2, bd: i === n - 1 ? topColor : C.line,
+        placeColor: i === n - 1 ? topColor : C.muted, placeWeight: i === n - 1 ? '600' : '400',
+      })),
+      verdict: def.verdict, note: def.note,
+      verdictColor: topColor,
+      verdictBg: def.top === 'US' ? C.porphT : def.top === 'REVIEW' ? C.lilacT : C.lapisT,
+    };
+
+    const miles = MILES.map((m, i) => ({
+      ...m, key: i, pressed: s.mile === i ? 'true' : 'false',
+      bg: s.mile === i ? C.card : 'transparent',
+      dot: s.mile === i ? C.gold : '#F5F3EC',
+      titleColor: s.mile === i ? C.ink : C.text,
+      pick: () => this.setState({ mile: i }),
+    }));
+
+    const p = PROV[s.ask];
+    const rows = QUESTIONS.map((q, i) => {
+      const [a, verdict, color, bg] = answer(p, i);
+      return { key: i, n: ['i', 'ii', 'iii', 'iv', 'v'][i], q, a, verdict, color, bg };
+    });
+    const results = {
+      sovereign: ['Sovereign under the CompEU rule.', C.lapis],
+      under_review: [p.dec ? 'Under review, counted in the index by a recorded decision.' : 'Under review: not counted until the open fact is settled.', C.lilac],
+      non_sovereign: ['Not sovereign: a foreign parent can be compelled.', C.porph],
+    };
+    const ask = {
+      tabs: ASK.map((id) => ({ label: PROV[id].n, pressed: s.ask === id ? 'true' : 'false', ...pill(s.ask === id), pick: () => this.setState({ ask: id }) })),
+      rows, result: results[p.st][0], color: results[p.st][1],
+    };
+
+    const cov = String(D.cov || '0/0').split('/');
+    return { ...base, chain, miles, mile: MILES[s.mile], ask, cov: cov[0] + ' of ' + cov[1] };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 11000,
+      "title": "Home · desktop",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Mobile.dc.html": {
+      "x": 1520,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Home · phone",
+      "is_interactive": true,
+      "radius": 28
+    },
+    "Why.dc.html": {
+      "x": 1990,
+      "y": 0,
+      "w": 1440,
+      "h": 6900,
+      "title": "Why sovereignty",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Index.dc.html": {
+      "x": 3510,
+      "y": 0,
+      "w": 1440,
+      "h": 4700,
+      "title": "The index",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    "Methodology.dc.html": {
+      "x": 5030,
+      "y": 0,
+      "w": 1440,
+      "h": 4100,
+      "title": "Method and rules",
+      "expand": "fill",
+      "is_interactive": true
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-21T16:10:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "focused",
+    "file": "Main.dc.html"
+  },
+  "notes": {
+    "title": {
+      "x": 0,
+      "y": -300,
+      "text": "CompEU · the price of Europe's own AI compute",
+      "kind": "title1",
+      "maxW": 6470
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Mobile.dc.html",
+    "Why.dc.html",
+    "Index.dc.html",
+    "Methodology.dc.html"
+  ],
+  "pages": [],
+  "title": "CompEU"
+}
