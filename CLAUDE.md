@@ -10,6 +10,7 @@ Istruzioni per Claude Code, lette all'inizio di ogni sessione.
 - Fase 1 (questo repository): raccolta prezzi, classificazione sovrano/non sovrano, sito statico che si aggiorna da solo.
 - Fase 2 (intermediazione fisica) e fase 3 (derivati cash-settled) sono roadmap: **non costruirle**. I derivati richiedono licenze (FinIA/MiFID) e un amministratore di benchmark autorizzato (BMR). Dati e metodo sono già pensati per non doverli rifare.
 - Concorrente diretto: Era Compute (era.dev). Noi ci differenziamo su sovranità = controllo societario, onestà dei dati, ledger verificabile.
+- Tesi e sviluppo del business (23 ottobre 2026): documento Claude https://claude.ai/artifact/RbbdVAeQjx8AAAu3fCJ819. In fase 1 solo link dichiarati verso i fornitori e richieste di offerta inoltrate, niente rivendita; passaggio alle fasi 2 e 3 solo superando i "cancelli" scritti nel documento.
 
 ## Tre regole non negoziabili
 
