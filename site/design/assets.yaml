@@ -1,0 +1,25 @@
+# Files uploaded to the Claude Design canvas (/_blob/<id> in the artboards) and the
+# files that replace them on the site, under site/static/. The build swaps each
+# /_blob/ address for `file`; images also get a srcset for small screens.
+# loading: lazy for pictures below the first screen, eager + high priority for the hero.
+
+062d75ea86a55d625e48e76e255d0526: {file: geo/europe-dots.json}
+8e74964184d71d5a9952f60720ae4feb:
+  file: img/hero-library-2200.webp
+  srcset: [img/hero-library-1200.webp 1200w, img/hero-library-2200.webp 2200w]
+  sizes: "(max-width: 1380px) 100vw, 1320px"
+  loading: eager
+0ea484f635c1ebb7615bf3bb15c6037e:
+  file: img/alps-hodler-2400.webp
+  srcset: [img/alps-hodler-1400.webp 1400w, img/alps-hodler-2400.webp 2400w]
+  sizes: "100vw"
+  loading: lazy
+c596b86adfe4d9eb64e4d1c86662a722: {file: img/rigi-turner-1500.webp, loading: lazy}
+29a6ed1feb28f5a005aabeb69a865cff: {file: img/temple-piranesi-1200.webp, loading: eager}
+93391cae370e867dc6331a8a1dfec4b6: {file: img/newton-boullee-1400.webp, loading: lazy}
+b27a6d543c1883f204bff6fda96da7f0:
+  file: img/lake-hodler-2000.webp
+  srcset: [img/lake-hodler-1100.webp 1100w, img/lake-hodler-2000.webp 2000w]
+  sizes: "100vw"
+  loading: lazy
+37c608fe217d7341805c2d3a484dab9a: {file: img/glacier-wolf-1400.webp, loading: eager}

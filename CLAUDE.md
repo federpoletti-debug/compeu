@@ -5,7 +5,7 @@ Istruzioni per Claude Code, lette all'inizio di ogni sessione.
 ## Il progetto
 
 - **CompEU** (fino al 21 ottobre 2026 si chiamava Ceresio Index): indice giornaliero del prezzo del compute GPU sovrano europeo, con sede a Lugano.
-- Il sito è progettato in Claude Design: canvas "CompEU" https://claude.ai/artifact/TmU5uVTA8s9GRMcLzgrKA7 (home desktop, telefono, metodologia). Il codice del sito segue quel design.
+- Il sito è progettato in Claude Design: canvas "CompEU" https://claude.ai/artifact/TmU5uVTA8s9GRMcLzgrKA7 (home, telefono, perché la sovranità, indice, metodo). Il sito esegue proprio quelle tavole: sono copiate in `site/design/` (vedi "Sito e design").
 - Cartella locale: `Desktop/ceresio-index` (nome vecchio, il repository GitHub è `federpoletti-debug/compeu`).
 - Fase 1 (questo repository): raccolta prezzi, classificazione sovrano/non sovrano, sito statico che si aggiorna da solo.
 - Fase 2 (intermediazione fisica) e fase 3 (derivati cash-settled) sono roadmap: **non costruirle**. I derivati richiedono licenze (FinIA/MiFID) e un amministratore di benchmark autorizzato (BMR). Dati e metodo sono già pensati per non doverli rifare.
@@ -31,7 +31,6 @@ uv sync --system-certs           # ambiente (Avast su questo PC: serve --system-
 uv run compeu daily             # cambi BCE + raccolta + fixing del giorno
 uv run compeu classify          # stato di sovranità di ogni fornitore
 uv run compeu build             # sito in dist/
-uv run compeu build --single    # un solo file HTML (anteprime, Artifact)
 uv run compeu verify            # controlla le catene di hash
 uv run pytest; uv run ruff check .; uv run ruff format .
 ```
@@ -49,18 +48,24 @@ Le prove che scaricano dati vanno fatte con `COMPEU_ROOT` che punta a una copia 
 - Il ledger lo scrive GitHub ogni mattina (05:20 UTC, commit di `compeu-bot`): **prima di lavorare, `git pull`**, e non lanciare `compeu daily` in locale sul ramo main (creerebbe righe in conflitto con quelle del bot).
 - `gh` (GitHub CLI) è in `C:\Program Files\GitHub CLI\gh.exe` e funziona solo dallo strumento PowerShell (il login è nel keyring di Windows).
 
-## Stato al 21 ottobre 2026
+## Sito e design
+
+- Ogni pagina è una tavola di Claude Design (`site/design/*.dc.html`, copia esatta del file `project/*.dc.html` del canvas). `src/compeu/dc.py` la legge; `site/static/js/dcrun.js` la disegna nel browser con Preact; `compeu build` mette i dati del ledger al posto di quelli del canvas e i file di `site/static/img` al posto delle immagini caricate (`site/design/assets.yaml`).
+- Per cambiare il design: modificare il canvas, rileggere le tavole (Artifact read di `project/<nome>.dc.html`), copiarle in `site/design/`, `uv run compeu build`, test, commit, push: il workflow Site pubblica. Un'immagine nuova nel canvas va aggiunta anche in `assets.yaml` e `site/static/img/`.
+- Nelle tavole: niente `{{...}}` dentro `<text>` SVG (non si vede), link tra pagine scritti come `Why.dc.html`, dati solo dentro `const D = ...;` su una riga.
+
+## Stato al 22 ottobre 2026
 
 - Primo fixing reale il 20 ottobre 2026: CSX-H100 €2,87 (OVHcloud, Scaleway, Verda), CHX-H100 €7,02 (AWS, Azure). Copertura frontier: 3 sovrani su 9.
 - 11 collector attivi: Scaleway, OVHcloud, Hetzner, Verda, Exoscale, Nebius, Lyceum, Seeweb, AWS, Azure, RunPod. 25 fornitori nel registro.
 - Metodologia index/2 dal 22 ottobre 2026: Exoscale e Nebius (controllo in revisione) contano nel paniere sovrano per decisione di Massimo.
 - Repository pubblico https://github.com/federpoletti-debug/compeu, CI verde, raccolta giornaliera attiva, Pages su https://federpoletti-debug.github.io/compeu/.
-- Il sito nel codice ha ancora il primo design (Ceresio, rinominato CompEU). Il design nuovo e interattivo è nel canvas Claude Design: va portato nel codice.
+- Design 2 (chiaro, neoclassico, Alpi) online: le pagine del sito sono le tavole del canvas, con i dati di ogni mattina. Primo fixing con index/2: CSX-H100 €3,42, CHX-H100 €7,00.
 
 ## Prossimi passi
 
-1. Portare nel codice il design del canvas Claude Design (home, telefono, metodologia).
+1. Indirizzo di contatto vero al posto di [CONTACT EMAIL] (tavole Main, poi build).
 2. Dominio e hosting europeo (Scaleway Object Storage già previsto nel workflow).
-3. Decidere Exoscale e Nebius (oggi `under_review`): servono i fatti sul controllo.
-4. Collector: Nebius (pagina prezzi), Google Cloud (chiave API gratuita), IONOS, AWS European Sovereign Cloud.
+3. Exoscale e Nebius contano per decisione (index/2): confermare i fatti sul controllo con un parere.
+4. Collector: STACKIT e Open Telekom Cloud (da GitHub rispondono), Google Cloud (chiave API gratuita), IONOS, AWS European Sovereign Cloud.
 5. Contatti con Infomaniak, Polarise, Safe Swiss Cloud, Hikube per dati di Livello 2.

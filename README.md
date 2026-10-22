@@ -16,6 +16,22 @@ fresh data, the index says so.
 
 Based in Lugano, Switzerland.
 
+## The site
+
+The pages are designed in Claude Design and the site runs those designs as they are:
+each artboard in `site/design/` is read by `src/compeu/dc.py`, its data snapshot is
+replaced with the live ledger, and `site/static/js/dcrun.js` draws it with Preact.
+To change the design, change the canvas, copy its artboards into `site/design/`, build
+and push: the Site workflow publishes it.
+
+| Page | Address |
+|---|---|
+| Home: the index, the problem, the providers, the map, the record | `/` |
+| Why sovereignty | `/why/` |
+| Every fixing, its history and the raw prices | `/fixings/` |
+| Method and rules | `/methodology/` |
+| Data files (JSON, CSV) | `/data/` |
+
 ## How it works
 
 ```
@@ -30,11 +46,16 @@ src/compeu/
   fx.py              ECB euro reference rates
   index.py           observations -> daily fixings
   ledger.py          append-only files, hash chains, verification
-  site.py            ledger -> static site in dist/
+  site.py            ledger + design -> static site in dist/
+  dc.py              reads the Claude Design artboards the pages are made of
 ledger/              the data: append-only, never edited (see below)
 state/aws/           cache of AWS price-file versions (avoids re-downloading 180 MB files)
-site/                templates, CSS, JS (3D map: three.js), fonts (self-hosted)
-.github/workflows/   daily.yml (05:20 UTC collection + deploy), ci.yml
+site/
+  design/            the pages: Claude Design artboards (.dc.html), copied from the canvas
+  static/            pictures, fonts (self-hosted), Preact and the page runtime dcrun.js
+  templates/         the HTML shell around each page
+.github/workflows/   daily.yml (05:20 UTC collection + deploy), site.yml (deploy on design
+                     changes), ci.yml
 ```
 
 ### The ledger
@@ -58,7 +79,6 @@ uv run compeu daily          # ECB rates + collection + today's fixings
 uv run compeu collect --only scaleway,azure
 uv run compeu classify       # sovereignty status of every provider, with the criteria
 uv run compeu build          # static site in dist/
-uv run compeu build --single # one self-contained HTML file (for previews)
 uv run compeu alerts         # providers failing 2+ runs in a row
 uv run pytest
 uv run ruff check . && uv run ruff format .
@@ -99,5 +119,6 @@ Exchange rates: ECB euro foreign exchange reference rates.
 
 ## Licence
 
-Code: MIT. Data: CC BY 4.0. three.js (MIT), Schibsted Grotesk and JetBrains Mono (OFL)
-are vendored with their licences in `site/static/`.
+Code: MIT. Data: CC BY 4.0. Preact (MIT) and the fonts Bodoni Moda, Cinzel, Geist and
+Geist Mono (OFL) are vendored with their licences in `site/static/`. The pictures are
+public-domain works (Boullée, Piranesi, Wolf, Hodler, Turner) from Wikimedia Commons.

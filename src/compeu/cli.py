@@ -52,7 +52,7 @@ def _fix(args) -> int:
 def _build(args) -> int:
     from .site import build
 
-    out = build(args.out, single=args.single)
+    out = build(args.out)
     print(f"site written to {out}")
     return 0
 
@@ -122,7 +122,6 @@ def main(argv: list[str] | None = None) -> int:
             sp.add_argument("--date", help="fixing day, YYYY-MM-DD (default: today, UTC)")
         if name == "build":
             sp.add_argument("--out", default="dist")
-            sp.add_argument("--single", action="store_true", help="one self-contained HTML file")
         if name == "alerts":
             sp.add_argument("--streak", type=int, default=2)
         if name == "verify":

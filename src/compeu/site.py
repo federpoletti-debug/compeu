@@ -1,12 +1,13 @@
 """Static site build: ledger + registry -> dist/.
 
-Everything the site shows is computed here from the ledger, at build time. The
-page gets one JSON document (embedded in the HTML and also published at
-data/latest.json); the browser only draws it. There is no server and no
-database: a static host is enough.
+The pages are designed in Claude Design (the canvas linked in CLAUDE.md). Each page
+is an artboard file in site/design/; src/compeu/dc.py reads it, and this module puts
+it on the site: live data from the ledger replaces the artboard's data snapshot,
+uploaded pictures become files in site/static/, and site/static/js/dcrun.js renders
+the page in the browser. Everything shown is computed here at build time: there is
+no server and no database, a static host is enough.
 
     uv run compeu build            # dist/ for a static host
-    uv run compeu build --single   # one self-contained HTML file (for previews)
 """
 
 from __future__ import annotations
@@ -14,6 +15,7 @@ from __future__ import annotations
 import csv
 import io
 import json
+import math
 import re
 import shutil
 from collections import defaultdict
@@ -23,7 +25,7 @@ from pathlib import Path
 import yaml
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-from . import __version__, fx, index, ledger, registry
+from . import __version__, dc, fx, index, ledger, registry
 from .util import money, root, utc_now
 
 
@@ -31,10 +33,6 @@ def settings() -> dict:
     """Public site settings (site/site.yaml): repository, contact, base URL, schedule."""
     with (root() / "site" / "site.yaml").open(encoding="utf-8") as f:
         return yaml.safe_load(f)
-
-
-THREE_CDN = "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js"
-JS_ORDER = ["format.js", "charts.js", "map3d.js", "main.js"]
 
 
 # ------------------------------------------------------------------ data model
@@ -276,78 +274,367 @@ def write_downloads(data: dict, out: Path) -> None:
     ) if ledger.fixings_file().exists() else None
 
 
+# ------------------------------------------------------------------ design data
+
+# The artboards' map uses a Lambert azimuthal equal-area projection centred on
+# Europe (52N 10E), in km; the dot map in site/static/geo uses the same one.
+_R, _LAT0, _LON0 = 6371.0072, math.radians(52), math.radians(10)
+MAP_GPUS = ["gb300", "b300", "b200", "h200", "h100", "mi300x", "a100", "rtx-pro-6000", "l40s", "l4"]
+
+
+def _laea(lon: float, lat: float) -> list[int]:
+    lam, phi = math.radians(lon), math.radians(lat)
+    d = lam - _LON0
+    k = math.sqrt(
+        2 / (1 + math.sin(_LAT0) * math.sin(phi) + math.cos(_LAT0) * math.cos(phi) * math.cos(d))
+    )
+    x = _R * k * math.cos(phi) * math.sin(d)
+    y = _R * k * (math.cos(_LAT0) * math.sin(phi) - math.sin(_LAT0) * math.cos(phi) * math.cos(d))
+    return [round(x), round(y)]
+
+
+def _short(h: str | None) -> str:
+    return (h or "")[7:19]
+
+
+def _cells(data: dict, prov: dict, in_scope, usable) -> dict[str, dict]:
+    """Cheapest usable on-demand price per provider and GPU, in euro per GPU-hour."""
+    cells: dict[str, dict] = {}
+    for o in data["offers"]:
+        p = prov[o["provider"]]
+        if not usable(o) or o["gpu"] not in MAP_GPUS:
+            continue
+        if p["scope"] != "global" and not in_scope(o):
+            continue
+        c = cells.setdefault(o["provider"], {})
+        cur = c.get(o["gpu"])
+        if cur is None or float(o["eur"]) < cur[0]:
+            c[o["gpu"]] = [round(float(o["eur"]), 2), o["sku"], o["region"], o["gpu_count"]]
+    return cells
+
+
+def _sites(data: dict, usable) -> list[dict]:
+    frontier = {g for g, m in data["gpus"].items() if m["tier"] == "frontier"}
+    sites = []
+    for p in data["providers"]:
+        if p["scope"] == "global":
+            continue
+        for s in p["sites"]:
+            here = [
+                o
+                for o in data["offers"]
+                if o["provider"] == p["id"]
+                and usable(o)
+                and (
+                    o["region"] in ("catalogue", s["id"])
+                    or (o["region"] or "").startswith(s["id"] + "-")
+                )
+            ]
+
+            def best(pred, here=here):
+                v = [float(o["eur"]) for o in here if pred(o)]
+                return round(min(v), 2) if v else None
+
+            x, y = _laea(s["lon"], s["lat"])
+            sites.append(
+                {
+                    "p": p["id"],
+                    "c": s["city"],
+                    "cc": s["country"],
+                    "x": x,
+                    "y": y,
+                    "h100": best(lambda o: o["gpu"] == "h100"),
+                    "h200": best(lambda o: o["gpu"] == "h200"),
+                    "b200": best(lambda o: o["gpu"] == "b200"),
+                    "fr": best(lambda o: o["gpu"] in frontier),
+                }
+            )
+    return sites
+
+
+def _provider(p: dict, decided: dict) -> dict:
+    ctl, ent, hq, h = (
+        p["controller"] or {},
+        p["legal_entity"] or {},
+        p.get("hq") or {},
+        p["health"] or {},
+    )
+    return {
+        "id": p["id"],
+        "n": p["name"],
+        "aka": p.get("aka"),
+        "web": p.get("website"),
+        "st": p["status"],
+        "prov": p["provisional"],
+        "dec": decided.get(p["id"]),
+        "ent": [ent.get("name"), ent.get("country"), ent.get("city")],
+        "ctl": [ctl.get("name"), ctl.get("country")],
+        "contested": bool(ctl.get("contested")),
+        "why": " ".join((ctl.get("note") or "").split()) or None,
+        "disc": [" ".join(d.split()) for d in p["disclosures"]],
+        "crit": {c["id"]: c["result"] for c in p["criteria"]},
+        "m": p["collection"]["method"],
+        "cs": p["collection"]["status"],
+        "cn": p["collection"]["note"],
+        "src": p["collection"]["source"],
+        "hq": _laea(hq["lon"], hq["lat"]) if hq.get("lon") is not None else [None, None],
+        "hqc": hq.get("city"),
+        "us": ctl.get("country") == "US",
+        "ok": (h.get("last_ok") or "")[:16].replace("T", " ") or None,
+        "offers": h.get("offers"),
+        "global": p["scope"] == "global",
+        "nsites": len(p["sites"]),
+        "ev": [[e["claim"], e["url"]] for e in p["evidence"]],
+    }
+
+
+def design_data(data: dict) -> dict:
+    """The compact data the artboards' logic reads (its `const D`), from build_data()."""
+    prov = {p["id"]: p for p in data["providers"]}
+    scope = set(data["methodology"]["scope_countries"])
+    decided = {}
+    for b in data["methodology"]["baskets"].values():
+        for d in b.get("include_under_review") or []:
+            reason = " ".join(str(d.get("reason", "")).split())
+            decided[d["provider"]] = {"on": str(d.get("decided")), "why": reason}
+
+    def in_scope(o: dict) -> bool:
+        if o["region"] == "catalogue":
+            return bool(prov[o["provider"]]["collection"]["catalogue_in_scope"])
+        return o["country"] in scope
+
+    def usable(o: dict) -> bool:
+        flagged = (o.get("extra") or {}).get("flag")
+        return o["model"] == "on_demand" and o["eur"] is not None and not flagged
+
+    boards = [
+        {
+            "id": b["id"],
+            "n": b["name"],
+            "g": b["gpu"],
+            "b": b["basket"],
+            "min": b["min"],
+            "st": b["status"],
+            "d": b["date"],
+            "v": float(b["value"]) if b["value"] else None,
+            "prev": float(b["previous"]) if b.get("previous") else None,
+            "c": [[c["provider"], float(c["quote_eur"]), c["native"]] for c in b["constituents"]],
+            "why": b["reason"],
+        }
+        for b in data["boards"]
+    ]
+    series = {
+        k: [[d, float(v) if v is not None else None] for d, v in vals]
+        for k, vals in data["series"].items()
+        if not k.startswith("CSC")
+    }
+    fixes = ledger.fixings()
+    last_day = fixes[-1]["date"] if fixes else None
+    versions = []
+    for path in sorted((registry.registry_dir() / "methodology").glob("index-v*.yaml")):
+        m = yaml.safe_load(path.read_text(encoding="utf-8"))
+        versions.append({"id": m["id"], "from": str(m["effective_from"])})
+    try:
+        rate, rate_day = fx.rate_on(data["today"], "USD")
+        usd = [str(rate), rate_day]
+    except fx.MissingRate:
+        usd = [None, None]
+    cov = data["coverage"] or {}
+    return {
+        "asOf": data["today"],
+        "method": data["methodology"]["id"],
+        "versions": versions,
+        "lastRun": data["ledger"]["last_run"],
+        "nRuns": data["ledger"]["runs"],
+        "obs": data["ledger"]["observations"],
+        "nFix": len(fixes),
+        "fixHead": _short(fixes[-1]["hash"]) if fixes else "",
+        "chain": [
+            {
+                "d": f["date"],
+                "i": f["index"],
+                "v": f.get("value"),
+                "h": _short(f["hash"]),
+                "p": _short(f["prev"]),
+            }
+            for f in fixes[-8:]
+        ],
+        "seals": {
+            f["index"]: [_short(f["hash"]), _short(f["prev"])]
+            for f in fixes
+            if f["date"] == last_day
+        },
+        "usd": usd,
+        "cov": cov.get("value"),
+        "covList": cov.get("providers"),
+        "boards": boards,
+        "series": series,
+        "providers": [_provider(p, decided) for p in data["providers"]],
+        "cells": _cells(data, prov, in_scope, usable),
+        "sites": _sites(data, usable),
+        "gpus": {
+            g: [data["gpus"][g]["label"], data["gpus"][g]["tier"]]
+            for g in MAP_GPUS
+            if g in data["gpus"]
+        },
+    }
+
+
 # ------------------------------------------------------------------ pages
+
+# Artboards in site/design/, the folder each one is published in, and its description.
+PAGES = [
+    (
+        "Main.dc.html",
+        "",
+        "The daily price of AI compute that Europe controls: sovereign European GPU clouds "
+        "against the US hyperscalers, with every source and rule in the open.",
+    ),
+    (
+        "Why.dc.html",
+        "why/",
+        "Why European AI needs compute that Europe controls: who owns the cloud, how far US "
+        "law reaches, and five questions to ask any provider.",
+    ),
+    (
+        "Index.dc.html",
+        "fixings/",
+        "Every CompEU fixing: daily median GPU prices for sovereign European clouds and US "
+        "hyperscalers, with history, constituents and the raw prices.",
+    ),
+    (
+        "Methodology.dc.html",
+        "methodology/",
+        "How CompEU decides who is sovereign and how public prices become one daily fixing: "
+        "the rules, the versions and the limits.",
+    ),
+]
+BLOB = re.compile(r"^/_blob/([0-9a-f]{32})$")
+ARTBOARD_LINK = re.compile(r"^([A-Za-z0-9_-]+\.dc\.html)(#.*)?$")
+IMG_CONST = re.compile(r"^const IMG = (.*?);$", re.M)
 
 
 def _env() -> Environment:
-    env = Environment(
+    return Environment(
         loader=FileSystemLoader(root() / "site" / "templates"),
-        autoescape=select_autoescape(["html"]),
+        autoescape=select_autoescape(["html", "xml"]),
         trim_blocks=True,
         lstrip_blocks=True,
     )
-    env.filters["eur"] = lambda v: "—" if v is None else f"€{Decimal(v):,.2f}"
-    return env
 
 
-LOCAL_IMPORT = re.compile(r"^import\s+.*?from\s+['\"]\./[^'\"]+['\"];?\s*$", re.M)
+def _assets() -> dict:
+    with (root() / "site" / "design" / "assets.yaml").open(encoding="utf-8") as f:
+        return yaml.safe_load(f)
 
 
-def _bundle_js(static: Path, three_url: str) -> str:
-    """Concatenate the page's ES modules into one module (local imports removed)."""
-    parts = []
-    for name in JS_ORDER:
-        src = (static / "js" / name).read_text(encoding="utf-8")
-        src = LOCAL_IMPORT.sub("", src)
-        src = re.sub(r"^export\s+(?=(async\s+)?(function|const|class|let))", "", src, flags=re.M)
-        parts.append(f"// ---- {name}\n{src}")
-    js = "\n".join(parts)
-    # One import of three for the whole bundle, at the top.
-    js = re.sub(r"^import\s+\*\s+as\s+THREE\s+from\s+['\"][^'\"]+['\"];?\s*$", "", js, flags=re.M)
-    return f"import * as THREE from '{three_url}';\n{js}"
+def _json_script(value) -> str:
+    """JSON that is safe inside a <script> element."""
+    return json.dumps(value, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
 
-def build(out_dir: str = "dist", single: bool = False) -> Path:
+def _images(board: dc.Artboard, assets: dict, prefix: str) -> None:
+    """Responsive sources and loading hints for the uploaded pictures."""
+    for el in dc.elements(board.template):
+        m = BLOB.match(el[1].get("src", "")) if el[0] == "img" else None
+        if not m:
+            continue
+        a = assets.get(m.group(1), {})
+        if a.get("srcset"):
+            el[1]["srcset"] = ", ".join(prefix + "static/" + s for s in a["srcset"])
+            el[1]["sizes"] = a["sizes"]
+        el[1]["loading"] = a.get("loading", "lazy")
+        el[1]["decoding"] = "async"
+        if a.get("loading") == "eager":
+            el[1]["fetchpriority"] = "high"
+
+
+def page(
+    name: str, folder: str, description: str, live: dict, assets: dict, env: Environment
+) -> str:
+    """One artboard as a finished HTML page, with live data in place of its snapshot."""
+    board = dc.parse((root() / "site" / "design" / name).read_text(encoding="utf-8"))
+    dc.hover_classes(board)
+    prefix = "../" * folder.count("/")
+    folders = {n: f for n, f, _ in PAGES}
+
+    def static(asset_id: str) -> str:
+        if asset_id not in assets:
+            raise dc.ParseError(f"{name}: /_blob/{asset_id} is not in site/design/assets.yaml")
+        return prefix + "static/" + assets[asset_id]["file"]
+
+    def url(value: str) -> str:
+        m = BLOB.match(value)
+        if m:
+            return static(m.group(1))
+        m = ARTBOARD_LINK.match(value)
+        if m:
+            if m.group(1) not in folders:
+                raise dc.ParseError(f"{name}: link to {m.group(1)}, which is not a page")
+            return ((prefix + folders[m.group(1)]) or "./") + (m.group(2) or "")
+        return value
+
+    _images(board, assets, prefix)
+    dc.map_urls(board, url)
+    img = IMG_CONST.search(board.logic)
+    if not img:
+        raise dc.ParseError(f"{name}: const IMG not found in the logic")
+    pictures = {k: static(BLOB.match(v).group(1)) for k, v in json.loads(img.group(1)).items()}
+    logic = dc.replace_const(board.logic, "IMG", pictures)
+    logic = dc.replace_const(logic, "D", live).replace("</script", "<\\/script")
+    s = settings()
+    hero = None
+    if folder == "":
+        a = next(
+            (a for a in assets.values() if a.get("loading") == "eager" and a.get("srcset")), None
+        )
+        if a:
+            hero = {
+                "href": prefix + "static/" + a["file"],
+                "srcset": ", ".join(prefix + "static/" + x for x in a["srcset"]),
+                "sizes": a["sizes"],
+            }
+    return env.get_template("page.html").render(
+        title=board.title,
+        description=description,
+        canonical=s["base_url"] + folder,
+        base_url=s["base_url"],
+        prefix=prefix,
+        style=board.style + "\n" + board.hover_css,
+        template_json=_json_script(board.template),
+        logic=logic,
+        live=live,
+        pages={n: (prefix + f) or "./" for n, f, _ in PAGES},
+        pages_json=_json_script({n: (prefix + f) or "./" for n, f, _ in PAGES}),
+        hero=hero,
+    )
+
+
+def build(out_dir: str = "dist") -> Path:
     out = root() / out_dir
-    static = root() / "site" / "static"
     data = build_data()
+    live = design_data(data)
     env = _env()
+    assets = _assets()
     if out.exists():
         shutil.rmtree(out)
     out.mkdir(parents=True)
-    data_json = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
-    geo = (static / "geo" / "europe-dots.json").read_text(encoding="utf-8")
-
-    if single:
-        css = (static / "css" / "site.css").read_text(encoding="utf-8")
-        css = re.sub(r"@font-face\s*{[^}]*}", "", css)  # fonts come from Google Fonts in previews
-        html = env.get_template("index.html").render(
-            data=data,
-            data_json=data_json,
-            single=True,
-            inline_css=css,
-            inline_js=_bundle_js(static, THREE_CDN),
-            geo_json=geo,
-            prefix="",
-        )
-        target = out / "compeu.html"
-        target.write_text(html, encoding="utf-8")
-        return target
-
-    shutil.copytree(static, out / "static")
-    for page, tpl, prefix in [
-        ("index.html", "index.html", ""),
-        ("methodology/index.html", "methodology.html", "../"),
-        ("data/index.html", "data.html", "../"),
-    ]:
-        target = out / page
+    shutil.copytree(root() / "site" / "static", out / "static")
+    for name, folder, description in PAGES:
+        target = out / folder / "index.html"
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(
-            env.get_template(tpl).render(
-                data=data, data_json=data_json, single=False, prefix=prefix, geo_json=None
-            ),
-            encoding="utf-8",
-        )
+        target.write_text(page(name, folder, description, live, assets, env), encoding="utf-8")
     write_downloads(data, out)
+    # The old data page moved to /fixings/; the downloads stay in /data/.
+    moved = env.get_template("moved.html").render(to="../fixings/")
+    (out / "data" / "index.html").write_text(moved, encoding="utf-8")
+    base = settings()["base_url"]
+    sitemap = env.get_template("sitemap.xml").render(
+        base=base, pages=[f for _, f, _ in PAGES], day=data["today"]
+    )
+    (out / "sitemap.xml").write_text(sitemap, encoding="utf-8")
+    (out / "robots.txt").write_text(
+        f"User-agent: *\nAllow: /\nSitemap: {base}sitemap.xml\n", encoding="utf-8"
+    )
     (out / ".nojekyll").write_text("", encoding="utf-8")
     return out
