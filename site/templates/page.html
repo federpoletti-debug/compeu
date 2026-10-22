@@ -6,8 +6,8 @@
 <title>{{ title }}</title>
 <meta name="description" content="{{ description }}">
 <link rel="canonical" href="{{ canonical }}">
-<meta name="theme-color" content="#F5F3EC">
-<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#07080B">
+<meta name="color-scheme" content="dark">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CompEU">
 <meta property="og:title" content="{{ title }}">
@@ -31,13 +31,13 @@
 <body>
 <div id="app"></div>
 <noscript>
-<div style="max-width: 760px; margin: 0 auto; padding: 48px 20px; font-family: Georgia, serif; color: #18213A; line-height: 1.6">
+<div style="max-width: 760px; margin: 0 auto; padding: 48px 20px; font-family: Georgia, serif; color: #EEE8DC; background: #07080B; line-height: 1.6">
 <p style="font-size: 26px; margin: 0 0 8px">CompEU</p>
 <h1 style="font-size: 30px; margin: 0 0 12px">{{ title }}</h1>
 <p>{{ description }}</p>
 <table style="border-collapse: collapse; width: 100%; margin: 24px 0; font-family: Arial, sans-serif; font-size: 15px">
 <caption style="text-align: left; padding-bottom: 8px">Fixings of {{ live.boards[0].d if live.boards else live.asOf }}, euro per GPU-hour</caption>
-<thead><tr><th style="text-align: left; border-bottom: 1px solid #ccc; padding: 6px">Index</th><th style="text-align: left; border-bottom: 1px solid #ccc; padding: 6px">Name</th><th style="text-align: right; border-bottom: 1px solid #ccc; padding: 6px">Fixing</th></tr></thead>
+<thead><tr><th style="text-align: left; border-bottom: 1px solid #3B4153; padding: 6px">Index</th><th style="text-align: left; border-bottom: 1px solid #3B4153; padding: 6px">Name</th><th style="text-align: right; border-bottom: 1px solid #3B4153; padding: 6px">Fixing</th></tr></thead>
 <tbody>
 {% for b in live.boards %}
 <tr><td style="padding: 6px">{{ b.id }}</td><td style="padding: 6px">{{ b.n }}</td><td style="padding: 6px; text-align: right">{{ "€%.4f" | format(b.v) if b.v is not none else "no fixing" }}</td></tr>

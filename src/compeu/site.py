@@ -346,6 +346,8 @@ def _sites(data: dict, usable) -> list[dict]:
                     "h100": best(lambda o: o["gpu"] == "h100"),
                     "h200": best(lambda o: o["gpu"] == "h200"),
                     "b200": best(lambda o: o["gpu"] == "b200"),
+                    "a100": best(lambda o: o["gpu"] == "a100"),
+                    "l40s": best(lambda o: o["gpu"] == "l40s"),
                     "fr": best(lambda o: o["gpu"] in frontier),
                 }
             )
@@ -574,6 +576,11 @@ def page(
             return ((prefix + folders[m.group(1)]) or "./") + (m.group(2) or "")
         return value
 
+    used = [
+        m.group(1)
+        for el in dc.elements(board.template)
+        if el[0] == "img" and (m := BLOB.match(el[1].get("src", "")))
+    ]
     _images(board, assets, prefix)
     dc.map_urls(board, url)
     img = IMG_CONST.search(board.logic)
@@ -583,17 +590,22 @@ def page(
     logic = dc.replace_const(board.logic, "IMG", pictures)
     logic = dc.replace_const(logic, "D", live).replace("</script", "<\\/script")
     s = settings()
+    # Preload the picture at the top of this page, if it has one.
     hero = None
-    if folder == "":
-        a = next(
-            (a for a in assets.values() if a.get("loading") == "eager" and a.get("srcset")), None
-        )
-        if a:
-            hero = {
-                "href": prefix + "static/" + a["file"],
-                "srcset": ", ".join(prefix + "static/" + x for x in a["srcset"]),
-                "sizes": a["sizes"],
-            }
+    a = next(
+        (
+            assets[i]
+            for i in used
+            if assets.get(i, {}).get("loading") == "eager" and assets[i].get("srcset")
+        ),
+        None,
+    )
+    if a:
+        hero = {
+            "href": prefix + "static/" + a["file"],
+            "srcset": ", ".join(prefix + "static/" + x for x in a["srcset"]),
+            "sizes": a["sizes"],
+        }
     return env.get_template("page.html").render(
         title=board.title,
         description=description,

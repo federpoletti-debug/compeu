@@ -53,6 +53,7 @@ Le prove che scaricano dati vanno fatte con `COMPEU_ROOT` che punta a una copia 
 - Ogni pagina è una tavola di Claude Design (`site/design/*.dc.html`, copia esatta del file `project/*.dc.html` del canvas). `src/compeu/dc.py` la legge; `site/static/js/dcrun.js` la disegna nel browser con Preact; `compeu build` mette i dati del ledger al posto di quelli del canvas e i file di `site/static/img` al posto delle immagini caricate (`site/design/assets.yaml`).
 - Per cambiare il design: modificare il canvas, rileggere le tavole (Artifact read di `project/<nome>.dc.html`), copiarle in `site/design/`, `uv run compeu build`, test, commit, push: il workflow Site pubblica. Un'immagine nuova nel canvas va aggiunta anche in `assets.yaml` e `site/static/img/`.
 - Nelle tavole: niente `{{...}}` dentro `<text>` SVG (non si vede), link tra pagine scritti come `Why.dc.html`, dati solo dentro `const D = ...;` su una riga.
+- Il design 3 usa WebGL per le statue (`site/static/3d/*.json`, nuvole di punti) e un canvas 2D per la mappa; i colori dei dati sono controllati per daltonismo (blu #3987E5 sovrani, arancio #D95926 USA, anello vuoto per "in revisione").
 
 ## Stato al 22 ottobre 2026
 
@@ -60,7 +61,7 @@ Le prove che scaricano dati vanno fatte con `COMPEU_ROOT` che punta a una copia 
 - 15 collector attivi: Scaleway, OVHcloud, Hetzner, Verda, Exoscale, Nebius, Lyceum, Seeweb, UpCloud, Leafcloud, IONOS, Koyeb, AWS, Azure, RunPod. 28 fornitori nel registro. Solo GPU per l'AI, mai cloud generico.
 - Metodologia index/2 dal 22 ottobre 2026: Exoscale e Nebius (controllo in revisione) contano nel paniere sovrano per decisione di Massimo.
 - Repository pubblico https://github.com/federpoletti-debug/compeu, CI verde, raccolta giornaliera attiva, Pages su https://federpoletti-debug.github.io/compeu/.
-- Design 2 (chiaro, neoclassico, Alpi) online: le pagine del sito sono le tavole del canvas, con i dati di ogni mattina. Primo fixing con index/2: CSX-H100 €3,42, CHX-H100 €7,00.
+- Design 3 (scuro, "Europa classica di notte": mappa 3D con colonne di luce, statue a punti di luce, incisioni oro su nero, niente Svizzera nel marchio) online dal 23 ottobre: le pagine del sito sono le tavole del canvas, con i dati di ogni mattina. Design 1 e 2 archiviati (tag `design-v1`, `design-v2`). Primo fixing con index/2: CSX-H100 €3,42, CHX-H100 €7,00.
 
 ## Prossimi passi
 

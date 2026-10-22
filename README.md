@@ -14,8 +14,6 @@ the EU or Switzerland, out of reach of the US CLOUD Act), and publishes:
 No price is ever estimated, interpolated or carried forward. When there is not enough
 fresh data, the index says so.
 
-Based in Lugano, Switzerland.
-
 ## The site
 
 The pages are designed in Claude Design and the site runs those designs as they are:
@@ -26,7 +24,7 @@ and push: the Site workflow publishes it.
 
 | Page | Address |
 |---|---|
-| Home: the index, the problem, the providers, the map, the record | `/` |
+| Home: today's index and the 3D map first, then the board, the record, every quote, how it works, the ledger | `/` |
 | Why sovereignty | `/why/` |
 | Every fixing, its history and the raw prices | `/fixings/` |
 | Method and rules | `/methodology/` |
@@ -120,5 +118,8 @@ Exchange rates: ECB euro foreign exchange reference rates.
 ## Licence
 
 Code: MIT. Data: CC BY 4.0. Preact (MIT) and the fonts Bodoni Moda, Cinzel, Geist and
-Geist Mono (OFL) are vendored with their licences in `site/static/`. The pictures are
-public-domain works (Boullée, Piranesi, Wolf, Hodler, Turner) from Wikimedia Commons.
+Geist Mono (OFL) are vendored with their licences in `site/static/`. The engravings are
+public-domain works by Boullée and Piranesi (BnF, via Wikimedia Commons). The statues in
+`site/static/3d/` are point clouds made from public 3D scans: the Venus de Milo cast at
+the SMK, Copenhagen (public domain) and the Augustus of the Musée Saint-Raymond,
+Toulouse (CC0). The map uses Natural Earth (public domain).
