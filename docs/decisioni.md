@@ -63,3 +63,15 @@ Scelte fatte, con data e motivo. Le più recenti in fondo.
 | Nuovo workflow "Site": pubblica il sito a ogni modifica del design o del codice del sito, senza raccogliere prezzi. | Prima il sito cambiava solo con la raccolta delle 05:20. |
 | Rimossi il sito vecchio (CSS, JS, three.js, font) e l'opzione `compeu build --single`. | Sostituiti dal canvas, che fa da anteprima. |
 | Il pulsante di contatto resta il segnaposto [CONTACT EMAIL]. | Nessun indirizzo reale ancora: va scelto da Massimo. |
+
+## 22 ottobre 2026 (sera): nuova ricerca dei fornitori
+
+| Scelta | Motivo |
+|---|---|
+| L'indice considera solo il calcolo per l'AI: GPU affittate a ore (H100, H200, B200, A100, L40S…). Dai cloud generalisti si prendono solo le offerte GPU. | Precisazione di Massimo: il sito è sul compute per l'AI, non sul cloud in generale. |
+| Nuovi collector: **UpCloud** (Finlandia, Helsinki: H100 €2,17/ora, B200 €5,26/ora, spot a parte), **Leafcloud** (Olanda, Amsterdam: H100 €3,15, A100 €1,61), **IONOS** (Germania: H200 €3,00/ora per GPU, ora pubblico), **Koyeb** (Francia, di Mistral AI da febbraio 2026). | Prezzi pubblici leggibili, sede e controllo europei (fatti di UpCloud, Leafcloud e Koyeb "provvisori" finché non confermati su un registro). |
+| Koyeb è sovrano ma le sue GPU grandi (H100, H200, A100) sono in Nord America: restano fuori dall'indice, che conta solo macchine in UE, SEE o Svizzera. Entra solo ciò che gira a Francoforte o Parigi. | Le due condizioni (proprietario europeo e macchina in Europa) valgono insieme. |
+| "RTX 6000 (96 GB)" riconosciuta come RTX PRO 6000 Blackwell. | Nessun'altra RTX 6000 ha 96 GB: è un fatto, non una stima. |
+| Senza collector, con il motivo scritto: STACKIT (il listino non dice quale GPU ha ogni server), T Cloud Public, ex Open Telekom (l'API dei prezzi non elenca le GPU H100), Gcore (la pagina non dice se i prezzi sono a consumo o con impegno), CloudFerro (il listino non dice quante GPU ha il server gpu.a100). | Regola: mai indovinare un modello di GPU o un numero di GPU. |
+| Esclusi: fornitori britannici (Nscale, Fluidstack, Hyperstack, CUDO, Civo), fuori da UE e Svizzera; Northern Data/Taiga (controllata da Tether); Genesis Cloud (sito irraggiungibile, notizie di liquidazione da verificare). | Regola di sovranità; dati non verificabili. |
+| Effetto previsto dal prossimo fixing (prova del 22 ottobre sera): CSX-H100 da €3,42 a €3,01 (8 fornitori); CSX-H200 €5,00 (6); CSX-B200 €7,46 (4); CSX-A100 €1,61; CSX-L40S €1,40; copertura frontier 9 su 22. | Paniere più ampio e più rappresentativo. |

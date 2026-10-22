@@ -323,3 +323,160 @@ def test_seeweb_joins_cards_with_per_gpu_rates():
         ("NVIDIA H200", Decimal("2.6"), "EUR"),
     ]
     assert any("gpu11" in p for p in f.problems)  # a card without a rate is reported
+
+
+# ---- UpCloud, IONOS, Leafcloud, Koyeb (added 22 Oct 2026, evening)
+
+from compeu import registry  # noqa: E402
+from compeu.collectors import ionos, koyeb, leafcloud, upcloud  # noqa: E402
+
+UPCLOUD_PAGE = """<h3>GPU Servers with NVIDIA H100 GPUs</h3><table><tr><th>GPU</th>
+<th>CPU cores</th>
+<th>RAM</th>
+<th>Spot Price</th>
+<th>Price</th></tr>
+<tr><td>1 x NVIDIA H100</td>
+<td>12 cores</td>
+<td>240 GB</td>
+<td>€1.79/h</td>
+<td>€2.17/h</td></tr>
+<tr><td>8 x NVIDIA H100</td>
+<td>96 cores</td>
+<td>1920 GB</td>
+<td>€14.32/h</td>
+<td>€17.36/h</td></tr>
+<tr><td>1 x NVIDIA RTX PRO 6000</td>
+<td>16 cores</td>
+<td>80 GB</td>
+<td>€0.87/h</td>
+<td>€1.65/h</td></tr>
+</table><p>Monthly from €1,814/mo</p>"""
+
+
+def test_upcloud_reads_spot_and_regular_prices():
+    rows = upcloud.extract_rows(UPCLOUD_PAGE)
+    assert [(r["gpus"], r["gpu"], r["price"]) for r in rows] == [
+        (1, "NVIDIA H100", "2.17"),
+        (8, "NVIDIA H100", "17.36"),
+        (1, "NVIDIA RTX PRO 6000", "1.65"),
+    ]
+    offers = upcloud.UpCloud().parse(Fetched("u", rows))
+    od = [o for o in offers if o.pricing_model == "on_demand"]
+    assert [str(o.per_gpu_hour()) for o in od] == ["2.17", "2.17", "1.65"]
+    assert {o.pricing_model for o in offers} == {"on_demand", "spot"}
+    assert all(o.currency == "EUR" and o.region == "catalogue" for o in offers)
+
+
+IONOS_PAGE = """<table><tr><th>GPU VM-Typ</th>
+<th>GPU-Typ</th>
+<th>Anzahl GPUs</th>
+<th>Dedizierte vCPUs</th>
+<th>RAM</th>
+<th>Speicher</th>
+<th>Preis pro Stunde (Pay-as-you-go)</th></tr>
+<tr><td>H200 – S</td>
+<td>H200 PCIe</td>
+<td>1</td>
+<td>15</td>
+<td>267 GiB</td>
+<td>1.024 GB</td>
+<td>3 €</td></tr>
+<tr><td>H200 – XL</td>
+<td>H200 PCIe</td>
+<td>8</td>
+<td>127</td>
+<td>2.136 GiB</td>
+<td>4.096 GB</td>
+<td>24 €</td></tr>
+</table>"""
+
+
+def test_ionos_reads_german_table():
+    rows = ionos.extract_rows(IONOS_PAGE)
+    assert [(r["type"], r["gpus"], r["price"]) for r in rows] == [
+        ("H200 – S", 1, "3"),
+        ("H200 – XL", 8, "24"),
+    ]
+    offers = ionos.Ionos().parse(Fetched("u", rows))
+    assert [str(o.per_gpu_hour()) for o in offers] == ["3", "3"]
+    assert offers[0].gpu_raw == "H200 PCIe" and offers[0].currency == "EUR"
+
+
+LEAF_PAGE = """<table><tr><th>Provider</th>
+<th>RTX 6000 (96GB)</th>
+<th>H100 (80GB)</th>
+<th>A100 (80GB)</th>
+<th>A30 (24GB)</th>
+<th>Region</th></tr>
+<tr><td>RunPod Region-uniform pricing</td>
+<td>$2.09</td>
+<td>$2.89</td>
+<td>$1.59</td>
+<td>Unavailable</td>
+<td>Secure Cloud (EU DCs)</td></tr>
+<tr><td>Leafcloud Full VM included</td>
+<td>€1.99</td>
+<td>€3.15</td>
+<td>€1.61</td>
+<td>€0.60</td>
+<td>ams-1 (Amsterdam)</td></tr>
+</table>"""
+
+
+def test_leafcloud_takes_only_its_own_row():
+    rows = leafcloud.extract_rows(LEAF_PAGE)
+    assert [(r["gpu"], r["price"]) for r in rows] == [
+        ("NVIDIA RTX 6000", "1.99"),
+        ("NVIDIA H100", "3.15"),
+        ("NVIDIA A100", "1.61"),
+        ("NVIDIA A30", "0.60"),
+    ]
+    offers = leafcloud.Leafcloud().parse(Fetched("u", rows))
+    assert all(o.country == "NL" and o.region == "ams-1" and o.gpu_count == 1 for o in offers)
+    assert (
+        registry.normalize_gpu(offers[0].gpu_raw).model == "rtx-pro-6000"
+    )  # 96 GB: the Blackwell card
+
+
+def test_leafcloud_refuses_a_misaligned_table():
+    broken = LEAF_PAGE.replace("<td>€0.60</td>", "")
+    assert leafcloud.extract_rows(broken) == []
+
+
+KOYEB = [
+    {
+        "id": "gpu-nvidia-rtx-4000-sff-ada",
+        "description": "NVIDIA RTX 4000 SFF Ada",
+        "type": "gpu",
+        "price_hourly": "0.50",
+        "regions": ["fra", "eu"],
+        "gpu": {"count": 1, "brand": "nvidia"},
+    },
+    {
+        "id": "2-gpu-nvidia-h100",
+        "description": "2x NVIDIA H100",
+        "type": "gpu",
+        "price_hourly": "5.0",
+        "regions": ["na"],
+        "gpu": {"count": 2, "brand": "nvidia"},
+    },
+    {
+        "id": "gpu-nvidia-b200",
+        "description": "NVIDIA B200",
+        "type": "gpu",
+        "price_hourly": "5.50",
+        "regions": [],
+        "gpu": {"count": 1, "brand": "nvidia"},
+    },
+]
+
+
+def test_koyeb_keeps_regions_and_skips_restricted():
+    f = Fetched("u", KOYEB)
+    offers = koyeb.Koyeb().parse(f)
+    assert [(o.sku, o.region, o.country) for o in offers] == [
+        ("gpu-nvidia-rtx-4000-sff-ada", "fra", "DE"),
+        ("2-gpu-nvidia-h100", "na", "US"),
+    ]
+    assert str(offers[1].per_gpu_hour()) == "2.5"
+    assert any("restricted" in p for p in f.problems)

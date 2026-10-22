@@ -22,7 +22,7 @@ models:
   - { id: mi325x, label: MI325X, vendor: AMD, arch: CDNA 3, memory_gb: 256, tier: frontier, match: ['mi325'] }
   - { id: mi300x, label: MI300X, vendor: AMD, arch: CDNA 3, memory_gb: 192, tier: frontier, match: ['mi300'] }
   - { id: a100, label: A100, vendor: NVIDIA, arch: Ampere, memory_gb: 80, tier: datacenter, match: ['a100'] }
-  - { id: rtx-pro-6000, label: RTX PRO 6000, vendor: NVIDIA, arch: Blackwell, memory_gb: 96, tier: datacenter, match: ['rtx ?pro.?6000', 'rtx6000pro', 'rtxpro6000'] }
+  - { id: rtx-pro-6000, label: RTX PRO 6000, vendor: NVIDIA, arch: Blackwell, memory_gb: 96, tier: datacenter, match: ['rtx ?pro.?6000', 'rtx6000pro', 'rtxpro6000', 'rtx ?6000 blackwell', 'rtx ?6000 96 ?gb'] }
   - { id: l40s, label: L40S, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 48, tier: datacenter, match: ['l40s'] }
   - { id: l40, label: L40, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 48, tier: datacenter, match: ['\bl40\b'] }
   - { id: rtx-6000-ada, label: RTX 6000 Ada, vendor: NVIDIA, arch: Ada Lovelace, memory_gb: 48, tier: datacenter, match: ['rtx ?6000 ?ada'] }

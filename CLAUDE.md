@@ -57,7 +57,7 @@ Le prove che scaricano dati vanno fatte con `COMPEU_ROOT` che punta a una copia 
 ## Stato al 22 ottobre 2026
 
 - Primo fixing reale il 20 ottobre 2026: CSX-H100 €2,87 (OVHcloud, Scaleway, Verda), CHX-H100 €7,02 (AWS, Azure). Copertura frontier: 3 sovrani su 9.
-- 11 collector attivi: Scaleway, OVHcloud, Hetzner, Verda, Exoscale, Nebius, Lyceum, Seeweb, AWS, Azure, RunPod. 25 fornitori nel registro.
+- 15 collector attivi: Scaleway, OVHcloud, Hetzner, Verda, Exoscale, Nebius, Lyceum, Seeweb, UpCloud, Leafcloud, IONOS, Koyeb, AWS, Azure, RunPod. 28 fornitori nel registro. Solo GPU per l'AI, mai cloud generico.
 - Metodologia index/2 dal 22 ottobre 2026: Exoscale e Nebius (controllo in revisione) contano nel paniere sovrano per decisione di Massimo.
 - Repository pubblico https://github.com/federpoletti-debug/compeu, CI verde, raccolta giornaliera attiva, Pages su https://federpoletti-debug.github.io/compeu/.
 - Design 2 (chiaro, neoclassico, Alpi) online: le pagine del sito sono le tavole del canvas, con i dati di ogni mattina. Primo fixing con index/2: CSX-H100 €3,42, CHX-H100 €7,00.
