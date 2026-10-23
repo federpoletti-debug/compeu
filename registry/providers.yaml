@@ -113,9 +113,9 @@ providers:
       source: https://api.verda.com/v1/instance-types
       catalogue_in_scope: true   # all published Verda locations are in Finland and Iceland
       note: >-
-        The brief marked Verda as uncertain; its API publishes on-demand and spot prices
-        without authentication. Prices in USD. Location availability needs a token, so
-        offers are recorded with region "catalogue".
+        Its API publishes on-demand and spot prices without authentication, in USD. Which
+        location carries each GPU needs a token, so offers are recorded with region
+        "catalogue" (every published Verda location is in Finland or Iceland).
     evidence:
       - { claim: "Verda (formerly DataCrunch) is a Finnish GPU cloud", url: "https://verda.com" }
 
@@ -192,7 +192,7 @@ providers:
     collection:
       method: none
       status: awaiting_agreement
-      note: No public GPU price list. Outreach for a data-sharing agreement in progress.
+      note: No public GPU price list.
 
   - id: safe-swiss-cloud
     name: Safe Swiss Cloud
@@ -246,8 +246,8 @@ providers:
       method: none
       status: no_public_price
       note: >-
-        NVIDIA Cloud Partner with high-end GPUs (sovereign and frontier: the combination the
-        index is looking for), but no public price list. Priority contact.
+        NVIDIA Cloud Partner with high-end GPUs, sovereign and frontier, but no public price
+        list.
 
   - id: nebius
     name: Nebius
@@ -343,7 +343,10 @@ providers:
       catalogue_in_scope: true   # GPU servers run in Helsinki (fi-hel2), one price for all zones
       note: >-
         Price page in euro: each GPU plan with its spot and regular hourly price, excl.
-        taxes. UpCloud's GPU availability page places the GPU servers in Helsinki.
+        taxes. UpCloud's GPU availability page places the GPU servers in Helsinki. The page
+        opens from an ordinary connection, but its Cloudflare protection answers 403 to the
+        GitHub servers that run the morning collection, so UpCloud's prices are missing
+        until UpCloud lets the collector through; they are never estimated.
     evidence:
       - { claim: "GPU servers are available in Helsinki (fi-hel2)", url: "https://upcloud.com/docs/products/gpu-servers/availability/" }
       - { claim: "2020 funding led by Connected Capital with Finnish Industry Investment and Inventure", url: "https://upcloud.com/global/blog/upcloud-secures-18-million-funding-fuel-growth/" }
@@ -759,7 +762,7 @@ providers:
       method: none
       status: planned
       source: https://cloud.google.com/compute/gpus-pricing
-      note: Cloud Billing Catalog API needs a free API key; planned for sprint 2.
+      note: The Cloud Billing Catalog API needs a free API key; a collector is planned.
 
   - id: coreweave
     name: CoreWeave
