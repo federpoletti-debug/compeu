@@ -9,7 +9,7 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400..700;1,400..700&amp;family=Cinzel:wght@400..700&amp;family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400..600&amp;display=swap" rel="stylesheet">
 <style>
 html{background:#07080B;color-scheme:dark}
@@ -547,7 +547,7 @@ attribute vec3 aPos; attribute vec3 aNor; attribute float aSeed;
 attribute vec3 aTarget; attribute float aTone; attribute float aGroup;
 attribute vec3 aPrev; attribute float aPrevTone;
 uniform float uYaw, uPitch, uAspect, uTime, uAssemble, uSize, uDpr, uZoom, uMouseOn, uScan, uMorph, uHi, uSwap;
-uniform vec2 uMouse; uniform vec3 uLight; uniform vec3 uTones[6]; uniform vec4 uGroupLit, uGroupFail;
+uniform vec2 uMouse; uniform vec3 uLight; uniform vec3 uTones[6]; uniform vec4 uGroupLit, uGroupFail, uGroupLit2, uGroupFail2;
 varying float vI; varying float vScan; varying float vSeed; varying float vM; varying float vHi; varying float vGlass; varying float vFail; varying vec3 vTone;
 mat3 rotY(float a){ float c = cos(a), s = sin(a); return mat3(c, 0., -s, 0., 1., 0., s, 0., c); }
 mat3 rotX(float a){ float c = cos(a), s = sin(a); return mat3(1., 0., 0., 0., c, s, 0., -s, c); }
@@ -562,6 +562,12 @@ void main(){
   vec3 n = normalize(R * aNor);
   float camZ = 3.4 / uZoom;
   float z = camZ - p.z;
+  if (z < 0.12) {
+    // behind or too close to the eye (inside a building): not drawn
+    gl_Position = vec4(3., 3., 0., 1.);
+    gl_PointSize = 0.;
+    return;
+  }
   vec2 ndc = vec2(p.x / uAspect, p.y) * (2.75 / z);
   vec2 d = ndc - uMouse;
   float dist = length(d * vec2(uAspect, 1.));
@@ -581,11 +587,14 @@ void main(){
   // groups 0..9 are parts of a building, 10..19 the glass of its openings
   vGlass = aGroup > 9.5 ? 1. : 0.;
   float grp = aGroup - 10. * vGlass;
-  // groups 0..3 can also be lit (or marked as failing) all at once
-  vec4 sel = vec4(equal(vec4(floor(grp + 0.5)), vec4(0., 1., 2., 3.)));
-  vHi = max((uHi > -0.5 && abs(grp - uHi) < 0.5) ? 1. : 0., dot(uGroupLit, sel));
-  vFail = dot(uGroupFail, sel);
-  gl_PointSize = uSize * uDpr * (2.75 / z) * (0.75 + 0.5 * fract(aSeed * 91.3)) * (1. + 0.35 * vHi * (1. - vGlass) + 0.35 * vHi * vGlass);
+  // groups 0..7 can also be lit (or marked as failing) all at once
+  float gi = floor(grp + 0.5);
+  vec4 sel = vec4(equal(vec4(gi), vec4(0., 1., 2., 3.)));
+  vec4 sel2 = vec4(equal(vec4(gi), vec4(4., 5., 6., 7.)));
+  vHi = max((uHi > -0.5 && abs(grp - uHi) < 0.5) ? 1. : 0., dot(uGroupLit, sel) + dot(uGroupLit2, sel2));
+  vFail = dot(uGroupFail, sel) + dot(uGroupFail2, sel2);
+  vHi *= 1. - vFail;
+  gl_PointSize = uSize * uDpr * (2.75 / z) * (0.75 + 0.5 * fract(aSeed * 91.3)) * (1. + 0.35 * vHi * (1. - vGlass) + 0.35 * vHi * vGlass + 0.4 * vFail);
 }`;
 
 const SCULPT_FS = `
@@ -601,7 +610,7 @@ void main(){
   col = mix(col, vTone * (0.62 + 0.3 * vI), vM);
   col = mix(col, uHiCol * (0.85 + 0.35 * vI), vHi);
   col = mix(col, vec3(1., 0.92, 0.76), vHi * vGlass * 0.3);
-  col = mix(col, uFailCol * (0.75 + 0.4 * vI), vFail * (1. - vGlass) * 0.85);
+  col = mix(col, uFailCol * (0.85 + 0.4 * vI), vFail * (1. - vGlass));
   float spark = step(0.996, fract(vSeed * 311.7)) * (1. - vM) * (1. - vGlass);
   col = mix(col, uGold * 1.4, spark);
   // glass is almost invisible until its opening is lit
@@ -708,7 +717,7 @@ function mountSculpture(canvas, opts) {
   gl.useProgram(prog);
   const U = (name) => gl.getUniformLocation(prog, name);
   const calm = !!opts.calm;
-  const st = { n: 0, yaw: opts.yaw || 0, pitch: opts.pitch || 0, mouse: [9, 9], mouseOn: 0, mouseTarget: 0, t0: 0, raf: 0, drag: null, idle: 0, alive: true, morph: 0, morphTarget: 0, turn: null, hi: -1, glit: [0, 0, 0, 0], gfail: [0, 0, 0, 0], spec: null, loaded: false, swap: 1, target: null, tone: null };
+  const st = { n: 0, yaw: opts.yaw || 0, pitch: opts.pitch || 0, mouse: [9, 9], mouseOn: 0, mouseTarget: 0, t0: 0, raf: 0, drag: null, idle: 0, alive: true, morph: 0, morphTarget: 0, turn: null, hi: -1, glit: [0, 0, 0, 0, 0, 0, 0, 0], gfail: [0, 0, 0, 0, 0, 0, 0, 0], spec: null, loaded: false, swap: 1, target: null, tone: null };
   const buffers = {};
 
   const attr = (name, arr, size) => {
@@ -876,8 +885,10 @@ function mountSculpture(canvas, opts) {
     gl.uniform1f(U('uScan'), calm ? 0 : 1);
     gl.uniform1f(U('uMorph'), st.morph);
     gl.uniform1f(U('uHi'), st.hi);
-    gl.uniform4fv(U('uGroupLit'), st.glit);
-    gl.uniform4fv(U('uGroupFail'), st.gfail);
+    gl.uniform4fv(U('uGroupLit'), st.glit.slice(0, 4));
+    gl.uniform4fv(U('uGroupFail'), st.gfail.slice(0, 4));
+    gl.uniform4fv(U('uGroupLit2'), st.glit.slice(4, 8));
+    gl.uniform4fv(U('uGroupFail2'), st.gfail.slice(4, 8));
     gl.uniform1f(U('uSwap'), calm ? 1 : st.swap);
     // the same light per pixel whatever the number of columns and the canvas size
     const cssH = canvas.height / (st.dpr || 1);
@@ -903,10 +914,10 @@ function mountSculpture(canvas, opts) {
     setMorph(on) { st.morphTarget = on ? 1 : 0; },
     turnTo(yaw) { st.turn = yaw; st.idle = performance.now(); },
     highlight(group) { st.hi = group == null ? -1 : group; },
-    // per group 0..3: how lit it is (0..1), and whether its frame shows a failure
+    // per group 0..7: how lit it is (0..1), and whether its frame shows a failure
     lightGroups(lit, fail) {
-      st.glit = [0, 1, 2, 3].map((i) => (lit && lit[i]) || 0);
-      st.gfail = [0, 1, 2, 3].map((i) => (fail && fail[i]) || 0);
+      st.glit = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => (lit && lit[i]) || 0);
+      st.gfail = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => (fail && fail[i]) || 0);
     },
   };
 }

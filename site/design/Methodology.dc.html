@@ -9,7 +9,7 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400..700;1,400..700&amp;family=Cinzel:wght@400..700&amp;family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400..600&amp;display=swap" rel="stylesheet">
 <style>
 html{background:#07080B;color-scheme:dark}
@@ -429,7 +429,7 @@ attribute vec3 aPos; attribute vec3 aNor; attribute float aSeed;
 attribute vec3 aTarget; attribute float aTone; attribute float aGroup;
 attribute vec3 aPrev; attribute float aPrevTone;
 uniform float uYaw, uPitch, uAspect, uTime, uAssemble, uSize, uDpr, uZoom, uMouseOn, uScan, uMorph, uHi, uSwap;
-uniform vec2 uMouse; uniform vec3 uLight; uniform vec3 uTones[6]; uniform vec4 uGroupLit, uGroupFail;
+uniform vec2 uMouse; uniform vec3 uLight; uniform vec3 uTones[6]; uniform vec4 uGroupLit, uGroupFail, uGroupLit2, uGroupFail2;
 varying float vI; varying float vScan; varying float vSeed; varying float vM; varying float vHi; varying float vGlass; varying float vFail; varying vec3 vTone;
 mat3 rotY(float a){ float c = cos(a), s = sin(a); return mat3(c, 0., -s, 0., 1., 0., s, 0., c); }
 mat3 rotX(float a){ float c = cos(a), s = sin(a); return mat3(1., 0., 0., 0., c, s, 0., -s, c); }
@@ -444,6 +444,12 @@ void main(){
   vec3 n = normalize(R * aNor);
   float camZ = 3.4 / uZoom;
   float z = camZ - p.z;
+  if (z < 0.12) {
+    // behind or too close to the eye (inside a building): not drawn
+    gl_Position = vec4(3., 3., 0., 1.);
+    gl_PointSize = 0.;
+    return;
+  }
   vec2 ndc = vec2(p.x / uAspect, p.y) * (2.75 / z);
   vec2 d = ndc - uMouse;
   float dist = length(d * vec2(uAspect, 1.));
@@ -463,11 +469,14 @@ void main(){
   // groups 0..9 are parts of a building, 10..19 the glass of its openings
   vGlass = aGroup > 9.5 ? 1. : 0.;
   float grp = aGroup - 10. * vGlass;
-  // groups 0..3 can also be lit (or marked as failing) all at once
-  vec4 sel = vec4(equal(vec4(floor(grp + 0.5)), vec4(0., 1., 2., 3.)));
-  vHi = max((uHi > -0.5 && abs(grp - uHi) < 0.5) ? 1. : 0., dot(uGroupLit, sel));
-  vFail = dot(uGroupFail, sel);
-  gl_PointSize = uSize * uDpr * (2.75 / z) * (0.75 + 0.5 * fract(aSeed * 91.3)) * (1. + 0.35 * vHi * (1. - vGlass) + 0.35 * vHi * vGlass);
+  // groups 0..7 can also be lit (or marked as failing) all at once
+  float gi = floor(grp + 0.5);
+  vec4 sel = vec4(equal(vec4(gi), vec4(0., 1., 2., 3.)));
+  vec4 sel2 = vec4(equal(vec4(gi), vec4(4., 5., 6., 7.)));
+  vHi = max((uHi > -0.5 && abs(grp - uHi) < 0.5) ? 1. : 0., dot(uGroupLit, sel) + dot(uGroupLit2, sel2));
+  vFail = dot(uGroupFail, sel) + dot(uGroupFail2, sel2);
+  vHi *= 1. - vFail;
+  gl_PointSize = uSize * uDpr * (2.75 / z) * (0.75 + 0.5 * fract(aSeed * 91.3)) * (1. + 0.35 * vHi * (1. - vGlass) + 0.35 * vHi * vGlass + 0.4 * vFail);
 }`;
 
 const SCULPT_FS = `
@@ -483,7 +492,7 @@ void main(){
   col = mix(col, vTone * (0.62 + 0.3 * vI), vM);
   col = mix(col, uHiCol * (0.85 + 0.35 * vI), vHi);
   col = mix(col, vec3(1., 0.92, 0.76), vHi * vGlass * 0.3);
-  col = mix(col, uFailCol * (0.75 + 0.4 * vI), vFail * (1. - vGlass) * 0.85);
+  col = mix(col, uFailCol * (0.85 + 0.4 * vI), vFail * (1. - vGlass));
   float spark = step(0.996, fract(vSeed * 311.7)) * (1. - vM) * (1. - vGlass);
   col = mix(col, uGold * 1.4, spark);
   // glass is almost invisible until its opening is lit
@@ -590,7 +599,7 @@ function mountSculpture(canvas, opts) {
   gl.useProgram(prog);
   const U = (name) => gl.getUniformLocation(prog, name);
   const calm = !!opts.calm;
-  const st = { n: 0, yaw: opts.yaw || 0, pitch: opts.pitch || 0, mouse: [9, 9], mouseOn: 0, mouseTarget: 0, t0: 0, raf: 0, drag: null, idle: 0, alive: true, morph: 0, morphTarget: 0, turn: null, hi: -1, glit: [0, 0, 0, 0], gfail: [0, 0, 0, 0], spec: null, loaded: false, swap: 1, target: null, tone: null };
+  const st = { n: 0, yaw: opts.yaw || 0, pitch: opts.pitch || 0, mouse: [9, 9], mouseOn: 0, mouseTarget: 0, t0: 0, raf: 0, drag: null, idle: 0, alive: true, morph: 0, morphTarget: 0, turn: null, hi: -1, glit: [0, 0, 0, 0, 0, 0, 0, 0], gfail: [0, 0, 0, 0, 0, 0, 0, 0], spec: null, loaded: false, swap: 1, target: null, tone: null };
   const buffers = {};
 
   const attr = (name, arr, size) => {
@@ -758,8 +767,10 @@ function mountSculpture(canvas, opts) {
     gl.uniform1f(U('uScan'), calm ? 0 : 1);
     gl.uniform1f(U('uMorph'), st.morph);
     gl.uniform1f(U('uHi'), st.hi);
-    gl.uniform4fv(U('uGroupLit'), st.glit);
-    gl.uniform4fv(U('uGroupFail'), st.gfail);
+    gl.uniform4fv(U('uGroupLit'), st.glit.slice(0, 4));
+    gl.uniform4fv(U('uGroupFail'), st.gfail.slice(0, 4));
+    gl.uniform4fv(U('uGroupLit2'), st.glit.slice(4, 8));
+    gl.uniform4fv(U('uGroupFail2'), st.gfail.slice(4, 8));
     gl.uniform1f(U('uSwap'), calm ? 1 : st.swap);
     // the same light per pixel whatever the number of columns and the canvas size
     const cssH = canvas.height / (st.dpr || 1);
@@ -785,10 +796,10 @@ function mountSculpture(canvas, opts) {
     setMorph(on) { st.morphTarget = on ? 1 : 0; },
     turnTo(yaw) { st.turn = yaw; st.idle = performance.now(); },
     highlight(group) { st.hi = group == null ? -1 : group; },
-    // per group 0..3: how lit it is (0..1), and whether its frame shows a failure
+    // per group 0..7: how lit it is (0..1), and whether its frame shows a failure
     lightGroups(lit, fail) {
-      st.glit = [0, 1, 2, 3].map((i) => (lit && lit[i]) || 0);
-      st.gfail = [0, 1, 2, 3].map((i) => (fail && fail[i]) || 0);
+      st.glit = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => (lit && lit[i]) || 0);
+      st.gfail = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => (fail && fail[i]) || 0);
     },
   };
 }
@@ -1018,6 +1029,59 @@ function triforaPoints() {
     k.box(x - 0.06, x + 0.06, spring - 0.04, spring, 0.09, 0.21, -1, 'zZY');
   }
   k.box(-1.0, 1.0, -0.8, -0.75, -0.02, 0.24, -1, 'zZY', null, 0.5);
+  return k.done(1);
+}
+
+// Étienne-Louis Boullée's Royal Library (1785): a long nave under a coffered barrel
+// vault lit from a slit at its crown, lined on both sides by terraces of books with a
+// colonnade along the top, closed by a great arch. Groups 0..5 are six books on the
+// right-hand shelf, one per sealed fixing (the oldest farthest away); group 6 is the
+// light in the far arch.
+function libraryPoints() {
+  const k = archKit(1785, 1150);
+  const L0 = -6, L1 = 1, Wn = 1, tierH = 0.32, tierD = 0.26, tiers = 4;
+  k.box(-Wn, Wn, -0.01, 0, L0, L1, -1, 'Y', null, 0.15);
+  for (const side of [-1, 1]) {
+    for (let t = 0; t < tiers; t++) {
+      // the face of a tier is a wall of books: points gather on three shelf boards
+      const x = side * (Wn + t * tierD), y0 = t * tierH, n = Math.round((L1 - L0) * tierH * 1150 * 1.3);
+      for (let i = 0; i < n; i++) {
+        let y = y0 + k.rnd() * tierH;
+        if (k.rnd() < 0.3) y = y0 + Math.round(((y - y0) / tierH) * 3) * (tierH / 3);
+        k.add(x, y, L0 + k.rnd() * (L1 - L0), -side, 0, 0, -1);
+      }
+      const xa = side * (Wn + t * tierD), xb = side * (Wn + (t + 1) * tierD);
+      k.box(Math.min(xa, xb), Math.max(xa, xb), y0 + tierH, y0 + tierH + 0.004, L0, L1, -1, 'Y', null, 0.4);
+    }
+    const xc = side * (Wn + tiers * tierD + 0.04), yb = tiers * tierH;
+    for (let z = L0 + 0.2; z <= L1; z += 0.44) k.column(xc, z, 0.034, yb, yb + 0.86, -1, 12);
+    k.box(Math.min(xc - 0.07, xc + 0.07), Math.max(xc - 0.07, xc + 0.07), yb + 0.86, yb + 0.95, L0, L1, -1, 'xXy', null, 0.7);
+  }
+  // the barrel vault: coffers drawn by their ribs, open along the crown
+  const R = Wn + tiers * tierD + 0.04, cy = tiers * tierH + 0.95;
+  const nV = Math.round(Math.PI * R * (L1 - L0) * 1150 * 0.7);
+  for (let i = 0; i < nV; i++) {
+    const a = k.rnd() * Math.PI, z = L0 + k.rnd() * (L1 - L0);
+    if (Math.abs(a - Math.PI / 2) < 0.08) continue;
+    const onRib = Math.abs(((a / (Math.PI / 16)) % 1) - 0.5) > 0.4 || Math.abs((((z - L0) / 0.44) % 1) - 0.5) > 0.4;
+    if (!onRib && k.rnd() < 0.8) continue;
+    k.add(Math.cos(a) * R, cy + Math.sin(a) * R, z, -Math.cos(a), -Math.sin(a), 0, -1);
+  }
+  // the end wall and its great arch, with light behind it
+  const ar = 0.95, ay = 1.25;
+  const inArch = (x, y) => Math.abs(x) < ar && (y < ay || Math.hypot(x, y - ay) < ar);
+  k.box(-R, R, 0, cy + R, L0 - 0.02, L0, -1, 'Z', (f, x, y) => inArch(x, y) || Math.hypot(x, y - cy) > R + 0.02 && y > cy, 0.5);
+  k.arch(0, ay, ar, ar + 0.1, L0 - 0.06, L0, -1);
+  for (const x of [-ar - 0.05, ar + 0.05]) k.box(x - 0.05, x + 0.05, 0, ay, L0 - 0.06, L0, -1, 'zZxX');
+  for (let i = 0; i < 9000; i++) {
+    const x = (k.rnd() * 2 - 1) * ar, y = k.rnd() * (ay + ar);
+    if (inArch(x, y)) k.add(x, y, L0 - 0.3, 0, 0, 1, 16);
+  }
+  // six books, one per fixing, on the second tier at the reader's right hand
+  for (let b = 0; b < 6; b++) {
+    const z = -3.6 + b * 0.72, x = Wn + tierD - 0.014;
+    for (let i = 0; i < 260; i++) k.add(x, tierH + 0.03 + k.rnd() * 0.26, z + k.rnd() * 0.32, -1, 0, 0, b);
+  }
   return k.done(1);
 }
 

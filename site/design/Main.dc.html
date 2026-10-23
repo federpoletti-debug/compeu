@@ -9,7 +9,7 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400..700;1,400..700&amp;family=Cinzel:wght@400..700&amp;family=Geist:wght@300..700&amp;family=Geist+Mono:wght@400..600&amp;display=swap" rel="stylesheet">
 <style>
 html{background:#07080B;color-scheme:dark}
@@ -69,7 +69,7 @@ a{color:#8FBCF3}a:hover{color:#CFE1FA}
 <div style="grid-area: head; align-self: end; display: flex; flex-direction: column; gap: 20px; min-width: 0">
 <p style="margin: 0; font-family: 'Cinzel', Georgia, serif; font-size: 12.5px; font-weight: 600; letter-spacing: 0.24em; color: #C9A55C">The European Sovereign Compute Index</p>
 <h1 id="hero-title" style="margin: 0; font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-weight: 600; font-size: {{L.h1}}; line-height: 0.98; letter-spacing: -0.01em; color: #EEE8DC; text-wrap: balance">The price of AI compute <em style="font-style: italic; font-weight: 500; color: #8FBCF3">Europe controls.</em></h1>
-<p style="margin: 0; max-width: 29em; font-size: {{L.lede}}; line-height: 1.55; color: #C8C1B3; text-wrap: pretty">One public price for each GPU, fixed every morning from the clouds that Europe controls.</p>
+<p style="margin: 0; max-width: 29em; font-size: {{L.lede}}; line-height: 1.55; color: #C8C1B3; text-wrap: pretty">A daily index for AI compute: one public price per GPU, fixed every morning from the clouds that Europe controls.</p>
 </div>
 
 <figure style="grid-area: statue; margin: {{L.statueMargin}}; min-width: 0; display: flex; flex-direction: column; gap: 10px">
@@ -130,8 +130,8 @@ a{color:#8FBCF3}a:hover{color:#CFE1FA}
 </sc-if>
 <span style="font-size: 12.5px; color: #8C8678">{{tab.meta}}</span>
 <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px">
-<a href="#fixings" style="font-size: 15px; font-weight: 500; color: #07080B; background: #EEE8DC; text-decoration: none; padding: 12px 20px; border: 1px solid #EEE8DC" style-hover="background: #FFFFFF">Today’s board ↓</a>
-<a href="#atlas" style="font-size: 15px; font-weight: 500; color: #EEE8DC; text-decoration: none; padding: 12px 20px; border: 1px solid #3B4153" style-hover="border-color: #C9A55C">The map ↓</a>
+<a href="Index.dc.html" style="font-size: 15px; font-weight: 500; color: #07080B; background: #EEE8DC; text-decoration: none; padding: 12px 20px; border: 1px solid #EEE8DC" style-hover="background: #FFFFFF">The full index →</a>
+<a href="#atlas" style="font-size: 15px; font-weight: 500; color: #EEE8DC; text-decoration: none; padding: 12px 20px; border: 1px solid #3B4153" style-hover="border-color: #C9A55C">Where to rent ↓</a>
 </div>
 </div>
 
@@ -154,7 +154,7 @@ a{color:#8FBCF3}a:hover{color:#CFE1FA}
 <section id="atlas" aria-labelledby="map-title" style="position: relative; padding-top: {{L.sec}}">
 <div style="max-width: 1320px; margin: 0 auto; padding: 0 {{L.gutter}}; display: flex; flex-direction: {{L.twoCol}}; justify-content: space-between; align-items: {{L.mapHeadAlign}}; gap: 18px 40px">
 <div style="display: flex; flex-direction: column; gap: 14px; max-width: 720px">
-<p style="margin: 0; font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.22em; color: #C9A55C">I · The map</p>
+<p style="margin: 0; font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.22em; color: #C9A55C">I · Where to rent</p>
 <h2 id="map-title" style="margin: 0; font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-weight: 600; font-size: {{L.h2}}; line-height: 1.04; letter-spacing: -0.01em; text-wrap: balance">Where Europe’s AI compute lives.</h2>
 <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #C8C1B3; text-wrap: pretty">{{mp.lede}}</p>
 </div>
@@ -311,318 +311,12 @@ a{color:#8FBCF3}a:hover{color:#CFE1FA}
 </sc-for>
 </div>
 </sc-if>
-</section>
-
-<section id="fixings" aria-labelledby="fix-title" style="padding: {{L.sec}} {{L.gutter}} 0">
-<div style="max-width: 1320px; margin: 0 auto">
-<div style="display: flex; flex-direction: column; gap: 16px; max-width: 860px; margin-bottom: 34px">
-<p style="margin: 0; font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.22em; color: #C9A55C">II · Today’s fixings</p>
-<h2 id="fix-title" style="margin: 0; font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-weight: 600; font-size: {{L.h2}}; line-height: 1.06; letter-spacing: -0.015em; text-wrap: balance">One price for each GPU, every morning.</h2>
-<p style="margin: 0; font-size: 17.5px; line-height: 1.6; color: #C8C1B3; text-wrap: pretty">The median of the cheapest public prices that European-controlled clouds list for each GPU, in euro per GPU-hour. Orange: the same GPU at the US hyperscalers in Europe. Point at a mark to see whose price it is.</p>
-</div>
-<div style="display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 13px; color: #C8C1B3; padding: 0 0 18px">
-<span style="display: inline-flex; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; border-radius: 50%; background: #3987E5; box-shadow: 0 0 0 2px #07080B, 0 0 10px rgba(57,135,229,0.7)"></span>Sovereign fixing</span>
-<span style="display: inline-flex; align-items: center; gap: 8px"><span style="width: 14px; height: 14px; border-radius: 50%; background: #D95926; box-shadow: 0 0 0 2px #07080B, 0 0 10px rgba(217,89,38,0.7)"></span>US hyperscaler fixing</span>
-<span style="display: inline-flex; align-items: center; gap: 8px"><span style="width: 9px; height: 9px; border-radius: 50%; background: #3987E5"></span>A sovereign quote</span>
-<span style="display: inline-flex; align-items: center; gap: 8px"><span style="width: 9px; height: 9px; border-radius: 50%; box-shadow: inset 0 0 0 2px #3987E5"></span>Under review, counted by decision</span>
-<span style="display: inline-flex; align-items: center; gap: 8px"><span style="width: 9px; height: 9px; border-radius: 50%; background: #D95926"></span>A US quote</span>
-<span style="display: inline-flex; align-items: center; gap: 8px"><span style="width: 26px; height: 12px; border-radius: 6px; background: rgba(57,135,229,0.16)"></span>Range of sovereign quotes</span>
-</div>
-<sc-for list="{{board.tiers}}" as="t" hint-placeholder-count="2">
-<div style="margin-top: 22px; border-top: 1px solid #3B4153">
-<div style="display: grid; grid-template-columns: {{L.boardCols}}; gap: 0 24px; padding: 16px {{L.rowPadX}} 10px; align-items: end">
-<div style="grid-column: {{L.tierLabelCol}}; display: flex; flex-direction: column; gap: 3px">
-<span style="font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.16em; color: #C9A55C">{{t.label}}</span>
-<span style="font-size: 13px; color: #8C8678">{{t.note}}</span>
-</div>
-<sc-if value="{{L.wide}}" hint-placeholder-val="{{true}}">
-<div aria-hidden="true" style="position: relative; height: 18px">
-<sc-for list="{{t.ticks}}" as="k" hint-placeholder-count="5">
-<span style="position: absolute; left: {{k.left}}; bottom: 0; transform: {{k.edge}}; font-size: 12px; font-variant-numeric: tabular-nums; color: #8C8678">{{k.label}}</span>
-</sc-for>
-</div>
-<span style="text-align: right; font-family: 'Cinzel', Georgia, serif; font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em; color: #8C8678">US hyperscalers</span>
-</sc-if>
-</div>
-<sc-for list="{{t.rows}}" as="r" hint-placeholder-count="3">
-<div onClick="{{r.pick}}" style="display: grid; grid-template-columns: {{L.boardCols}}; gap: 12px 24px; align-items: center; padding: {{L.rowPad}}; border-top: 1px solid #20242F; background: {{r.bg}}; box-shadow: {{r.edge}}; cursor: pointer; transition: background 0.2s" style-hover="background: #0D1016">
-<div style="grid-area: {{L.cName}}; display: flex; flex-direction: column; gap: 4px; min-width: 0">
-<button type="button" aria-pressed="{{r.pressed}}" aria-label="{{r.aria}}" onClick="{{r.pick}}" style="appearance: none; background: none; border: 0; padding: 0; margin: 0; font: inherit; font-size: 23px; font-weight: 600; letter-spacing: -0.01em; color: #EEE8DC; cursor: pointer; text-align: left; align-self: flex-start">{{r.gpu}}</button>
-<span style="font-family: 'Cinzel', Georgia, serif; font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em; color: #8C8678">{{r.sovCode}}</span>
-</div>
-<div style="grid-area: {{L.cSov}}; display: flex; flex-direction: column; gap: 3px; min-width: 0">
-<span style="font-size: {{r.sovSize}}; font-weight: 400; line-height: 1.05; letter-spacing: -0.02em; color: {{r.sovColor}}; font-style: {{r.sovStyle}}; white-space: nowrap">{{r.sovVal}}</span>
-<span style="font-size: 13px; color: {{r.chgColor}}">{{r.chg}}</span>
-<span style="font-size: 12.5px; color: #8C8678">{{r.count}}</span>
-</div>
-<div style="grid-area: {{L.cChart}}; position: relative; height: 66px; min-width: 0">
-<sc-for list="{{t.ticks}}" as="k" hint-placeholder-count="5">
-<span aria-hidden="true" style="position: absolute; top: 4px; bottom: 4px; left: {{k.left}}; width: 1px; background: #191C24"></span>
-</sc-for>
-<span aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: #2C3140"></span>
-<sc-if value="{{r.band.has}}" hint-placeholder-val="{{true}}">
-<span aria-hidden="true" style="position: absolute; top: calc(50% - 10px); height: 20px; left: {{r.band.left}}; width: {{r.band.width}}; margin-left: -10px; padding-right: 20px; background: rgba(57,135,229,0.13); border-radius: 10px"></span>
-</sc-if>
-<sc-if value="{{r.conn.has}}" hint-placeholder-val="{{true}}">
-<span aria-hidden="true" style="position: absolute; top: calc(50% - 1px); height: 2px; left: {{r.conn.left}}; width: {{r.conn.width}}; background: linear-gradient(90deg, #3987E5, #D95926); opacity: 0.85"></span>
-</sc-if>
-<sc-for list="{{r.quotes}}" as="d" hint-placeholder-count="6">
-<span role="img" aria-label="{{d.aria}}" onMouseEnter="{{d.enter}}" onMouseLeave="{{d.leave}}" onClick="{{d.tap}}" style="position: absolute; left: {{d.left}}; top: {{d.top}}; width: 22px; height: 22px; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; z-index: {{d.z}}">
-<span style="width: {{d.size}}; height: {{d.size}}; border-radius: 50%; background: {{d.bg}}; box-shadow: {{d.shadow}}; transition: width 0.15s, height 0.15s"></span>
-</span>
-<sc-if value="{{d.hot}}" hint-placeholder-val="{{false}}">
-<span style="position: absolute; left: {{d.left}}; bottom: calc(50% + 18px); transform: {{d.tipSide}}; z-index: 8; pointer-events: none; background: #12151D; border: 1px solid #3B4153; border-top: 1px solid #C9A55C; padding: 8px 12px; white-space: nowrap; display: flex; flex-direction: column; gap: 2px; box-shadow: 0 12px 30px -12px rgba(0,0,0,0.8)">
-<span style="font-size: 13.5px; font-weight: 600; color: #EEE8DC">{{d.tipName}} <span style="font-weight: 400; font-variant-numeric: tabular-nums">{{d.tipVal}}</span></span>
-<span style="font-size: 12px; color: #A39C8E">{{d.tipNote}}</span>
-</span>
-</sc-if>
-</sc-for>
-<sc-if value="{{r.fixH.has}}" hint-placeholder-val="{{true}}">
-<span role="img" aria-label="{{r.fixH.aria}}" onMouseEnter="{{r.fixH.enter}}" onMouseLeave="{{r.fixH.leave}}" onClick="{{r.fixH.tap}}" style="position: absolute; left: {{r.fixH.left}}; top: 50%; width: 28px; height: 28px; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; z-index: 4">
-<span style="width: 17px; height: 17px; border-radius: 50%; background: #D95926; box-shadow: 0 0 0 2px #07080B, 0 0 14px rgba(217,89,38,0.75)"></span>
-</span>
-<sc-if value="{{r.fixH.hot}}" hint-placeholder-val="{{false}}">
-<span style="position: absolute; left: {{r.fixH.left}}; bottom: calc(50% + 20px); transform: {{r.fixH.side}}; z-index: 8; pointer-events: none; background: #12151D; border: 1px solid #3B4153; border-top: 1px solid #C9A55C; padding: 8px 12px; white-space: nowrap; display: flex; flex-direction: column; gap: 2px">
-<span style="font-size: 13.5px; font-weight: 600; color: #EEE8DC">{{r.fixH.tip.name}} <span style="font-weight: 400; font-variant-numeric: tabular-nums">{{r.fixH.tip.val}}</span></span>
-<span style="font-size: 12px; color: #A39C8E">{{r.fixH.tip.note}}</span>
-</span>
-</sc-if>
-</sc-if>
-<sc-if value="{{r.fixS.has}}" hint-placeholder-val="{{true}}">
-<span role="img" aria-label="{{r.fixS.aria}}" onMouseEnter="{{r.fixS.enter}}" onMouseLeave="{{r.fixS.leave}}" onClick="{{r.fixS.tap}}" style="position: absolute; left: {{r.fixS.left}}; top: 50%; width: 28px; height: 28px; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; z-index: 5">
-<span style="width: 17px; height: 17px; border-radius: 50%; background: #3987E5; box-shadow: 0 0 0 2px #07080B, 0 0 14px rgba(57,135,229,0.8)"></span>
-</span>
-<sc-if value="{{r.fixS.hot}}" hint-placeholder-val="{{false}}">
-<span style="position: absolute; left: {{r.fixS.left}}; bottom: calc(50% + 20px); transform: {{r.fixS.side}}; z-index: 8; pointer-events: none; background: #12151D; border: 1px solid #3B4153; border-top: 1px solid #C9A55C; padding: 8px 12px; white-space: nowrap; display: flex; flex-direction: column; gap: 2px">
-<span style="font-size: 13.5px; font-weight: 600; color: #EEE8DC">{{r.fixS.tip.name}} <span style="font-weight: 400; font-variant-numeric: tabular-nums">{{r.fixS.tip.val}}</span></span>
-<span style="font-size: 12px; color: #A39C8E">{{r.fixS.tip.note}}</span>
-</span>
-</sc-if>
-</sc-if>
-<sc-if value="{{L.narrow}}" hint-placeholder-val="{{false}}">
-<sc-for list="{{t.ticks}}" as="k" hint-placeholder-count="5">
-<span aria-hidden="true" style="position: absolute; left: {{k.left}}; bottom: -14px; transform: {{k.edge}}; font-size: 11px; font-variant-numeric: tabular-nums; color: #8C8678">{{k.label}}</span>
-</sc-for>
-</sc-if>
-</div>
-<div style="grid-area: {{L.cUs}}; display: flex; flex-direction: column; gap: 3px; align-items: {{L.usAlign}}; text-align: {{L.usText}}; min-width: 0">
-<span style="font-family: 'Cinzel', Georgia, serif; font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em; color: #8C8678">{{r.usCode}}</span>
-<span style="font-size: 24px; line-height: 1.1; letter-spacing: -0.01em; color: {{r.usColor}}; font-style: {{r.usStyle}}; white-space: nowrap">{{r.usVal}}</span>
-<sc-if value="{{r.hasRatio}}" hint-placeholder-val="{{true}}">
-<span style="font-size: 13.5px; color: #C8C1B3"><strong style="font-weight: 600; color: #EEE8DC">{{r.ratio}}</strong> the sovereign price</span>
-</sc-if>
-<sc-if value="{{r.noRatio}}" hint-placeholder-val="{{false}}">
-<span style="font-size: 12.5px; line-height: 1.4; color: #8C8678; max-width: 22ch">{{r.usNote}}</span>
-</sc-if>
-</div>
-</div>
-</sc-for>
-</div>
-</sc-for>
-<div style="margin-top: 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 18px 22px; border: 1px solid #20242F; background: #0A0C10">
-<span style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; color: #8C8678">CSC-Frontier · coverage</span>
-<span style="display: flex; gap: 5px; flex-wrap: wrap" aria-hidden="true">
-<sc-for list="{{cov.dots}}" as="d" hint-placeholder-count="18">
-<span style="width: 12px; height: 12px; background: {{d.bg}}; box-shadow: {{d.ring}}"></span>
-</sc-for>
-</span>
-<span style="font-size: 15px; color: #C8C1B3"><strong style="color: #EEE8DC; font-weight: 600">{{cov.big}}</strong> sovereign clouds publish a price for a frontier GPU. The rest sell on request.</span>
-<a href="Index.dc.html#coverage" style="font-size: 14px; margin-left: auto">Which ones →</a>
-</div>
-</div>
-</section>
-
-<section id="record" aria-labelledby="rec-title" style="padding: {{L.sec}} {{L.gutter}} 0">
-<div style="max-width: 1320px; margin: 0 auto">
-<div style="display: flex; flex-direction: {{L.twoCol}}; justify-content: space-between; align-items: flex-end; gap: 20px 40px; margin-bottom: 26px">
-<div style="display: flex; flex-direction: column; gap: 16px; max-width: 760px">
-<p style="margin: 0; font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.22em; color: #C9A55C">III · The record</p>
-<h2 id="rec-title" style="margin: 0; font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-weight: 600; font-size: {{L.h2}}; line-height: 1.06; letter-spacing: -0.015em; text-wrap: balance">The {{gpuLabel}}, day after day.</h2>
-<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #C8C1B3">Both baskets, every day so far. Move along the chart to read one.</p>
-</div>
-<div role="group" aria-label="GPU" style="display: flex; flex-wrap: wrap; gap: 6px">
-<sc-for list="{{hero.chips}}" as="c" hint-placeholder-count="5">
-<button type="button" aria-pressed="{{c.pressed}}" onClick="{{c.pick}}" style="appearance: none; cursor: pointer; font: inherit; font-size: 14px; font-weight: 500; min-width: 58px; min-height: 40px; padding: 8px 12px; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}" style-hover="border-color: #EEE8DC">{{c.label}}</button>
-</sc-for>
-</div>
-</div>
-<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px; margin-bottom: 18px">
-<div style="display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 13.5px; color: #C8C1B3">
-<sc-for list="{{hist.legend}}" as="l" hint-placeholder-count="2">
-<span style="display: inline-flex; align-items: center; gap: 9px"><span style="width: 18px; height: 2px; background: {{l.color}}"></span><span style="width: 8px; height: 8px; border-radius: 50%; background: {{l.color}}; margin-left: -18px; margin-right: 6px"></span>{{l.label}}</span>
-</sc-for>
-</div>
-<button type="button" onClick="{{toggleHist}}" aria-pressed="{{histTable}}" style="appearance: none; cursor: pointer; font: inherit; font-size: 13.5px; color: #C8C1B3; background: transparent; border: 1px solid #2C3140; padding: 8px 14px; min-height: 38px" style-hover="border-color: #C9A55C; color: #EEE8DC">{{histToggle}}</button>
-</div>
-<sc-if value="{{histChart}}" hint-placeholder-val="{{true}}">
-<div role="img" aria-label="{{hist.aria}}" onMouseMove="{{hist.move}}" onMouseLeave="{{hist.leave}}" onClick="{{hist.move}}" style="position: relative; width: 100%; aspect-ratio: {{hist.ratio}}; cursor: crosshair; user-select: none">
-<svg viewBox="{{hist.vb}}" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible">
-<sc-for list="{{hist.grid}}" as="g" hint-placeholder-count="5">
-<line x1="{{hist.x0}}" x2="{{hist.x1}}" y1="{{g.y}}" y2="{{g.y}}" stroke="#1D2029" stroke-width="1" vector-effect="non-scaling-stroke"></line>
-</sc-for>
-<line x1="{{hist.x0}}" x2="{{hist.x1}}" y1="{{hist.y0}}" y2="{{hist.y0}}" stroke="#3B4153" stroke-width="1" vector-effect="non-scaling-stroke"></line>
-<sc-for list="{{hist.breaks}}" as="b" hint-placeholder-count="1">
-<line x1="{{b.x}}" x2="{{b.x}}" y1="{{hist.y1}}" y2="{{hist.y0}}" stroke="#9C7F45" stroke-width="1" vector-effect="non-scaling-stroke"></line>
-</sc-for>
-<sc-if value="{{hist.hasTip}}" hint-placeholder-val="{{false}}">
-<line x1="{{hist.tip.x}}" x2="{{hist.tip.x}}" y1="{{hist.y1}}" y2="{{hist.y0}}" stroke="#8C8678" stroke-width="1" vector-effect="non-scaling-stroke"></line>
-</sc-if>
-<sc-for list="{{hist.lines}}" as="l" hint-placeholder-count="2">
-<path d="{{l.d}}" fill="none" stroke="{{l.color}}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
-</sc-for>
-<sc-for list="{{hist.pts}}" as="p" hint-placeholder-count="6">
-<circle cx="{{p.cx}}" cy="{{p.cy}}" r="{{p.r}}" fill="{{p.color}}" stroke="#07080B" stroke-width="2"></circle>
-</sc-for>
-</svg>
-<sc-for list="{{hist.grid}}" as="g" hint-placeholder-count="5">
-<span aria-hidden="true" style="position: absolute; left: 0; top: {{g.top}}; width: {{hist.labelW}}; transform: translateY(-50%); text-align: right; font-size: 12.5px; font-variant-numeric: tabular-nums; color: #8C8678">{{g.label}}</span>
-</sc-for>
-<sc-for list="{{hist.days}}" as="d" hint-placeholder-count="3">
-<span aria-hidden="true" style="position: absolute; left: {{d.left}}; top: {{d.top}}; transform: translate(-50%, -50%); font-size: 12.5px; color: #A39C8E; white-space: nowrap">{{d.label}}</span>
-</sc-for>
-<sc-for list="{{hist.breaks}}" as="b" hint-placeholder-count="1">
-<span aria-hidden="true" style="position: absolute; left: {{b.left}}; top: 0; transform: translateX(-50%); font-family: 'Cinzel', Georgia, serif; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: #C9A55C; background: #07080B; padding: 0 6px; white-space: nowrap">{{b.label}}</span>
-</sc-for>
-<sc-if value="{{hist.hasTip}}" hint-placeholder-val="{{false}}">
-<div style="position: absolute; left: {{hist.tip.left}}; top: 14%; transform: {{hist.tip.side}}; pointer-events: none; background: #12151D; border: 1px solid #3B4153; border-top: 1px solid #C9A55C; padding: 10px 14px; display: flex; flex-direction: column; gap: 6px; min-width: 190px; box-shadow: 0 14px 34px -14px rgba(0,0,0,0.85)">
-<span style="font-size: 13px; color: #A39C8E">{{hist.tip.day}}</span>
-<sc-for list="{{hist.tip.rows}}" as="r" hint-placeholder-count="2">
-<span style="display: flex; align-items: center; gap: 9px; font-size: 14px; color: #EEE8DC"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{r.color}}"></span><span style="flex: 1; color: #C8C1B3">{{r.label}}</span><span style="font-variant-numeric: tabular-nums">{{r.val}}</span></span>
-</sc-for>
-</div>
-</sc-if>
-</div>
-</sc-if>
-<sc-if value="{{histTable}}" hint-placeholder-val="{{false}}">
-<table style="width: 100%; border-collapse: collapse; font-size: 14.5px">
-<thead><tr><th scope="col" style="text-align: left; font-weight: 500; color: #A39C8E; padding: 10px 12px 10px 0; border-bottom: 1px solid #3B4153">Day</th>
-<sc-for list="{{hist.heads}}" as="h" hint-placeholder-count="2"><th scope="col" style="text-align: right; font-weight: 500; color: #A39C8E; padding: 10px 0 10px 12px; border-bottom: 1px solid #3B4153">{{h.label}}</th></sc-for>
-</tr></thead>
-<tbody>
-<sc-for list="{{hist.table}}" as="r" hint-placeholder-count="3">
-<tr><th scope="row" style="text-align: left; font-weight: 400; color: #C8C1B3; padding: 9px 12px 9px 0; border-bottom: 1px solid #20242F">{{r.day}}</th>
-<sc-for list="{{r.vals}}" as="v" hint-placeholder-count="2"><td style="text-align: right; font-variant-numeric: tabular-nums; color: #EEE8DC; padding: 9px 0 9px 12px; border-bottom: 1px solid #20242F">{{v.val}}</td></sc-for>
-</tr>
-</sc-for>
-</tbody>
-</table>
-</sc-if>
-<p style="margin: 14px 0 0; font-size: 13.5px; line-height: 1.55; color: #8C8678">{{hist.note}}</p>
-</div>
-</section>
-
-<section id="quotes" aria-labelledby="quotes-title" style="padding: {{L.sec}} {{L.gutter}} 0">
-<div style="max-width: 1320px; margin: 0 auto">
-<div style="display: flex; flex-direction: column; gap: 16px; max-width: 820px; margin-bottom: 30px">
-<p style="margin: 0; font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.22em; color: #C9A55C">IV · Every quote</p>
-<h2 id="quotes-title" style="margin: 0; font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-weight: 600; font-size: {{L.h2}}; line-height: 1.06; letter-spacing: -0.015em; text-wrap: balance">Who charges what for {{gpuA}}.</h2>
-<p style="margin: 0; font-size: 17px; line-height: 1.6; color: #C8C1B3">{{qv.summary}} Each bar is one provider’s cheapest public price; the lines are today’s fixings.</p>
-</div>
-<div style="display: flex; flex-direction: {{L.twoCol}}; gap: 32px 40px; align-items: flex-start">
-<div style="flex: 1 1 0; min-width: 0; width: 100%">
-<div aria-hidden="true" style="display: grid; grid-template-columns: {{L.quoteName}} minmax(0, 1fr) 70px; gap: 0 16px; padding: 0 12px 10px">
-<span></span>
-<div style="position: relative; height: 62px">
-<sc-for list="{{qv.marks}}" as="m" hint-placeholder-count="2">
-<span style="position: absolute; left: {{m.left}}; top: {{m.top}}; transform: {{m.side}}; font-size: 12.5px; color: #C8C1B3; white-space: nowrap; display: inline-flex; align-items: center; gap: 7px"><span style="width: 8px; height: 8px; border-radius: 50%; background: {{m.color}}"></span>{{m.label}}</span>
-</sc-for>
-<sc-for list="{{qv.ticks}}" as="k" hint-placeholder-count="5">
-<span style="position: absolute; left: {{k.left}}; bottom: 0; transform: {{k.edge}}; font-size: 12px; font-variant-numeric: tabular-nums; color: #8C8678">{{k.label}}</span>
-</sc-for>
-</div>
-<span></span>
-</div>
-<div role="list" aria-label="{{qv.summary}}" style="border-top: 1px solid #3B4153">
-<sc-for list="{{qv.rows}}" as="r" hint-placeholder-count="8">
-<div role="listitem" style="display: grid; grid-template-columns: {{L.quoteName}} minmax(0, 1fr) 70px; gap: 0 16px; align-items: stretch; padding: 0 12px; border-bottom: 1px solid #1A1D25; background: {{r.bg}}; box-shadow: {{r.edge}}">
-<button type="button" aria-pressed="{{r.pressed}}" aria-label="{{r.aria}}, open the profile" onClick="{{r.pick}}" style="appearance: none; background: none; border: 0; margin: 0; padding: 10px 0; font: inherit; color: #EEE8DC; text-align: left; cursor: pointer; display: flex; flex-direction: column; gap: 2px; min-width: 0" style-hover="color: #FFFFFF">
-<span style="display: flex; align-items: center; gap: 9px; font-size: 15px; font-weight: 500; min-width: 0"><span aria-hidden="true" style="flex: none; width: 9px; height: 9px; border-radius: 50%; background: {{r.dot}}; box-shadow: {{r.ring}}"></span><span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-decoration: underline; text-decoration-color: #3B4153; text-underline-offset: 4px">{{r.name}}</span></span>
-<span style="font-size: 12px; color: #8C8678; padding-left: 18px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.sku}}</span>
-</button>
-<div style="position: relative; min-height: 52px">
-<sc-for list="{{qv.ticks}}" as="k" hint-placeholder-count="5">
-<span aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: {{k.left}}; width: 1px; background: #15181F"></span>
-</sc-for>
-<span aria-hidden="true" style="position: absolute; left: 0; top: calc(50% - 7px); height: 14px; width: {{r.width}}; background: {{r.bar}}; border: {{r.bd}}; box-sizing: border-box; border-radius: 0 4px 4px 0; transition: width 0.6s cubic-bezier(.2,.8,.2,1)"></span>
-<sc-for list="{{qv.marks}}" as="m" hint-placeholder-count="2">
-<span aria-hidden="true" style="position: absolute; top: 0; bottom: 0; left: {{m.left}}; width: 1px; background: {{m.color}}; opacity: 0.85"></span>
-</sc-for>
-</div>
-<span style="align-self: center; text-align: right; font-size: 14.5px; font-variant-numeric: tabular-nums; color: #EEE8DC">{{r.price}}</span>
-</div>
-</sc-for>
-</div>
-</div>
-<aside aria-label="Provider profile" style="flex: 0 0 auto; width: {{L.asideW}}; max-width: 100%; position: {{L.asidePos}}; top: 92px">
-<sc-if value="{{hasSelProfile}}" hint-placeholder-val="{{false}}">
-<sc-for list="{{selProfile}}" as="pf" hint-placeholder-count="1">
-<article aria-label="{{pf.name}}, provider profile" style="background: #0C0E13; border: 1px solid #2C3140; box-shadow: inset 0 1px 0 rgba(201,165,92,0.35); padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 16px; min-width: 0">
-<div style="display: flex; align-items: flex-start; gap: 12px">
-<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px">
-<span style="display: inline-flex; align-items: center; gap: 9px; font-size: 13px; color: #A39C8E"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; flex: none; background: {{pf.fill}}; box-shadow: {{pf.ring}}"></span>{{pf.status}}</span>
-<h3 style="margin: 0; font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-weight: 600; font-size: 33px; line-height: 1.08; color: #EEE8DC">{{pf.name}}</h3>
-<sc-if value="{{pf.hasAka}}" hint-placeholder-val="{{false}}">
-<span style="font-size: 13px; color: #8C8678">{{pf.aka}}</span>
-</sc-if>
-<span style="font-size: 14px; line-height: 1.45; color: #A39C8E">{{pf.entity}}</span>
-</div>
-<button type="button" aria-label="Close the profile" onClick="{{pf.close}}" style="appearance: none; cursor: pointer; flex: none; width: 40px; height: 40px; border: 1px solid #2C3140; background: transparent; color: #A39C8E; display: flex; align-items: center; justify-content: center; padding: 0" style-hover="color: #EEE8DC; border-color: #9C7F45">
-<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg>
-</button>
-</div>
-<ul role="list" aria-label="The three tests of the sovereignty rule" style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; border-top: 1px solid #20242F">
-<sc-for list="{{pf.tests}}" as="t" hint-placeholder-count="3">
-<li style="display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #20242F; font-size: 14px; color: #C8C1B3">
-<span aria-hidden="true" style="flex: none; width: 24px; height: 24px; border-radius: 50%; border: 1px solid {{t.bd}}; color: {{t.color}}; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600">{{t.mark}}</span>
-<span style="flex: 1; min-width: 0">{{t.label}}</span>
-<span style="font-size: 13px; color: {{t.color}}; font-weight: 500">{{t.word}}</span>
-</li>
-</sc-for>
-</ul>
-<dl style="margin: 0; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 8px 14px; font-size: 14px; line-height: 1.45">
-<dt style="font-family: 'Cinzel', Georgia, serif; font-size: 11.5px; font-weight: 600; letter-spacing: 0.12em; color: #8C8678; padding-top: 2px">Controlled by</dt><dd style="margin: 0; color: #C8C1B3">{{pf.control}}</dd>
-<dt style="font-family: 'Cinzel', Georgia, serif; font-size: 11.5px; font-weight: 600; letter-spacing: 0.12em; color: #8C8678; padding-top: 2px">Prices</dt><dd style="margin: 0; color: #C8C1B3">{{pf.collection}}</dd>
-</dl>
-<p style="margin: 0; font-size: 14.5px; line-height: 1.6; color: #EEE8DC; border-left: 2px solid {{pf.color}}; padding-left: 14px">{{pf.why}}</p>
-<sc-if value="{{pf.hasDecision}}" hint-placeholder-val="{{false}}">
-<p style="margin: 0; font-size: 13.5px; line-height: 1.55; color: #E2C27D">{{pf.decision}}</p>
-</sc-if>
-<sc-if value="{{pf.hasDisc}}" hint-placeholder-val="{{false}}">
-<ul style="margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.55; color: #A39C8E">
-<sc-for list="{{pf.disc}}" as="d" hint-placeholder-count="1">
-<li>{{d.text}}</li>
-</sc-for>
-</ul>
-</sc-if>
-<sc-if value="{{pf.hasPrices}}" hint-placeholder-val="{{true}}">
-<div style="display: flex; flex-direction: column">
-<span style="font-family: 'Cinzel', Georgia, serif; font-size: 11.5px; font-weight: 600; letter-spacing: 0.14em; color: #C9A55C; padding-bottom: 6px">Cheapest public price, per GPU-hour</span>
-<sc-for list="{{pf.prices}}" as="r" hint-placeholder-count="4">
-<div style="display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; gap: 12px; align-items: baseline; padding: 7px 0; border-top: 1px solid #20242F; font-size: 14px">
-<span style="font-weight: 600; color: #EEE8DC">{{r.label}}</span>
-<span style="font-size: 12.5px; color: #8C8678; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{r.sku}}</span>
-<span style="font-variant-numeric: tabular-nums; color: #EEE8DC">{{r.price}}</span>
-</div>
-</sc-for>
-</div>
-</sc-if>
-<div style="display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 13.5px">
-<sc-for list="{{pf.links}}" as="l" hint-placeholder-count="2">
-<a href="{{l.href}}" target="_blank" rel="noopener" style="color: #8FBCF3; text-underline-offset: 3px; max-width: 100%">{{l.label}} ↗</a>
-</sc-for>
-</div>
-</article>
-</sc-for>
-</sc-if>
-<sc-if value="{{noSelProfile}}" hint-placeholder-val="{{true}}">
-<div style="border: 1px solid #2C3140; padding: 22px; display: flex; flex-direction: column; gap: 12px; background: #0A0C10">
-<span style="font-family: 'Cinzel', Georgia, serif; font-size: 12px; font-weight: 600; letter-spacing: 0.16em; color: #C9A55C">Who is behind each price</span>
-<p style="margin: 0; font-size: 15px; line-height: 1.6; color: #C8C1B3">Pick a provider to see where it is registered, who controls it, how its prices are read and why it is, or is not, in the sovereign basket.</p>
-<p style="margin: 0; font-size: 14px; line-height: 1.6; color: #8C8678">{{facts.providers}} clouds checked against one rule: {{facts.nSov}} sovereign, {{facts.nRev}} under review, {{facts.nNon}} not sovereign. A bar with only an outline is a provider under review.</p>
-</div>
-</sc-if>
-</aside>
-</div>
+<div style="max-width: 1320px; margin: 22px auto 0; padding: 0 {{L.gutter}}">
+<a href="Index.dc.html" style="display: grid; grid-template-columns: {{L.moreCols}}; gap: 18px 28px; align-items: center; padding: 22px 26px; border: 1px solid #2C3140; background: linear-gradient(90deg, rgba(57,135,229,0.06), rgba(201,165,92,0.05)); text-decoration: none; color: #EEE8DC" style-hover="border-color: #C9A55C">
+<span style="display: flex; flex-direction: column; gap: 4px"><span style="font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-weight: 600; font-size: 28px; line-height: 1.1">The full index</span><span style="font-size: 14.5px; color: #A39C8E">Every fixing, every quote, every day since 20 October 2026.</span></span>
+<span style="display: flex; flex-wrap: wrap; gap: 8px 28px; font-size: 14px; color: #C8C1B3"><span><strong style="font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-weight: 600; font-size: 24px; color: #EEE8DC">{{more.nFix}}</strong> fixings</span><span><strong style="font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-weight: 600; font-size: 24px; color: #EEE8DC">{{more.obs}}</strong> prices sealed</span><span><strong style="font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-weight: 600; font-size: 24px; color: #EEE8DC">{{more.providers}}</strong> clouds watched</span></span>
+<span style="font-size: 15px; font-weight: 500; color: #E2C27D; white-space: nowrap">Open the index →</span>
+</a>
 </div>
 </section>
 
@@ -637,7 +331,7 @@ a{color:#8FBCF3}a:hover{color:#CFE1FA}
 <figcaption style="font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-style: italic; font-size: 16.5px; line-height: 1.45; color: #A39C8E; text-align: center; text-wrap: balance">Andrea Palladio, Villa La Rotonda, Vicenza, 1567–1592: a portico on every side.</figcaption>
 </figure>
 <div style="display: flex; flex-direction: column; gap: 20px; min-width: 0">
-<p style="margin: 0; font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.22em; color: #C9A55C">V · How it works</p>
+<p style="margin: 0; font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.22em; color: #C9A55C">II · How it works</p>
 <h2 id="how-title" style="margin: 0; font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-weight: 600; font-size: {{L.h2}}; line-height: 1.04; letter-spacing: -0.01em; text-wrap: balance">Four porticos, <em style="font-style: italic; font-weight: 500; color: #8FBCF3">one price.</em></h2>
 <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #C8C1B3; text-wrap: pretty">Palladio gave his villa a portico on every side. The index stands on four steps, repeated every morning.</p>
 <ol style="list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; border-top: 1px solid #2C3140">
@@ -660,15 +354,15 @@ a{color:#8FBCF3}a:hover{color:#CFE1FA}
 
 <section id="ledger" aria-labelledby="ledger-title" style="margin-top: {{L.sec}}; position: relative; background: #07080B">
 <div style="position: relative; height: {{L.libH}}; overflow: hidden">
-<img src="/_blob/0f13af6914d683e6924be5e440156364" alt="Étienne-Louis Boullée's design for the Royal Library, redrawn in gold on black: a vast vaulted hall lined with terraces of books." loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 58%; display: block; opacity: 0.92">
-<div aria-hidden="true" style="position: absolute; inset: 0; background: linear-gradient(180deg, #07080B 0%, rgba(7,8,11,0) 22%, rgba(7,8,11,0) 55%, #07080B 100%)"></div>
-<span style="position: absolute; right: 14px; top: 14px; font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-style: italic; font-size: 14.5px; color: #C8C1B3">Étienne-Louis Boullée, Royal Library, 1785 · BnF</span>
+<canvas ref="{{setLibrary}}" role="img" aria-label="{{rec.aria}}" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: grab; touch-action: pan-y"></canvas>
+<div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, #07080B 0%, rgba(7,8,11,0) 16%, rgba(7,8,11,0) 60%, #07080B 100%)"></div>
+<span style="position: absolute; right: 14px; top: 14px; font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-style: italic; font-size: 15px; color: #A39C8E">After Étienne-Louis Boullée, Royal Library, 1785, drawn in code. The six bright books are the last six fixings.</span>
 </div>
 <div style="position: relative; padding: 0 {{L.gutter}}; margin-top: {{L.libPull}}">
 <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-direction: column; gap: 26px">
 <div style="display: flex; flex-direction: column; gap: 16px; max-width: 800px">
-<p style="margin: 0; font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.22em; color: #C9A55C">VI · The ledger</p>
-<h2 id="ledger-title" style="margin: 0; font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-weight: 600; font-size: {{L.h2}}; line-height: 1.06; letter-spacing: -0.015em; text-wrap: balance">Every number kept, like a book in Boullée’s library.</h2>
+<p style="margin: 0; font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.22em; color: #C9A55C">III · The record</p>
+<h2 id="ledger-title" style="margin: 0; font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-weight: 600; font-size: {{L.h2}}; line-height: 1.06; letter-spacing: -0.015em; text-wrap: balance">Every price kept, <em style="font-style: italic; font-weight: 500; color: #8FBCF3">like a book on a shelf.</em></h2>
 <p style="margin: 0; font-size: 17px; line-height: 1.6; color: {{rec.msgColor}}">{{rec.msg}}</p>
 </div>
 <div style="display: flex; flex-direction: {{L.tabletDir}}; gap: 0; align-items: stretch">
@@ -703,7 +397,7 @@ a{color:#8FBCF3}a:hover{color:#CFE1FA}
 <section id="road" aria-labelledby="road-title" style="padding: {{L.sec}} {{L.gutter}} 0">
 <div style="max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: {{L.roadCols}}; gap: 28px 64px; align-items: center">
 <div style="display: flex; flex-direction: column; gap: 20px; min-width: 0">
-<p style="margin: 0; font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.22em; color: #C9A55C">VII · The road ahead</p>
+<p style="margin: 0; font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.22em; color: #C9A55C">IV · The road ahead</p>
 <h2 id="road-title" style="margin: 0; font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-weight: 600; font-size: {{L.h2}}; line-height: 1.04; letter-spacing: -0.01em; text-wrap: balance">From a price <em style="font-style: italic; font-weight: 500; color: #8FBCF3">to a market.</em></h2>
 <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #C8C1B3; text-wrap: pretty">Three openings, one after the other. The index comes first; the rest only with the partners and licences each step needs.</p>
 <div role="group" aria-label="Phases" style="display: flex; flex-direction: column; gap: 8px">
@@ -734,7 +428,7 @@ a{color:#8FBCF3}a:hover{color:#CFE1FA}
 <section id="contact" aria-labelledby="contact-title" style="padding: {{L.sec}} {{L.gutter}} {{L.sec}}">
 <div style="max-width: 860px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 18px; position: relative; padding: 56px clamp(22px, 5vw, 64px) 50px; border: 1px solid rgba(201,165,92,0.45)">
 <span aria-hidden="true" style="position: absolute; inset: 6px; border: 1px solid rgba(201,165,92,0.14); pointer-events: none"></span>
-<p style="margin: 0; font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.22em; color: #C9A55C">VIII · Contact</p>
+<p style="margin: 0; font-family: 'Cinzel', Georgia, serif; font-size: 13px; font-weight: 600; letter-spacing: 0.22em; color: #C9A55C">V · Contact</p>
 <h2 id="contact-title" style="margin: 0; font-family: 'Cormorant Garamond', Garamond, Georgia, serif; font-weight: 600; font-size: {{L.h2}}; line-height: 1.06; letter-spacing: -0.015em; text-wrap: balance">Built in Europe, for Europe.</h2>
 <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #C8C1B3; max-width: 30em">We are speaking with providers, buyers and investors. If you run GPUs in Europe, or buy them, write to us.</p>
 <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 6px">
@@ -777,7 +471,7 @@ a{color:#8FBCF3}a:hover{color:#CFE1FA}
 </footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"ambient":{"editor":"boolean","default":true,"section":"Motion"},"$preview":{"width":1440,"height":9013}}'>
+<script type="text/x-dc" data-dc-script data-props='{"ambient":{"editor":"boolean","default":true,"section":"Motion"},"$preview":{"width":1440,"height":6074}}'>
 const IMG = {"dots":"/_blob/062d75ea86a55d625e48e76e255d0526","augustus":"/_blob/01c8be1bdc8194a88edbfa46df1efb36","library":"/_blob/0f13af6914d683e6924be5e440156364","temple":"/_blob/101df7df33a79c46ee06a03d61fd4f10","newton":"/_blob/d776a5cb02ae53fee7a4eb6fe8cf9ace","italica":"/_blob/d9729df7518aba33af770aba44604c68","thorvenus":"/_blob/441fdde704b78077047d1b537a30ef1a"};
 
 // Real data from the CompEU ledger and registry. Rebuilt from the repository by
@@ -1215,7 +909,7 @@ attribute vec3 aPos; attribute vec3 aNor; attribute float aSeed;
 attribute vec3 aTarget; attribute float aTone; attribute float aGroup;
 attribute vec3 aPrev; attribute float aPrevTone;
 uniform float uYaw, uPitch, uAspect, uTime, uAssemble, uSize, uDpr, uZoom, uMouseOn, uScan, uMorph, uHi, uSwap;
-uniform vec2 uMouse; uniform vec3 uLight; uniform vec3 uTones[6]; uniform vec4 uGroupLit, uGroupFail;
+uniform vec2 uMouse; uniform vec3 uLight; uniform vec3 uTones[6]; uniform vec4 uGroupLit, uGroupFail, uGroupLit2, uGroupFail2;
 varying float vI; varying float vScan; varying float vSeed; varying float vM; varying float vHi; varying float vGlass; varying float vFail; varying vec3 vTone;
 mat3 rotY(float a){ float c = cos(a), s = sin(a); return mat3(c, 0., -s, 0., 1., 0., s, 0., c); }
 mat3 rotX(float a){ float c = cos(a), s = sin(a); return mat3(1., 0., 0., 0., c, s, 0., -s, c); }
@@ -1230,6 +924,12 @@ void main(){
   vec3 n = normalize(R * aNor);
   float camZ = 3.4 / uZoom;
   float z = camZ - p.z;
+  if (z < 0.12) {
+    // behind or too close to the eye (inside a building): not drawn
+    gl_Position = vec4(3., 3., 0., 1.);
+    gl_PointSize = 0.;
+    return;
+  }
   vec2 ndc = vec2(p.x / uAspect, p.y) * (2.75 / z);
   vec2 d = ndc - uMouse;
   float dist = length(d * vec2(uAspect, 1.));
@@ -1249,11 +949,14 @@ void main(){
   // groups 0..9 are parts of a building, 10..19 the glass of its openings
   vGlass = aGroup > 9.5 ? 1. : 0.;
   float grp = aGroup - 10. * vGlass;
-  // groups 0..3 can also be lit (or marked as failing) all at once
-  vec4 sel = vec4(equal(vec4(floor(grp + 0.5)), vec4(0., 1., 2., 3.)));
-  vHi = max((uHi > -0.5 && abs(grp - uHi) < 0.5) ? 1. : 0., dot(uGroupLit, sel));
-  vFail = dot(uGroupFail, sel);
-  gl_PointSize = uSize * uDpr * (2.75 / z) * (0.75 + 0.5 * fract(aSeed * 91.3)) * (1. + 0.35 * vHi * (1. - vGlass) + 0.35 * vHi * vGlass);
+  // groups 0..7 can also be lit (or marked as failing) all at once
+  float gi = floor(grp + 0.5);
+  vec4 sel = vec4(equal(vec4(gi), vec4(0., 1., 2., 3.)));
+  vec4 sel2 = vec4(equal(vec4(gi), vec4(4., 5., 6., 7.)));
+  vHi = max((uHi > -0.5 && abs(grp - uHi) < 0.5) ? 1. : 0., dot(uGroupLit, sel) + dot(uGroupLit2, sel2));
+  vFail = dot(uGroupFail, sel) + dot(uGroupFail2, sel2);
+  vHi *= 1. - vFail;
+  gl_PointSize = uSize * uDpr * (2.75 / z) * (0.75 + 0.5 * fract(aSeed * 91.3)) * (1. + 0.35 * vHi * (1. - vGlass) + 0.35 * vHi * vGlass + 0.4 * vFail);
 }`;
 
 const SCULPT_FS = `
@@ -1269,7 +972,7 @@ void main(){
   col = mix(col, vTone * (0.62 + 0.3 * vI), vM);
   col = mix(col, uHiCol * (0.85 + 0.35 * vI), vHi);
   col = mix(col, vec3(1., 0.92, 0.76), vHi * vGlass * 0.3);
-  col = mix(col, uFailCol * (0.75 + 0.4 * vI), vFail * (1. - vGlass) * 0.85);
+  col = mix(col, uFailCol * (0.85 + 0.4 * vI), vFail * (1. - vGlass));
   float spark = step(0.996, fract(vSeed * 311.7)) * (1. - vM) * (1. - vGlass);
   col = mix(col, uGold * 1.4, spark);
   // glass is almost invisible until its opening is lit
@@ -1376,7 +1079,7 @@ function mountSculpture(canvas, opts) {
   gl.useProgram(prog);
   const U = (name) => gl.getUniformLocation(prog, name);
   const calm = !!opts.calm;
-  const st = { n: 0, yaw: opts.yaw || 0, pitch: opts.pitch || 0, mouse: [9, 9], mouseOn: 0, mouseTarget: 0, t0: 0, raf: 0, drag: null, idle: 0, alive: true, morph: 0, morphTarget: 0, turn: null, hi: -1, glit: [0, 0, 0, 0], gfail: [0, 0, 0, 0], spec: null, loaded: false, swap: 1, target: null, tone: null };
+  const st = { n: 0, yaw: opts.yaw || 0, pitch: opts.pitch || 0, mouse: [9, 9], mouseOn: 0, mouseTarget: 0, t0: 0, raf: 0, drag: null, idle: 0, alive: true, morph: 0, morphTarget: 0, turn: null, hi: -1, glit: [0, 0, 0, 0, 0, 0, 0, 0], gfail: [0, 0, 0, 0, 0, 0, 0, 0], spec: null, loaded: false, swap: 1, target: null, tone: null };
   const buffers = {};
 
   const attr = (name, arr, size) => {
@@ -1544,8 +1247,10 @@ function mountSculpture(canvas, opts) {
     gl.uniform1f(U('uScan'), calm ? 0 : 1);
     gl.uniform1f(U('uMorph'), st.morph);
     gl.uniform1f(U('uHi'), st.hi);
-    gl.uniform4fv(U('uGroupLit'), st.glit);
-    gl.uniform4fv(U('uGroupFail'), st.gfail);
+    gl.uniform4fv(U('uGroupLit'), st.glit.slice(0, 4));
+    gl.uniform4fv(U('uGroupFail'), st.gfail.slice(0, 4));
+    gl.uniform4fv(U('uGroupLit2'), st.glit.slice(4, 8));
+    gl.uniform4fv(U('uGroupFail2'), st.gfail.slice(4, 8));
     gl.uniform1f(U('uSwap'), calm ? 1 : st.swap);
     // the same light per pixel whatever the number of columns and the canvas size
     const cssH = canvas.height / (st.dpr || 1);
@@ -1571,10 +1276,10 @@ function mountSculpture(canvas, opts) {
     setMorph(on) { st.morphTarget = on ? 1 : 0; },
     turnTo(yaw) { st.turn = yaw; st.idle = performance.now(); },
     highlight(group) { st.hi = group == null ? -1 : group; },
-    // per group 0..3: how lit it is (0..1), and whether its frame shows a failure
+    // per group 0..7: how lit it is (0..1), and whether its frame shows a failure
     lightGroups(lit, fail) {
-      st.glit = [0, 1, 2, 3].map((i) => (lit && lit[i]) || 0);
-      st.gfail = [0, 1, 2, 3].map((i) => (fail && fail[i]) || 0);
+      st.glit = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => (lit && lit[i]) || 0);
+      st.gfail = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => (fail && fail[i]) || 0);
     },
   };
 }
@@ -1807,6 +1512,59 @@ function triforaPoints() {
   return k.done(1);
 }
 
+// Étienne-Louis Boullée's Royal Library (1785): a long nave under a coffered barrel
+// vault lit from a slit at its crown, lined on both sides by terraces of books with a
+// colonnade along the top, closed by a great arch. Groups 0..5 are six books on the
+// right-hand shelf, one per sealed fixing (the oldest farthest away); group 6 is the
+// light in the far arch.
+function libraryPoints() {
+  const k = archKit(1785, 1150);
+  const L0 = -6, L1 = 1, Wn = 1, tierH = 0.32, tierD = 0.26, tiers = 4;
+  k.box(-Wn, Wn, -0.01, 0, L0, L1, -1, 'Y', null, 0.15);
+  for (const side of [-1, 1]) {
+    for (let t = 0; t < tiers; t++) {
+      // the face of a tier is a wall of books: points gather on three shelf boards
+      const x = side * (Wn + t * tierD), y0 = t * tierH, n = Math.round((L1 - L0) * tierH * 1150 * 1.3);
+      for (let i = 0; i < n; i++) {
+        let y = y0 + k.rnd() * tierH;
+        if (k.rnd() < 0.3) y = y0 + Math.round(((y - y0) / tierH) * 3) * (tierH / 3);
+        k.add(x, y, L0 + k.rnd() * (L1 - L0), -side, 0, 0, -1);
+      }
+      const xa = side * (Wn + t * tierD), xb = side * (Wn + (t + 1) * tierD);
+      k.box(Math.min(xa, xb), Math.max(xa, xb), y0 + tierH, y0 + tierH + 0.004, L0, L1, -1, 'Y', null, 0.4);
+    }
+    const xc = side * (Wn + tiers * tierD + 0.04), yb = tiers * tierH;
+    for (let z = L0 + 0.2; z <= L1; z += 0.44) k.column(xc, z, 0.034, yb, yb + 0.86, -1, 12);
+    k.box(Math.min(xc - 0.07, xc + 0.07), Math.max(xc - 0.07, xc + 0.07), yb + 0.86, yb + 0.95, L0, L1, -1, 'xXy', null, 0.7);
+  }
+  // the barrel vault: coffers drawn by their ribs, open along the crown
+  const R = Wn + tiers * tierD + 0.04, cy = tiers * tierH + 0.95;
+  const nV = Math.round(Math.PI * R * (L1 - L0) * 1150 * 0.7);
+  for (let i = 0; i < nV; i++) {
+    const a = k.rnd() * Math.PI, z = L0 + k.rnd() * (L1 - L0);
+    if (Math.abs(a - Math.PI / 2) < 0.08) continue;
+    const onRib = Math.abs(((a / (Math.PI / 16)) % 1) - 0.5) > 0.4 || Math.abs((((z - L0) / 0.44) % 1) - 0.5) > 0.4;
+    if (!onRib && k.rnd() < 0.8) continue;
+    k.add(Math.cos(a) * R, cy + Math.sin(a) * R, z, -Math.cos(a), -Math.sin(a), 0, -1);
+  }
+  // the end wall and its great arch, with light behind it
+  const ar = 0.95, ay = 1.25;
+  const inArch = (x, y) => Math.abs(x) < ar && (y < ay || Math.hypot(x, y - ay) < ar);
+  k.box(-R, R, 0, cy + R, L0 - 0.02, L0, -1, 'Z', (f, x, y) => inArch(x, y) || Math.hypot(x, y - cy) > R + 0.02 && y > cy, 0.5);
+  k.arch(0, ay, ar, ar + 0.1, L0 - 0.06, L0, -1);
+  for (const x of [-ar - 0.05, ar + 0.05]) k.box(x - 0.05, x + 0.05, 0, ay, L0 - 0.06, L0, -1, 'zZxX');
+  for (let i = 0; i < 9000; i++) {
+    const x = (k.rnd() * 2 - 1) * ar, y = k.rnd() * (ay + ar);
+    if (inArch(x, y)) k.add(x, y, L0 - 0.3, 0, 0, 1, 16);
+  }
+  // six books, one per fixing, on the second tier at the reader's right hand
+  for (let b = 0; b < 6; b++) {
+    const z = -3.6 + b * 0.72, x = Wn + tierD - 0.014;
+    for (let i = 0; i < 260; i++) k.add(x, tierH + 0.03 + k.rnd() * 0.26, z + k.rnd() * 0.32, -1, 0, 0, b);
+  }
+  return k.done(1);
+}
+
 // ------------------------------------------------------------------ the map
 // Europe as dots on a dark floor, every data centre a column of light: its height
 // is the site's cheapest public price for the chosen GPU, its colour who controls it.
@@ -1897,7 +1655,6 @@ class Component extends DCLogic {
     super(props);
     this.state = {
       w: 1440, menu: false, gpu: 'h100', mapMode: 'price', mapSel: null,
-      qtip: null, hx: null, histTable: false, sel: null,
       altered: false, altHash: null, verified: 0,
       vData: false, vAspect: 0.9, vHover: null, step: 0, phase: 1, phaseHover: null, serAspect: 1.3,
     };
@@ -1923,12 +1680,13 @@ class Component extends DCLogic {
     this.syncVenus();
     this.syncHow();
     this.syncRoad();
+    this.syncLibrary();
   }
 
   componentWillUnmount() {
     this.stopMap();
     clearInterval(this.cycle);
-    for (const m of [this.venus, this.rot, this.ser]) if (m) m.stop();
+    for (const m of [this.venus, this.rot, this.ser, this.lib]) if (m) m.stop();
     if (this.rro) this.rro.disconnect();
   }
 
@@ -1986,6 +1744,30 @@ class Component extends DCLogic {
   }
 
   pickStep = (i) => { this.stepPinned = true; this.setState({ step: i }); };
+
+  // Boullée's library: six books are the last six fixings of the sealed chain.
+  setLibrary = (el) => {
+    if (el === this.libEl) return;
+    if (this.lib) this.lib.stop();
+    this.libEl = el;
+    this.lastLib = null;
+    this.lib = el ? mountSculpture(el, {
+      generate: libraryPoints, yaw: 0, pitch: 0.06, zoom: 1.6, size: 2.2, sway: 0.12, repel: 0,
+      hiColor: '#3987E5', light: [0.3, 0.5, 0.8], calm: this.calm(),
+    }) : null;
+    this.syncLibrary();
+  };
+
+  syncLibrary() {
+    if (!this.lib) return;
+    const { altered, verified } = this.state, key = altered + ':' + verified;
+    if (key === this.lastLib) return;
+    this.lastLib = key;
+    // books in the chain's order, oldest first; the light in the far arch stays on
+    const lit = [0, 1, 2, 3, 4, 5].map((i) => (verified > i && !(altered && i >= 1) ? 1 : 0.25)).concat([0.55]);
+    const fail = [0, 1, 2, 3, 4, 5].map((i) => (altered && (i === 1 || (i > 1 && verified > i)) ? 1 : 0));
+    this.lib.lightGroups(lit, fail);
+  }
 
   setSerliana = (el) => {
     if (el === this.serEl) return;
@@ -2578,11 +2360,10 @@ class Component extends DCLogic {
       rotH: phone ? '360px' : narrow ? '480px' : '620px',
       roadCols: narrow ? '1fr' : 'minmax(0, 5fr) minmax(0, 6fr)',
       serH: phone ? '290px' : narrow ? '440px' : '520px',
-      libH: phone ? '300px' : narrow ? '420px' : '560px',
-      libPull: phone ? '-40px' : '-120px',
+      libH: phone ? '340px' : narrow ? '460px' : '600px',
+      libPull: phone ? '-30px' : '-90px',
       tabletDir: narrow ? 'column' : 'row',
     };
-    const chartW = boardChartW(base.L, w);
 
     // Hero: the chosen GPU's fixing, against the US hyperscalers.
     const g = s.gpu, name = gpuName(g);
@@ -2673,14 +2454,6 @@ class Component extends DCLogic {
       aria: 'Interactive map of ' + nSites + ' GPU data centres run by ' + nProv + ' providers in Europe. Column height is the cheapest public ' + name + ' price at each site; blue is sovereign, orange is not. Drag to turn the map, click a column to open the provider.',
     };
 
-    // Board, record and quotes.
-    const board = boardVals(this, chartW);
-    const hist = historyVals(this, g, phone);
-    const qv = quotesVals(this, g, phone);
-    const selProfile = s.sel && PROV[s.sel] ? [profileOf(s.sel, () => this.setState({ sel: null }))] : [];
-    const covParts = String(D.cov || '0/0').split('/');
-    const covDots = [];
-    for (let i = 0; i < Number(covParts[1] || 0); i++) covDots.push({ key: i, bg: i < Number(covParts[0]) ? C.sov : 'transparent', ring: i < Number(covParts[0]) ? 'none' : 'inset 0 0 0 1px ' + C.line3 });
 
     // The record: the last fixings of the chain, as sealed tablets.
     if (!this.chain) this.chain = D.chain.slice(-6);
@@ -2709,6 +2482,7 @@ class Component extends DCLogic {
         : 'Each fixing is sealed with a SHA-256 hash that includes the seal before it. Change any past number and the chain breaks from that point on.',
       msgColor: s.altered ? C.usL : C.text,
       fixHead: D.fixHead, nFix: D.nFix, nRuns: D.nRuns, obs: D.obs.toLocaleString('en-GB'),
+      aria: 'Boullée’s Royal Library drawn as points of light: a long vaulted hall lined with terraces of books. Six bright books on the right are the last six fixings; they turn blue when their seals check out and orange when the chain is broken. Drag to look around.',
     };
 
     // The road ahead, through the three openings of a serliana.
@@ -2758,13 +2532,9 @@ class Component extends DCLogic {
     return {
       ...base, L,
       setVenus: this.setVenus, setMap: this.setMap, setRotonda: this.setRotonda, setSerliana: this.setSerliana,
-      hero, tab, vn, how, road, mp, board, hist, qv, selProfile, hasSelProfile: selProfile.length > 0, noSelProfile: selProfile.length === 0,
-      histTable: s.histTable, histChart: !s.histTable,
-      toggleHist: () => this.setState({ histTable: !s.histTable }),
-      histToggle: s.histTable ? 'Show the chart' : 'Show as a table',
-      gpuLabel: name, gpuA: aGpu(g),
-      cov: { big: covParts[0] + ' of ' + covParts[1], dots: covDots },
-      rec,
+      setLibrary: this.setLibrary,
+      hero, tab, vn, how, road, mp, rec,
+      more: { nFix: D.nFix, obs: D.obs.toLocaleString('en-GB'), providers: D.providers.length },
       facts: {
         collectors: collectors.length, offers: offers.toLocaleString('en-GB'),
         providers: D.providers.length, nSov: counts.sovereign, nRev: counts.under_review, nNon: counts.non_sovereign,
