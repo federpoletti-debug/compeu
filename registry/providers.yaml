@@ -440,6 +440,7 @@ providers:
     collection:
       method: none
       status: planned
+      source: https://stackit.com/en/prices/cloud
       note: >-
         Its public price list (PDF) gives the hourly price of each GPU server flavour
         (n1, n2, n3, 1 to 8 GPUs, Germany South) but not which GPU model each flavour
@@ -465,6 +466,7 @@ providers:
     collection:
       method: none
       status: planned
+      source: https://calculator.otc-service.com/en/open-telekom-price-api/
       note: >-
         Renamed T Cloud Public in 2025. H100 GPUs are offered as the p5s flavours in the
         eu-de region, but the public price API does not list GPU flavours yet. Collector
@@ -522,6 +524,7 @@ providers:
     collection:
       method: none
       status: planned
+      source: https://gcore.com/pricing/ai
       note: >-
         Publishes GPU prices on gcore.com/pricing/ai, but the static page does not say
         whether the numbers are on-demand or reserved, nor for which region. A collector
@@ -591,6 +594,7 @@ providers:
     collection:
       method: none
       status: planned
+      source: https://en.outscale.com/pricing/
       note: >-
         Its price page lists hourly GPU prices in euro (an A100 80 GB at €3.60 and an L40
         at €2.00 per hour in eu-west-2, as quoted by search results), but the site was
@@ -616,6 +620,7 @@ providers:
     collection:
       method: none
       status: planned
+      source: https://www.cloudscale.ch/en/pricing
       note: >-
         GPU servers with one to four NVIDIA RTX PRO 6000 Max-Q, "from less than CHF 4.10
         per hour". The price of each server is not printed in the page: the pricing page
@@ -640,6 +645,7 @@ providers:
     collection:
       method: none
       status: planned
+      source: https://elastx.se/en/gpu
       note: >-
         Publishes GPU flavours (A100, 2x A100, L4, L40S, RTX PRO 6000) with a monthly
         price in Swedish kronor, excl. VAT. Compute is billed by the hour, but no hourly
@@ -663,6 +669,7 @@ providers:
     collection:
       method: none
       status: planned
+      source: https://www.centron.de/en/pricing/gpu
       note: >-
         Publishes an hourly price per dedicated GPU (A100 40 GB €0.679, A100 80 GB €1.243,
         RTX 6000 Ada €1.192), but the vCPUs, memory and disk of the VM are billed on top
@@ -751,6 +758,7 @@ providers:
     collection:
       method: none
       status: planned
+      source: https://cloud.google.com/compute/gpus-pricing
       note: Cloud Billing Catalog API needs a free API key; planned for sprint 2.
 
   - id: coreweave
@@ -770,6 +778,7 @@ providers:
     collection:
       method: none
       status: no_public_api
+      source: https://www.coreweave.com/pricing
       note: Contract-driven pricing, no public price API. Reference only.
 
   - id: runpod
