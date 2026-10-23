@@ -6,9 +6,11 @@
 
 # Europe as dots, for the map (Natural Earth, public domain)
 062d75ea86a55d625e48e76e255d0526: {file: geo/europe-dots.json}
-# Statues as point clouds, from public 3D scans: the Venus de Milo cast at the SMK
-# Copenhagen (public domain) and the Augustus of the Musée Saint-Raymond (CC0)
-59dee99bdc77f4b782436efb1ce53cf0: {file: 3d/venus-points.json}
+# Statues as point clouds, from public 3D scans: casts of Canova's Venus Italica and
+# Thorvaldsen's Venus with the Apple at the SMK Copenhagen (public domain), and the
+# Augustus of the Musée Saint-Raymond (CC0)
+d9729df7518aba33af770aba44604c68: {file: 3d/italica-points.json}
+441fdde704b78077047d1b537a30ef1a: {file: 3d/thorvenus-points.json}
 01c8be1bdc8194a88edbfa46df1efb36: {file: 3d/augustus-points.json}
 # Engravings redrawn in gold on black (public domain, BnF)
 0f13af6914d683e6924be5e440156364:
@@ -20,5 +22,5 @@
   file: img/temple-night-1600.webp
   srcset: [img/temple-night-900.webp 900w, img/temple-night-1600.webp 1600w]
   sizes: "100vw"
-  loading: eager
+  loading: lazy
 d776a5cb02ae53fee7a4eb6fe8cf9ace: {file: img/newton-night-1536.webp, loading: lazy}

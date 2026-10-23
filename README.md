@@ -117,7 +117,7 @@ Exchange rates: ECB euro foreign exchange reference rates.
 
 ## Licence
 
-Code: MIT. Data: CC BY 4.0. Preact (MIT) and the fonts Bodoni Moda, Cinzel, Geist and
+Code: MIT. Data: CC BY 4.0. Preact (MIT) and the fonts Cormorant Garamond, Cinzel, Geist and
 Geist Mono (OFL) are vendored with their licences in `site/static/`. The engravings are
 public-domain works by Boullée and Piranesi (BnF, via Wikimedia Commons). The statues in
 `site/static/3d/` are point clouds made from public 3D scans: the Venus de Milo cast at
