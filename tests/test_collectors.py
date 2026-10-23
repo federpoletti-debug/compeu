@@ -480,3 +480,83 @@ def test_koyeb_keeps_regions_and_skips_restricted():
     ]
     assert str(offers[1].per_gpu_hour()) == "2.5"
     assert any("restricted" in p for p in f.problems)
+
+
+# ---- CloudFerro and evroc (added 24 Oct 2026)
+
+from compeu.collectors import cloudferro, evroc  # noqa: E402
+
+CF_PAGE = """<h2><strong>Virtual Machines with GPU in Passthrough mode</strong></h2>
+<table><thead><tr><th>Virtual Machines with GPU</th><th></th><th></th><th></th><th></th>
+<th></th></tr></thead>
+<tbody><tr><td><strong>VM Name</strong></td><td><strong>#vCores</strong></td>
+<td><strong>Virtual</strong></td><td><strong>vGPU RAM</strong></td>
+<td><strong>Price 1M</strong></td><td><strong>Price 1H</strong></td></tr>
+<tr><td>h100.1</td><td>30</td><td>no</td><td>80</td><td>4 243,72</td><td>6,290</td></tr>
+<tr><td>gpu.h200x4</td><td>160</td><td>no</td><td>564</td><td>19511,65</td><td>28,92</td></tr>
+</tbody></table>
+<h2>Virtual Machines with shared GPU</h2>
+<table><tbody><tr><td>VM Name</td><td>#vCores</td><td>Virtual</td><td>vGPU RAM</td>
+<td>Price 1M</td><td>Price 1H</td></tr>
+<tr><td>vm.100.4</td><td>15</td><td>1/2 H100</td><td>40</td><td>2 121,86</td><td>3,145</td></tr>
+<tr><td>vm.l40s.8</td><td>32</td><td>full L40S</td><td>48</td><td>1 329,11</td><td>1,970</td></tr>
+<tr><td>vgpu.rtx_pro_6000.96g</td><td>32</td><td>FULL RTX 6000 PRO</td><td>96</td>
+<td>1 416,82</td><td>2,100</td></tr></tbody></table>
+<h2>Spot GPU Virtual Machines (VMs)</h2>
+<table><tbody><tr><td>VM Name</td><td>#vCores</td><td>Virtual</td><td>vGPU RAM</td>
+<td>Price 1H</td></tr>
+<tr><td>spot.vm.l40s.8</td><td>32</td><td>full L40S</td><td>48</td><td>0,987</td></tr>
+</tbody></table>
+<h2>Virtual Machines (VM) with GPU</h2>
+<table><tbody><tr><td>VN Name</td><td>#vCores</td><td>Virtual</td><td>vGPU RAM</td>
+<td>Price 1H</td><td>Price 1M</td></tr>
+<tr><td>gpu.a100</td><td>16</td><td>100</td><td>40</td><td>7,381</td><td>5094,91</td></tr>
+</tbody></table>"""
+
+
+def test_cloudferro_keeps_whole_gpus_only():
+    rows = cloudferro.extract_rows(CF_PAGE, "waw4-1")
+    assert len(rows) == 7
+    offers = cloudferro.CloudFerro().parse(Fetched("u", rows))
+    got = [(o.sku, o.gpu_count, str(o.per_gpu_hour()), o.pricing_model) for o in offers]
+    assert got == [
+        ("h100.1", 1, "6.290", "on_demand"),
+        ("gpu.h200x4", 4, "7.23", "on_demand"),
+        ("vm.l40s.8", 1, "1.970", "on_demand"),
+        ("vgpu.rtx_pro_6000.96g", 1, "2.100", "on_demand"),
+        ("spot.vm.l40s.8", 1, "0.987", "spot"),
+    ]  # the half H100 and the A100 that does not say it is a whole card are left out
+    assert all(o.currency == "EUR" and o.region == "waw4-1" and o.country == "PL" for o in offers)
+    assert registry.normalize_gpu(offers[3].gpu_raw).model == "rtx-pro-6000"
+    assert offers[1].extra == {"gpu_memory_gb": "141"}
+
+
+def test_cloudferro_reads_the_price_column_by_name():
+    # the Frankfurt layout puts "Price 1H" before the monthly prices
+    rows = cloudferro.extract_rows(CF_PAGE, "waw4-1")
+    a100 = next(r for r in rows if r["name"] == "gpu.a100")
+    assert a100["price"] == "7,381"
+
+
+EVROC_PAGE = """<html><head>
+<title data-gatsby-head="true">NVIDIA B200 GPU VMs | Secure EU Cloud | evroc</title></head>
+<body><h1>GPUs. EU-based. Secure.<br/>Supercharged with NVIDIA B200.</h1>
+<p>Compared to the NVIDIA H100 GPU.</p>
+<h3>On-demand GPU VM</h3><p>From €8 / hour / GPU</p>
+<h3>Reserved 36 months</h3><p>From €6 / hour / GPU</p>
+</body></html>"""
+
+
+def test_evroc_reads_the_on_demand_price():
+    rows, problems = evroc.extract_rows(EVROC_PAGE)
+    assert rows == [{"gpu": "NVIDIA B200", "price": "8"}] and problems == []
+    (offer,) = evroc.Evroc().parse(Fetched("u", rows))
+    assert (offer.gpu_count, str(offer.per_gpu_hour()), offer.region) == (1, "8", "catalogue")
+    assert offer.pricing_model == "on_demand" and offer.currency == "EUR"
+
+
+def test_evroc_refuses_an_ambiguous_page():
+    extra = "<h3>On-demand GPU VM</h3><p>From €9 / hour / GPU</p><h3>Reserved"
+    two = EVROC_PAGE.replace("<h3>Reserved", extra)
+    rows, problems = evroc.extract_rows(two)
+    assert rows == [] and "one on-demand price" in problems[0]

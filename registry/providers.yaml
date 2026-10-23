@@ -398,22 +398,33 @@ providers:
   - id: cloudferro
     name: CloudFerro
     website: https://www.cloudferro.com
-    legal_entity: { name: CloudFerro, country: PL, city: Warsaw, confidence: provisional }
+    legal_entity: { name: CloudFerro S.A., country: PL, city: Warsaw, confidence: provisional }
     ultimate_controller:
-      name: Privately held, Polish
+      name: Founders (majority); Innova Capital, a Polish private equity firm, holds a minority stake since 2024
       country: PL
       extraterritorial_law: false
       confidence: provisional
     hq: { city: Warsaw, lat: 52.2297, lon: 21.0122 }
-    sites: []
-    locations_note: Data centres in Poland and Germany.
+    sites:
+      - { id: waw3-1, city: Warsaw, country: PL, lat: 52.2297, lon: 21.0122 }
+      - { id: waw3-2, city: Warsaw, country: PL, lat: 52.2297, lon: 21.0122 }
+      - { id: waw4-1, city: Warsaw, country: PL, lat: 52.2297, lon: 21.0122 }
+      - { id: lcj1-1, city: Łódź, country: PL, lat: 51.7592, lon: 19.4560 }
+      - { id: fra1-3, city: Frankfurt, country: DE, lat: 50.1109, lon: 8.6821 }
     collection:
-      method: none
-      status: planned
+      method: html
+      collector: cloudferro
+      source: https://cloudferro.com/pricing/pricing-tables/
       note: >-
-        Its Frankfurt price table lists a gpu.a100 flavour (40 GB of GPU memory, €7.381
-        per hour) and fractional A6000 vGPUs, but not the number of GPUs per flavour.
-        To confirm with CloudFerro before collecting.
+        Public pricing tables, one page per cloud, euro excl. VAT, pay-per-use price per
+        hour. Only whole GPUs are read: passthrough flavours whose name gives the number
+        of GPUs (h100.2, gpu.h200x4) and shared flavours marked "full" (a whole L40S or
+        RTX PRO 6000); fractions of a card are left out. The Frankfurt table (FRA1-3)
+        lists gpu.a100 without saying whether the VM gets a whole card, so Frankfurt is
+        not read until CloudFerro confirms it.
+    evidence:
+      - { claim: "Pricing tables per cloud, in euro excluding VAT, pay-per-use billed hourly", url: "https://cloudferro.com/pricing/pricing-tables/waw3-2-cloud/virtual-machines-vm-with-gpu/" }
+      - { claim: "Innova Capital bought a minority stake in CloudFerro from its shareholders in 2024", url: "https://rzmlaw.com/en/rymarz-zdort-maruta-advises-cloudferro-on-sale-of-minority-stake-to-innova-capital/" }
 
   - id: stackit
     name: STACKIT
@@ -534,6 +545,132 @@ providers:
       method: none
       status: no_public_price
       note: No public GPU price page found (its pricing page returns "not found").
+
+  # ---------------------------------------------------------------- added 24 Oct 2026
+  - id: evroc
+    name: evroc
+    website: https://evroc.com
+    legal_entity: { name: evroc AB, country: SE, city: Stockholm, confidence: provisional }
+    ultimate_controller:
+      name: Founders and European venture investors (blisce/, EQT Ventures, Norrsken VC; Giant Ventures of the UK as a minority)
+      country: SE
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Stockholm, lat: 59.3293, lon: 18.0686 }
+    sites: []
+    locations_note: >-
+      Partner data centres in Paris, Stockholm and Frankfurt; its own data centres are
+      being built in Stockholm (Arlandastad) and Mougins. The GPU page does not say which
+      one runs the GPU VMs.
+    collection:
+      method: html
+      collector: evroc
+      source: https://evroc.com/campaigns/gpu-vm/
+      catalogue_in_scope: true   # "No data leaves the EU": every evroc data centre is in the EU
+      note: >-
+        GPU page: on-demand price per GPU-hour in euro ("From €8 / hour / GPU") for NVIDIA
+        B200 VMs, and a reserved 36-month price that the index does not use. The page does
+        not say whether VAT is included; evroc sells to businesses.
+    evidence:
+      - { claim: "On-demand NVIDIA B200 GPU VMs from €8 per hour per GPU; no data leaves the EU", url: "https://evroc.com/campaigns/gpu-vm/" }
+      - { claim: "Offices in Stockholm, London and Sophia Antipolis; partner data centres in Paris, Stockholm and Frankfurt", url: "https://evroc.com/data-centers/" }
+      - { claim: "Series A of about €50 million led by blisce/ with EQT Ventures, Norrsken VC and Giant Ventures", url: "https://datacenterdynamics.com/en/news/swedish-data-center-firm-evroc-secures-55m-funding-from-blisce-giant-eqt" }
+
+  - id: 3ds-outscale
+    name: 3DS Outscale
+    website: https://en.outscale.com
+    legal_entity: { name: 3DS Outscale SAS, country: FR, city: Saint-Cloud, confidence: provisional }
+    ultimate_controller:
+      name: Dassault Systèmes SE (listed on Euronext Paris)
+      country: FR
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Saint-Cloud, lat: 48.8443, lon: 2.2195 }
+    sites: []
+    locations_note: SecNumCloud-qualified regions in France, and regions outside Europe.
+    collection:
+      method: none
+      status: planned
+      note: >-
+        Its price page lists hourly GPU prices in euro (an A100 80 GB at €3.60 and an L40
+        at €2.00 per hour in eu-west-2, as quoted by search results), but the site was
+        under maintenance on 23 October 2026. A collector follows once the page can be
+        read and checked.
+    evidence:
+      - { claim: "3DS Outscale is a single-shareholder SAS of Dassault Systèmes, seated in Saint-Cloud", url: "https://fr.outscale.com/wp-content/uploads/2024/06/SNC-Convention-SNC-ref-3.2-2024-05-13-prise-en-application-des-CGV-formulaire.docx" }
+      - { claim: "First cloud qualified SecNumCloud 3.2 by ANSSI, with GPUs", url: "https://www.3ds.com/fr/newsroom/press-releases/outscale-first-cloud-qualified-secnumcloud-32" }
+
+  - id: cloudscale
+    name: cloudscale.ch
+    website: https://www.cloudscale.ch
+    legal_entity: { name: cloudscale.ch AG, country: CH, city: Zurich, confidence: provisional }
+    ultimate_controller:
+      name: Founder Manuel Schweizer and Swiss investors (Cyberlink, a Swiss ICT company, reported to hold about 40% since 2024)
+      country: CH
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Zurich, lat: 47.3769, lon: 8.5417 }
+    sites:
+      - { id: rma1, city: Rümlang, country: CH, lat: 47.4500, lon: 8.5300 }
+      - { id: lpg1, city: Lupfig, country: CH, lat: 47.4400, lon: 8.2100 }
+    collection:
+      method: none
+      status: planned
+      note: >-
+        GPU servers with one to four NVIDIA RTX PRO 6000 Max-Q, "from less than CHF 4.10
+        per hour". The price of each server is not printed in the page: the pricing page
+        computes it in its script from the memory, cores, GPUs and scratch disk. To read
+        once cloudscale publishes the list, or confirms the formula.
+    evidence:
+      - { claim: "GPU servers with 1 to 4 RTX PRO 6000 Max-Q GPUs, from less than CHF 4.10 per hour", url: "https://www.cloudscale.ch/en/gpu" }
+      - { claim: "Data centres in Rümlang and Lupfig", url: "https://www.netzwoche.ch/news/2019-11-07/update-cloudscale-liefert-jetzt-wahlweise-aus-ruemlang-oder-lupfig" }
+
+  - id: elastx
+    name: Elastx
+    website: https://elastx.se
+    legal_entity: { name: Elastx AB, country: SE, city: Stockholm, confidence: provisional }
+    ultimate_controller:
+      name: Founders and Swedish owners (privately held)
+      country: SE
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Stockholm, lat: 59.3293, lon: 18.0686 }
+    sites:
+      - { id: se-sto, city: Stockholm, country: SE, lat: 59.3293, lon: 18.0686 }
+    collection:
+      method: none
+      status: planned
+      note: >-
+        Publishes GPU flavours (A100, 2x A100, L4, L40S, RTX PRO 6000) with a monthly
+        price in Swedish kronor, excl. VAT. Compute is billed by the hour, but no hourly
+        price is published, and the index does not turn monthly prices into hourly ones
+        without a rule for it.
+    evidence:
+      - { claim: "GPU flavours with monthly prices in SEK, all prices excl. VAT", url: "https://elastx.se/en/gpu" }
+
+  - id: centron
+    name: centron
+    website: https://www.centron.de
+    legal_entity: { name: centron GmbH, country: DE, city: Hallstadt, confidence: provisional }
+    ultimate_controller:
+      name: The Seucan family (managing directors; privately held)
+      country: DE
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Hallstadt, lat: 49.9294, lon: 10.8794 }
+    sites:
+      - { id: hallstadt, city: Hallstadt, country: DE, lat: 49.9294, lon: 10.8794 }
+    collection:
+      method: none
+      status: planned
+      note: >-
+        Publishes an hourly price per dedicated GPU (A100 40 GB €0.679, A100 80 GB €1.243,
+        RTX 6000 Ada €1.192), but the vCPUs, memory and disk of the VM are billed on top
+        and no smallest VM is stated. A GPU without a VM is not a usable price, so the
+        index waits for a rule (or a stated minimum VM) before reading it.
+    evidence:
+      - { claim: "Hourly prices per dedicated GPU, with vCPU, RAM and SSD billed separately", url: "https://www.centron.de/en/pricing/gpu" }
+      - { claim: "Own data centre in Hallstadt", url: "https://www.centron.de/en/" }
 
   # ---------------------------------------------------------------- non-sovereign benchmarks
   - id: aws

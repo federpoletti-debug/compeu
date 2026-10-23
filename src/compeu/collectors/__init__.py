@@ -2,6 +2,8 @@
 
 from .aws import AWS
 from .azure import Azure
+from .cloudferro import CloudFerro
+from .evroc import Evroc
 from .exoscale import Exoscale
 from .hetzner import Hetzner
 from .ionos import Ionos
@@ -29,6 +31,8 @@ _ORDER = (
     Leafcloud,
     Ionos,
     Koyeb,
+    CloudFerro,
+    Evroc,
     AWS,
     Azure,
     RunPod,
