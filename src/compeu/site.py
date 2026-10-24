@@ -390,6 +390,32 @@ def _provider(p: dict, decided: dict) -> dict:
     }
 
 
+def daily_bars(fixes: list[dict]) -> dict[str, list]:
+    """One bar per price index and day, for the market chart.
+
+    [date, open, high, low, close, quotes]: close is the day's fixing, open the fixing
+    of the day before (the first day opens at its own close), high and low the dearest
+    and cheapest constituent quote, quotes how many there were. A day without a
+    published fixing keeps its date with no prices, so the gap shows.
+    """
+    bars: dict[str, list] = defaultdict(list)
+    last: dict[str, float] = {}
+    for f in fixes:
+        if f.get("type") == "coverage" or str(f["index"]).startswith("CSC"):
+            continue
+        quotes = [float(c["quote_eur"]) for c in f.get("constituents") or [] if c.get("quote_eur")]
+        if f.get("status") != "published" or f.get("value") is None:
+            bars[f["index"]].append([f["date"], None, None, None, None, len(quotes)])
+            continue
+        close = float(f["value"])
+        open_ = last.get(f["index"], close)
+        high = max(quotes + [close, open_]) if quotes else max(close, open_)
+        low = min(quotes + [close, open_]) if quotes else min(close, open_)
+        bars[f["index"]].append([f["date"], open_, high, low, close, len(quotes)])
+        last[f["index"]] = close
+    return dict(bars)
+
+
 def design_data(data: dict) -> dict:
     """The compact data the artboards' logic reads (its `const D`), from build_data()."""
     prov = {p["id"]: p for p in data["providers"]}
@@ -432,6 +458,7 @@ def design_data(data: dict) -> dict:
     }
     fixes = ledger.fixings()
     last_day = fixes[-1]["date"] if fixes else None
+    ohlc = daily_bars(fixes)
     versions = []
     for path in sorted((registry.registry_dir() / "methodology").glob("index-v*.yaml")):
         m = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -467,6 +494,7 @@ def design_data(data: dict) -> dict:
             if f["date"] == last_day
         },
         "usd": usd,
+        "ohlc": ohlc,
         "cov": cov.get("value"),
         "covList": cov.get("providers"),
         "boards": boards,

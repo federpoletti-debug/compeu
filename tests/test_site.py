@@ -64,3 +64,31 @@ def test_design_data_matches_the_fixings(tmp_root):
     for pid, cells in live["cells"].items():
         for gpu, cell in cells.items():
             assert (pid, gpu, cell[0]) in offers
+
+
+def test_daily_bars_open_at_the_day_before_and_span_the_quotes():
+    from compeu.site import daily_bars
+
+    def fix(day, value, quotes, status="published"):
+        return {
+            "date": day,
+            "index": "CSX-H100",
+            "status": status,
+            "value": value,
+            "constituents": [{"quote_eur": q} for q in quotes],
+        }
+
+    bars = daily_bars(
+        [
+            fix("2026-10-20", "2.8665", ["2.8", "2.8665", "4.0"]),
+            {"date": "2026-10-20", "index": "CSC-FRONTIER", "type": "coverage", "value": "3/9"},
+            fix("2026-10-21", None, ["2.9"], status="insufficient"),
+            fix("2026-10-22", "3.4228", ["1.89", "3.4228", "4.2"]),
+        ]
+    )
+    assert list(bars) == ["CSX-H100"]
+    first, gap, third = bars["CSX-H100"]
+    assert first == ["2026-10-20", 2.8665, 4.0, 2.8, 2.8665, 3]
+    assert gap == ["2026-10-21", None, None, None, None, 1]
+    # opens at the last published fixing, wicks reach the cheapest and dearest quote
+    assert third == ["2026-10-22", 2.8665, 4.2, 1.89, 3.4228, 3]
