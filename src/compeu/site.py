@@ -390,30 +390,33 @@ def _provider(p: dict, decided: dict) -> dict:
     }
 
 
-def daily_bars(fixes: list[dict]) -> dict[str, list]:
-    """One bar per price index and day, for the market chart.
+def index_days(fixes: list[dict]) -> dict[str, list]:
+    """One point per price index and day, for the market chart.
 
-    [date, open, high, low, close, quotes]: close is the day's fixing, open the fixing
-    of the day before (the first day opens at its own close), high and low the dearest
-    and cheapest constituent quote, quotes how many there were. A day without a
-    published fixing keeps its date with no prices, so the gap shows.
+    [date, value, low, high, quotes, methodology, providers]: value is the day's
+    fixing, low and high the cheapest and dearest constituent quote, quotes how many
+    there were and providers whose. A day without a published fixing keeps its date
+    with no value, so the gap shows.
     """
-    bars: dict[str, list] = defaultdict(list)
-    last: dict[str, float] = {}
+    days: dict[str, list] = defaultdict(list)
     for f in fixes:
         if f.get("type") == "coverage" or str(f["index"]).startswith("CSC"):
             continue
-        quotes = [float(c["quote_eur"]) for c in f.get("constituents") or [] if c.get("quote_eur")]
-        if f.get("status") != "published" or f.get("value") is None:
-            bars[f["index"]].append([f["date"], None, None, None, None, len(quotes)])
-            continue
-        close = float(f["value"])
-        open_ = last.get(f["index"], close)
-        high = max(quotes + [close, open_]) if quotes else max(close, open_)
-        low = min(quotes + [close, open_]) if quotes else min(close, open_)
-        bars[f["index"]].append([f["date"], open_, high, low, close, len(quotes)])
-        last[f["index"]] = close
-    return dict(bars)
+        cons = [c for c in f.get("constituents") or [] if c.get("quote_eur")]
+        quotes = [float(c["quote_eur"]) for c in cons]
+        published = f.get("status") == "published" and f.get("value") is not None
+        days[f["index"]].append(
+            [
+                f["date"],
+                float(f["value"]) if published else None,
+                min(quotes) if quotes else None,
+                max(quotes) if quotes else None,
+                len(quotes),
+                f.get("methodology"),
+                sorted(c["provider"] for c in cons),
+            ]
+        )
+    return dict(days)
 
 
 def design_data(data: dict) -> dict:
@@ -458,7 +461,7 @@ def design_data(data: dict) -> dict:
     }
     fixes = ledger.fixings()
     last_day = fixes[-1]["date"] if fixes else None
-    ohlc = daily_bars(fixes)
+    days = index_days(fixes)
     versions = []
     for path in sorted((registry.registry_dir() / "methodology").glob("index-v*.yaml")):
         m = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -494,7 +497,7 @@ def design_data(data: dict) -> dict:
             if f["date"] == last_day
         },
         "usd": usd,
-        "ohlc": ohlc,
+        "days": days,
         "cov": cov.get("value"),
         "covList": cov.get("providers"),
         "boards": boards,
