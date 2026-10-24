@@ -99,6 +99,15 @@ def test_new_providers_classify_as_expected():
     assert c["nebius"].status == "under_review"  # counted in index/2 by decision, rule unchanged
 
 
+def test_providers_found_on_comparison_sites_classify_as_expected():
+    c = registry.classifications()
+    assert c["beyond-pl"].status == "sovereign" and c["beyond-pl"].provisional
+    assert c["hostinger"].status == "sovereign"  # Cyprus seat, Lithuanian control
+    assert c["swissgpu"].status == "sovereign"
+    assert c["green-ai-cloud"].status == "under_review"  # merger into a Delaware company signed
+    assert c["impossible-cloud"].status == "under_review"  # shareholder split not published
+
+
 def test_country_codes_are_strings():
     """YAML 1.1 reads a bare NO (Norway) as false: every code must stay a string."""
     for p in registry.providers().values():

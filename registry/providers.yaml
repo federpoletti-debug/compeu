@@ -214,19 +214,30 @@ providers:
   - id: hikube
     name: Hikube
     website: https://hikube.cloud
-    legal_entity: { name: Hikube, country: CH, city: Geneva, confidence: provisional }
+    legal_entity: { name: Hidora SA, country: CH, city: Geneva, confidence: provisional }
     ultimate_controller:
-      name: Privately held, Swiss
+      name: Privately held, Swiss (Hidora SA)
       country: CH
       extraterritorial_law: false
       confidence: provisional
     hq: { city: Geneva, lat: 46.2044, lon: 6.1432 }
     sites:
       - { id: gva, city: Geneva, country: CH, lat: 46.2300, lon: 6.1000 }
+      - { id: gland, city: Gland, country: CH, lat: 46.4211, lon: 6.2700 }
+      - { id: lucerne, city: Lucerne, country: CH, lat: 47.0502, lon: 8.3093 }
     collection:
       method: none
-      status: awaiting_agreement
-      note: No public GPU price list found.
+      status: planned
+      source: https://hikube.cloud/en/pricing
+      note: >-
+        The price page now lists a monthly price per GPU in CHF, excl. VAT (on 24 October
+        2026: L4 165, L40S 760, A100 80 GB 1,495, RTX PRO 6000 1,550, H100 1,999, H200
+        2,499), metered by the hour at the monthly price divided by 730. The GPU is attached
+        to a VM whose vCPUs and memory are billed on top, as with centron, so the index
+        waits for a rule (or a stated smallest VM) before reading it.
+    evidence:
+      - { claim: "Operated by Hidora SA; data centres in Geneva, Gland and Lucerne; pay as you go, metered hourly, prices in CHF or EUR excl. VAT", url: "https://hikube.cloud/en/pricing" }
+      - { claim: "Six NVIDIA GPUs (L4 to H200) attached to a VM or a Kubernetes node group, from 165 CHF per month", url: "https://hikube.cloud/en/products/gpu" }
 
   - id: polarise
     name: Polarise
@@ -546,11 +557,21 @@ providers:
       confidence: provisional
     hq: { city: Marseille, lat: 43.2965, lon: 5.3698 }
     sites: []
-    locations_note: GPU capacity in France.
+    locations_note: >-
+      Its compute page offers capacity in 43 locations in 13 countries, in Europe (Finland,
+      France, Germany, Iceland, Norway, Sweden) and elsewhere.
     collection:
       method: none
-      status: no_public_price
-      note: No public GPU price page found (its pricing page returns "not found").
+      status: planned
+      source: https://cloud.sesterce.com/compute
+      note: >-
+        The compute page lists on-demand prices in USD per hour, but for capacity resold
+        from other clouds whose names are hidden behind internal ids, and its machine images
+        carry the name of Shadeform, a US GPU marketplace. Whether resold capacity of an
+        unnamed operator can count as sovereign is a decision for the index; until it is
+        taken, no collector.
+    evidence:
+      - { claim: "On-demand VMs and bare-metal servers, no commitment, with prices per hour in USD and the regions of each offer", url: "https://cloud.sesterce.com/compute" }
 
   # ---------------------------------------------------------------- added 24 Oct 2026
   - id: evroc
@@ -681,6 +702,187 @@ providers:
     evidence:
       - { claim: "Hourly prices per dedicated GPU, with vCPU, RAM and SSD billed separately", url: "https://www.centron.de/en/pricing/gpu" }
       - { claim: "Own data centre in Hallstadt", url: "https://www.centron.de/en/" }
+
+  # ------------------------------------------- added 24 Oct 2026, found on GPU price comparison sites
+  # (getdeploying.com, gpus.io, computeprices.com), then checked on each provider's own pages.
+  - id: beyond-pl
+    name: Beyond.pl
+    website: https://www.beyond.pl
+    legal_entity: { name: Beyond.pl sp. z o.o., country: PL, city: Poznań, confidence: provisional }
+    ultimate_controller:
+      name: Kulczyk Investments (Luxembourg), owned by Sebastian Kulczyk
+      country: LU
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Poznań, lat: 52.4064, lon: 16.9252 }
+    sites:
+      - { id: poz, city: Poznań, country: PL, lat: 52.3700, lon: 16.9900 }
+    collection:
+      method: none
+      status: no_public_api
+      source: https://www.beyond.pl/en/services/gpu-as-a-service-gpuaas/
+      note: >-
+        Publishes one reference price, $5.10 per GPU-hour for an NVIDIA DGX B200 with 8
+        GPUs, but as a reserved-instance price that depends on capacity and contract
+        duration. The index takes on-demand prices only.
+    evidence:
+      - { claim: "Since May 2023 only Kulczyk Investments Group companies are shareholders of Beyond.pl sp. z o.o.", url: "https://beyond.pl/en/newsroom/news/michal-grzybkowski-leaves-the-beyond-pl-structures" }
+      - { claim: "Kulczyk Investments, headquartered in Luxembourg, is owned by Sebastian Kulczyk", url: "https://www.kulczykinvestments.com/en/about-us/history" }
+      - { claim: "Data Act notice: data in Poznań under Polish and EU law, no capital connections with entities outside the EU (KRS 0000237620)", url: "https://www.beyond.pl/wp-content/uploads/2025/09/BySol-ENG_Information-on-ICT-Infrastructure-Jurisdiction-and-Safeguards-Against-Unauthorized-Access.pdf" }
+
+  - id: trooper-ai
+    name: Trooper.AI
+    website: https://www.trooper.ai
+    legal_entity: { name: Media Trooper GmbH, country: DE, city: Idstein, confidence: provisional }
+    ultimate_controller:
+      name: Privately held, German (managing director Markus Roth; shareholders not published)
+      country: DE
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Idstein, lat: 50.2186, lon: 8.2686 }
+    sites: []
+    locations_note: >-
+      Servers 'in the EU and Germany'; the plan codes end in NL-MST. The imprint says no
+      GPUs are kept at the Idstein office.
+    collection:
+      method: none
+      status: planned
+      source: https://www.trooper.ai/prices
+      note: >-
+        Hourly and monthly prices in euro for servers with refurbished GPUs (A100 40 GB,
+        V100, RTX 3090 up to RTX PRO 6000 Blackwell), with promotional prices printed next
+        to the list prices. The site says 'All prices are final' without saying whether VAT
+        is included, and does not say in which country each server runs. A collector
+        follows once both are clear.
+    evidence:
+      - { claim: "Trooper.AI is a product of Media Trooper GmbH, Idstein (HRB 22738, District Court Wiesbaden)", url: "https://www.trooper.ai/imprint" }
+      - { claim: "Hourly GPU server prices in euro, servers in the EU and Germany", url: "https://www.trooper.ai/prices" }
+
+  - id: hostinger
+    name: Hostinger
+    website: https://www.hostinger.com
+    legal_entity: { name: Hostinger International Ltd, country: CY, city: Larnaca, confidence: provisional }
+    ultimate_controller:
+      name: Founders and employees (Lithuania); ConHostinger, a private equity company, holds about 30%
+      country: LT
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Vilnius, lat: 54.6872, lon: 25.2797 }
+    sites: []
+    locations_note: >-
+      Data centres in Lithuania, the Netherlands, France, the UK, the US, Brazil, India and
+      Singapore; the GPU page does not say where the GPUs are.
+    collection:
+      method: none
+      status: planned
+      source: https://www.hostinger.com/gpu-hosting
+      note: >-
+        Hourly GPU prices in USD, excl. VAT (B200, A100 80 GB, L40S, RTX PRO 6000), billed
+        by the hour from prepaid credits. The page does not say in which country the GPUs
+        run ('availability varies by region'), so the index cannot place the prices yet.
+    evidence:
+      - { claim: "Hostinger International Limited, 61 Lordou Vyronos, Larnaca, Cyprus", url: "https://www.ripe.net/membership/indices/data/cy.hosting.html" }
+      - { claim: "Headquarters in Vilnius; ConHostinger, a private equity company, controls around 30%", url: "https://www.hostinger.com/tutorials/hostinger-faq/" }
+      - { claim: "On-demand GPU prices per hour, listed without VAT", url: "https://www.hostinger.com/gpu-hosting" }
+
+  - id: hexabyte
+    name: Hexabyte
+    website: https://hexabyte.se
+    legal_entity: { name: Hexabyte AB, country: SE, city: Umeå, confidence: provisional }
+    ultimate_controller:
+      name: Privately held, Swedish
+      country: SE
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Umeå, lat: 63.8258, lon: 20.2630 }
+    sites:
+      - { id: ume, city: Umeå, country: SE, lat: 63.8200, lon: 20.2700 }
+    collection:
+      method: none
+      status: planned
+      source: https://hexabyte.se/en/gpu/
+      note: >-
+        Hourly prices in euro or kronor, excl. VAT, for NVIDIA L4 GPU instances in Umeå
+        (from €0.36 per hour), still behind a waitlist. A collector follows when the
+        instances can be ordered.
+    evidence:
+      - { claim: "NVIDIA L4 instances in Umeå with hourly billing, prices excl. VAT; Hexabyte AB, Kaserngatan 2, Umeå", url: "https://hexabyte.se/en/gpu/" }
+
+  - id: swissgpu
+    name: SwissGPU
+    website: https://www.swissgpu.ch
+    legal_entity: { name: LongLink Sagl, country: CH, city: Lugano, confidence: provisional }
+    ultimate_controller:
+      name: Privately held, Swiss (a small Swiss team)
+      country: CH
+      extraterritorial_law: false
+      confidence: provisional
+    hq: { city: Lugano, lat: 46.0037, lon: 8.9511 }
+    sites: []
+    locations_note: Its own facility in Switzerland; the city is not published.
+    collection:
+      method: none
+      status: planned
+      source: https://www.swissgpu.ch/pricing
+      note: >-
+        Prices per hour in CHF, billed by the minute, for bare-metal servers and VMs with
+        RTX GPUs (RTX 3090 up to RTX PRO 6000), but electricity is billed on top at CHF
+        0.30 per kWh, so the hourly price is not the whole price. The index waits for a
+        rule on metered power before reading it.
+    evidence:
+      - { claim: "Operated by LongLink Sagl, Cureggia (Lugano), UID CHE-150.642.313", url: "https://www.swissgpu.ch/terms" }
+      - { claim: "All servers are hosted in Switzerland, on infrastructure SwissGPU owns and runs itself", url: "https://www.swissgpu.ch/" }
+      - { claim: "Per-minute billing; electricity billed separately at CHF 0.30 per kWh", url: "https://www.swissgpu.ch/pricing" }
+
+  - id: green-ai-cloud
+    name: Green AI Cloud
+    website: https://greenai.cloud
+    legal_entity: { name: Green AI Cloud, country: SE, city: Stockholm, confidence: provisional }
+    ultimate_controller:
+      name: Founder Jacob Boström and investors (Sweden)
+      country: SE
+      extraterritorial_law: false
+      contested: true
+      note: >-
+        On 8 October 2026 it signed a business combination with Pioneer Acquisition I Corp,
+        a Nasdaq-listed SPAC that re-domiciles to Delaware; after closing (expected in the
+        second quarter of 2027) Green AI Cloud becomes a wholly owned subsidiary of a US
+        company.
+    hq: { city: Stockholm, lat: 59.3293, lon: 18.0686 }
+    sites: []
+    locations_note: Data centres in Sweden; the site does not name them.
+    collection:
+      method: none
+      status: no_public_api
+      source: https://greenai.cloud/
+      note: >-
+        B200 'from 3.75 USD per GPU-hour' on monthly, quarterly or yearly terms, from two
+        8-GPU nodes; H100, H200 and A100 on request. No on-demand price.
+    evidence:
+      - { claim: "Business combination agreement with Pioneer Acquisition I Corp, which re-domiciles to Delaware; Green AI Cloud to survive as its wholly owned subsidiary", url: "https://www.sec.gov/Archives/edgar/data/0002040381/000182912626011096/pioneeracq1_8k.htm" }
+      - { claim: "B200 from 3.75 USD per GPU-hour; monthly, quarterly and yearly pricing; smallest configuration two 8-GPU nodes", url: "https://greenai.cloud/" }
+
+  - id: impossible-cloud
+    name: Impossible Cloud
+    website: https://www.impossiblecloud.com
+    legal_entity: { name: Impossible Cloud GmbH, country: DE, city: Hamburg, confidence: provisional }
+    ultimate_controller:
+      name: Founders and investors (HV Capital, 1kx, Protocol Labs, TS Ventures); the shareholder split is not published
+      country: unknown
+      extraterritorial_law: unknown
+    hq: { city: Hamburg, lat: 53.5511, lon: 9.9937 }
+    sites: []
+    locations_note: GPU clusters listed in EU, US and APAC regions, without cities.
+    collection:
+      method: none
+      status: no_public_api
+      source: https://www.impossiblecloud.com/baremetal
+      note: >-
+        Prices per GPU-hour only on fixed terms of 1 to 60 months (B200, B300, H100, H200
+        and others); no on-demand price.
+    evidence:
+      - { claim: "Bare-metal GPU clusters priced per GPU-hour on fixed terms from 1 to 60 months", url: "https://www.impossiblecloud.com/baremetal" }
+      - { claim: "Seed round led by HV Capital and 1kx, with Protocol Labs, TS Ventures and Very Early Ventures", url: "https://www.impossiblecloud.com/post/impossiblecloud-seed-round-with-hv-capital-1kx" }
 
   # ---------------------------------------------------------------- non-sovereign benchmarks
   - id: aws
