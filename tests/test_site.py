@@ -44,6 +44,29 @@ def test_build_publishes_every_artboard_with_live_data(tmp_root):
     assert "fixings/" in (out / "sitemap.xml").read_text(encoding="utf-8")
 
 
+def test_custom_domain_overrides_base_url_and_writes_cname(tmp_root):
+    _with_site_and_ledger(tmp_root)
+    (tmp_root / "site" / "site.yaml").write_text(
+        (tmp_root / "site" / "site.yaml").read_text(encoding="utf-8")
+        + 'custom_domain: "compeu.eu"\n',
+        encoding="utf-8",
+    )
+    out = site.build("dist")
+    assert (out / "CNAME").read_text(encoding="utf-8") == "compeu.eu\n"
+    assert site.settings()["base_url"] == "https://compeu.eu/"
+    assert "https://compeu.eu/fixings" in (out / "sitemap.xml").read_text(encoding="utf-8")
+    home = (out / "index.html").read_text(encoding="utf-8")
+    assert 'rel="canonical" href="https://compeu.eu/"' in home
+    assert "federpoletti-debug.github.io" not in home
+
+
+def test_no_custom_domain_means_no_cname_file(tmp_root):
+    _with_site_and_ledger(tmp_root)
+    out = site.build("dist")
+    assert not (out / "CNAME").exists()
+    assert site.settings()["base_url"] == "https://federpoletti-debug.github.io/compeu/"
+
+
 def test_design_data_matches_the_fixings(tmp_root):
     _with_site_and_ledger(tmp_root)
     data = site.build_data()

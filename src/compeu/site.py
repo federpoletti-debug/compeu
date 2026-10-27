@@ -30,9 +30,17 @@ from .util import money, root, utc_now
 
 
 def settings() -> dict:
-    """Public site settings (site/site.yaml): repository, contact, base URL, schedule."""
+    """Public site settings (site/site.yaml): repository, contact, base URL, schedule.
+
+    When custom_domain is set, it overrides base_url everywhere (pages, canonical
+    links, the sitemap): the one field to change when the domain is ready.
+    """
     with (root() / "site" / "site.yaml").open(encoding="utf-8") as f:
-        return yaml.safe_load(f)
+        data = yaml.safe_load(f)
+    domain = (data.get("custom_domain") or "").strip().rstrip("/")
+    if domain:
+        data["base_url"] = f"https://{domain}/"
+    return data
 
 
 # ------------------------------------------------------------------ data model
@@ -680,4 +688,7 @@ def build(out_dir: str = "dist") -> Path:
         f"User-agent: *\nAllow: /\nSitemap: {base}sitemap.xml\n", encoding="utf-8"
     )
     (out / ".nojekyll").write_text("", encoding="utf-8")
+    domain = (settings().get("custom_domain") or "").strip().rstrip("/")
+    if domain:
+        (out / "CNAME").write_text(domain + "\n", encoding="utf-8")
     return out

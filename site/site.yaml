@@ -4,5 +4,13 @@ schedule: "Daily at 05:20 UTC"
 repo: "https://github.com/federpoletti-debug/compeu"
 # Contact address for providers (Level 2 / Level 3 data). Leave empty until a real address exists.
 contact: ""
-# Base URL of the published site, used in links and the sitemap.
+# Base URL of the published site, used in links and the sitemap. Used only when
+# custom_domain below is empty.
 base_url: "https://federpoletti-debug.github.io/compeu/"
+# Custom domain for GitHub Pages (e.g. "compeu.eu"), no scheme and no trailing
+# slash. Leave empty until the domain is bought and its DNS points here (an A/AAAA
+# record at the apex, or a CNAME record on a subdomain, to GitHub Pages — see
+# https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site).
+# Once set, `compeu build` writes it into dist/CNAME and every link on the site uses
+# it as the base URL instead of the line above.
+custom_domain: ""

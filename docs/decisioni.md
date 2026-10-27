@@ -144,3 +144,9 @@ Scelte fatte, con data e motivo. Le più recenti in fondo.
 |---|---|
 | Il grafico della pagina "The market" diventa una linea: un punto per fixing, scala da zero, sotto ogni punto una colonna di luce alta quanto il prezzo (un colonnato sotto il suo architrave). Tratteggiata la linea dell'altro paniere; un giorno senza fixing resta vuoto. Passando sopra un giorno: valore, variazione, quotazioni, rapporto con l'altro paniere e cosa è cambiato nel paniere (losanga d'oro); sotto il grafico gli "Annals" elencano questi cambiamenti. Il dato è `days` in `site.py` (`index_days`), al posto delle candele (`ohlc`). | Massimo: le candele non sono intuitive. La scala da zero rende onesta l'altezza delle colonne e mostra subito quanto costano di più gli iperscaler USA. |
 | "Behind today's price" apre con il meccanismo di Anticitera (il più antico computer conosciuto, greco) disegnato in punti di luce: ogni ruota è la quotazione di un cloud, con area proporzionale al prezzo, le ruote di ogni paniere ordinate dalla più economica; la ruota d'oro in mezzo è la mediana; un filo di luce porta ogni ruota al suo prezzo sulla scala in euro. Trascinando si girano le ruote. Le liste delle quotazioni restano, chiuse sotto "All N quotes". | Nuova idea classico-moderno chiesta da Massimo: Europa, calcolo e AI in un solo oggetto, meno tabelle in vista. |
+
+## 27 ottobre 2026: pronti per un dominio proprio
+
+| Scelta | Motivo |
+|---|---|
+| `site/site.yaml` ha un nuovo campo `custom_domain` (vuoto). Quando è pieno, `compeu build` scrive `dist/CNAME` e ogni link del sito (canonical, sitemap, robots.txt, og:image) usa quel dominio al posto di `federpoletti-debug.github.io`. Un solo campo da riempire quando il dominio è pronto. | Massimo: "il sito deve essere pubblicato al dominio giusto". Comprare il dominio e puntare il DNS a GitHub Pages resta suo (account, pagamento); il codice ora è pronto appena lo è lui. |
