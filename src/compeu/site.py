@@ -518,6 +518,7 @@ def design_data(data: dict) -> dict:
             for g in MAP_GPUS
             if g in data["gpus"]
         },
+        "site": {"contact": data["site"]["contact"]},
     }
 
 

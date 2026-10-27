@@ -2,8 +2,9 @@
 schedule: "Daily at 05:20 UTC"
 # Public repository holding the code and the full ledger.
 repo: "https://github.com/federpoletti-debug/compeu"
-# Contact address for providers (Level 2 / Level 3 data). Leave empty until a real address exists.
-contact: ""
+# Contact address: the home page's "Contact" button, and for providers (Level 2 /
+# Level 3 data). Leave empty to show no address.
+contact: "poletf@usi.ch"
 # Base URL of the published site, used in links and the sitemap. Used only when
 # custom_domain below is empty.
 base_url: "https://federpoletti-debug.github.io/compeu/"

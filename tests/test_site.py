@@ -87,6 +87,8 @@ def test_design_data_matches_the_fixings(tmp_root):
     for pid, cells in live["cells"].items():
         for gpu, cell in cells.items():
             assert (pid, gpu, cell[0]) in offers
+    # the home page's contact button reads the real address, not a placeholder
+    assert live["site"]["contact"] == site.settings()["contact"]
 
 
 def test_index_days_keep_gaps_and_name_the_quotes():

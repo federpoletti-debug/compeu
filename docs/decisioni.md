@@ -150,3 +150,9 @@ Scelte fatte, con data e motivo. Le più recenti in fondo.
 | Scelta | Motivo |
 |---|---|
 | `site/site.yaml` ha un nuovo campo `custom_domain` (vuoto). Quando è pieno, `compeu build` scrive `dist/CNAME` e ogni link del sito (canonical, sitemap, robots.txt, og:image) usa quel dominio al posto di `federpoletti-debug.github.io`. Un solo campo da riempire quando il dominio è pronto. | Massimo: "il sito deve essere pubblicato al dominio giusto". Comprare il dominio e puntare il DNS a GitHub Pages resta suo (account, pagamento); il codice ora è pronto appena lo è lui. |
+
+## 27 ottobre 2026: indirizzo di contatto vero
+
+| Scelta | Motivo |
+|---|---|
+| `site.yaml` ha ora `contact: "poletf@usi.ch"`. Il bottone "Contact" della pagina iniziale legge quell'indirizzo (`D.site.contact`) e diventa un vero `mailto:`, invece del segnaposto `[CONTACT EMAIL]`. | Massimo: "il sito deve essere pronto per gli investitori". Era l'ultimo segnaposto visibile sul sito. |

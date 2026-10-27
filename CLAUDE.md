@@ -63,12 +63,14 @@ Le prove che scaricano dati vanno fatte con `COMPEU_ROOT` che punta a una copia 
 - Metodologia index/2 dal 22 ottobre 2026: Exoscale e Nebius (controllo in revisione) contano nel paniere sovrano per decisione di Massimo.
 - Repository pubblico https://github.com/federpoletti-debug/compeu, CI verde, raccolta giornaliera attiva, Pages su https://federpoletti-debug.github.io/compeu/.
 - Design 3 (scuro, "Europa classica di notte": mappa 3D con colonne di luce, statue a punti di luce, incisioni oro su nero, niente Svizzera nel marchio) online dal 23 ottobre: le pagine del sito sono le tavole del canvas, con i dati di ogni mattina. Design 1 e 2 archiviati (tag `design-v1`, `design-v2`). Primo fixing con index/2: CSX-H100 €3,42, CHX-H100 €7,00. Dalla sera del 23 ottobre design 3.1: titoli in Cormorant Garamond, logo tempio-grafico, Venere Italica di Canova che diventa i prezzi in apertura, mappa nella sezione I, Rotonda e serliana di Palladio, tempio e trifora nel metodo, Augusto che diventa il mercato, Venere di Thorvaldsen nell'indice. Dal 24 ottobre design 3.2: home più corta (apertura, mappa, come funziona, registro nella biblioteca di Boullée in punti di luce, strada, contatti); i grafici di dettaglio stanno nella pagina Indice. Dal 24 ottobre sera la pagina Indice ha il grafico a linea dei fixing (colonne di luce, scala da zero, "Annals" dei cambi di paniere) e il meccanismo di Anticitera per le quotazioni del giorno.
+- Dal 27 ottobre: contatto vero (`poletf@usi.ch`, in `site.yaml`) al posto di [CONTACT EMAIL]; `site.yaml` ha anche `custom_domain` (vuoto), che quando è pieno scrive da solo `dist/CNAME` e cambia ovunque il base URL.
 
 ## Prossimi passi
 
-1. Indirizzo di contatto vero al posto di [CONTACT EMAIL] (tavole Main, poi build).
-2. Dominio e hosting europeo (Scaleway Object Storage già previsto nel workflow).
+1. Dominio vero (Massimo: comprarlo e puntare il DNS); riempire `custom_domain` in `site.yaml` quando c'è.
+2. Hosting europeo di riserva: Scaleway Object Storage è già nel workflow (`daily.yml`), mancano solo le chiavi (account Scaleway di Massimo, poi i secret `SCW_ACCESS_KEY`/`SCW_SECRET_KEY`/`SCW_BUCKET` su GitHub).
 3. Exoscale e Nebius contano per decisione (index/2): confermare i fatti sul controllo con un parere.
 4. Collector: STACKIT e Open Telekom Cloud (da GitHub rispondono), Google Cloud (chiave API gratuita), IONOS, AWS European Sovereign Cloud.
 5. Contatti con Infomaniak, Polarise, Safe Swiss Cloud, Hikube per dati di Livello 2.
+6. Repository GitHub ancora pubblico, con le note del registro sui fornitori: decisione di Massimo se tenerlo così per gli investitori o renderlo privato.
 6. Due regole da decidere (Massimo): GPU venduta a parte dalla VM (Hikube, centron) e capacità rivenduta di un operatore sconosciuto (Sesterce). Con le regole, Hikube porta H100 e H200 sovrane in più.
