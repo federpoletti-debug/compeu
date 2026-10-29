@@ -1,5 +1,5 @@
 {
-"version": "20261027193004",
+"version": "20261028180352",
 "rows": [
 {
 "SKU": "2M3J8ES9HAJPBAP5",
@@ -909,6 +909,24 @@
 "Unit": "Hrs",
 "GPU": "8",
 "GPU Memory": "128 GB",
+"Location": "EU (London)",
+"Region Code": "eu-west-2",
+"TermType": "OnDemand",
+"MarketOption": "OnDemand",
+"Tenancy": "Shared",
+"Operating System": "Linux",
+"Pre Installed S/W": "NA",
+"CapacityStatus": "Used",
+"License Model": "No License required"
+},
+{
+"SKU": "YXYSTFKVB5MBZ2WA",
+"Instance Type": "p5e.48xlarge",
+"PricePerUnit": "82.2848000000",
+"Currency": "USD",
+"Unit": "Hrs",
+"GPU": "8",
+"GPU Memory": "1128 GB HBM3",
 "Location": "EU (London)",
 "Region Code": "eu-west-2",
 "TermType": "OnDemand",
